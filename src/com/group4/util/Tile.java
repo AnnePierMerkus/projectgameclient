@@ -10,6 +10,12 @@ public class Tile extends StackPane {
 	int rowCoordinate;
 	int columnCoordinate;
 	
+	/***
+	 * Make a new Tile
+	 * 
+	 * @param rowCoordinate - Row coordinate
+	 * @param columnCoordinate - Column coordinate
+	 */
 	public Tile(int rowCoordinate, int columnCoordinate) {
 		this.rowCoordinate = rowCoordinate;
 		this.columnCoordinate = columnCoordinate;
@@ -21,10 +27,20 @@ public class Tile extends StackPane {
 
 	}
 	
+	/***
+	 * Get Row coordinate for this Tile
+	 * 
+	 * @return int - Row
+	 */
 	public int getRowCoordinate() {
 		return this.rowCoordinate;
 	}
 	
+	/***
+	 * Get Column coordinate for this Tile
+	 * 
+	 * @return int - Column
+	 */
 	public int getColumnCoordinate() {
 		return this.columnCoordinate;
 	}

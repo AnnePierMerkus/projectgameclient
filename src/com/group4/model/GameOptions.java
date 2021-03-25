@@ -20,7 +20,7 @@ public class GameOptions {
 	private GameProperty game;
 	
 	// Save the players into a map with Id => Player object
-	private HashMap<String, Player> players;
+	private HashMap<String, Player> players = new HashMap<String, Player>();
 	
 	// Set the default gameState to preparing
 	private GameState gameState = GameState.PREPARING;
@@ -55,7 +55,7 @@ public class GameOptions {
 		this.gameType = gameType;
 		
 		// Create the game
-		this.game = this.instantiate("com.groep4.games." + gameType.toString().toUpperCase(), GameProperty.class);
+		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
 		
 		// Create players
 		for(int index = 0; index < game.getPlayerAmount(); index++) {
