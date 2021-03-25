@@ -1,8 +1,11 @@
 package com.group4.model;
 
+import java.util.HashMap;
+
 import com.group4.controller.GameController.Difficulty;
 import com.group4.controller.GameController.GameType;
 import com.group4.util.GameProperty;
+import com.group4.util.Player;
 
 public class GameOptions {
 
@@ -14,6 +17,9 @@ public class GameOptions {
 	
 	// GameProperty instance holding the game logic
 	GameProperty game;
+	
+	// Save the players into a map with Id => Player object
+	HashMap<String, Player> players;
 	
 	/**
      * Instanciate GameProperty class for the gametype
@@ -44,7 +50,13 @@ public class GameOptions {
 		this.difficulty = difficulty;
 		this.gameType = gameType;
 		
+		// Create the game
 		this.game = this.instantiate("com.groep4.games." + gameType.toString().toUpperCase(), GameProperty.class);
+		
+		// Create players
+		for(int index = 0; index < game.getPlayerAmount(); index++) {
+			this.players.put("p" + index, new Player("p" + index, this.game));
+		}
 		
 	}
 	

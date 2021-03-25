@@ -10,4 +10,11 @@ package com.group4.util;
  */
 public interface GameProperty {
 
+	/***
+	 * Get the amount of players for the game
+	 * 
+	 * @return Amount of players
+	 */
+	public int getPlayerAmount();
+	
 }
