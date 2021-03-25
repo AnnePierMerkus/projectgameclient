@@ -1,4 +1,4 @@
-package com.groep4;
+package com.group4;
 
 public class MainClass {
 	
