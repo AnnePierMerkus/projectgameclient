@@ -3,6 +3,7 @@ package com.group4.model;
 import java.util.HashMap;
 
 import com.group4.controller.GameController.Difficulty;
+import com.group4.controller.GameController.GameState;
 import com.group4.controller.GameController.GameType;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
@@ -16,10 +17,13 @@ public class GameOptions {
 	private GameType gameType;
 	
 	// GameProperty instance holding the game logic
-	GameProperty game;
+	private GameProperty game;
 	
 	// Save the players into a map with Id => Player object
-	HashMap<String, Player> players;
+	private HashMap<String, Player> players;
+	
+	// Set the default gameState to preparing
+	private GameState gameState = GameState.PREPARING;
 	
 	/**
      * Instanciate GameProperty class for the gametype
@@ -58,14 +62,67 @@ public class GameOptions {
 			this.players.put("p" + index, new Player("p" + index, this.game));
 		}
 		
+		// Create board
+		Board.create(this.game.getBoardHeight(), this.game.getBoardWidth());
+		
 	}
 	
+	/***
+	 * Get Game Difficulty
+	 * 
+	 * @return Difficulty
+	 */
 	public Difficulty getDifficulty() {
 		return this.difficulty;
 	}
 	
+	/***
+	 * Get Game type
+	 * 
+	 * @return GameType
+	 */
 	public GameType getGameType() {
 		return this.gameType;
+	}
+	
+	/***
+	 * Get the GameState
+	 * 
+	 * @return GameState - The state the game is in
+	 */
+	public GameState getGameState() {
+		return this.gameState;
+	}
+	
+	/***
+	 * Set the GameState
+	 * 
+	 * @param state - The state to set the game to
+	 */
+	public void setGameState(GameState state) {
+		this.gameState = state;
+	}
+	
+	/***
+	 * Get Player
+	 * 
+	 * @param id - String playerId
+	 * @return Player - The player found, or NULL
+	 */
+	public Player getPlayer(String id) {
+		if(this.players.containsKey(id)) {
+			return this.players.get(id);
+		}
+		return null;
+	}
+	
+	/***
+	 * Get all players
+	 * 
+	 * @return HashMap<String, Player> - HashMap with all players with id
+	 */
+	public HashMap<String, Player> getPlayers(){
+		return this.players;
 	}
 	
 }

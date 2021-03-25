@@ -18,7 +18,7 @@ public class Tile extends StackPane {
 		border.setStroke(Color.BLACK);
 		setAlignment(Pos.CENTER);
 		getChildren().addAll(border);
-		
+
 	}
 	
 	public int getRowCoordinate() {
