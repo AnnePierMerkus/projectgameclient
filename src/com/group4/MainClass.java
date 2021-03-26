@@ -14,10 +14,11 @@ import javafx.stage.Stage;
 public class MainClass extends Application {
 	
 	public static void main(String[] args) {
-		 
 		 launch(args);
 	}
 	
+	// Creates a Pane which contains all the tiles for now.
+	// TODO Has to be moved to the view.
 	public Pane fillInBoard() {
 		Pane root = new Pane();
 		new GameController(false).createGame(Difficulty.EASY, GameType.TICTACTOE);
