@@ -24,7 +24,7 @@ Our goal will be to recieve an __8__ or higher, preferably a 10 of course, and m
 ---
 
 *Trello* can be found [here](https://github.com/AnnePierMerkus/projectgameclient/projects/1) \
-*Werkplan* can be found [here](https://drive.google.com/file/d/1XOHLrwsQqadLSGYwBzeHjx_vIe1ArEVy/view?usp=sharing)
+*Werkplan* can be found [here](https://hanzenl-my.sharepoint.com/:w:/g/personal/ja_van_der_kooi_st_hanze_nl/EfnKX-jOi-NMoYmPky7JYy8BsTvRlQUxCG-4Dmal1RCZFQ?e=VFF1hL)
 
 ---
 
