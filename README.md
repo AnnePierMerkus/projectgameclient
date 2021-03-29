@@ -1,6 +1,6 @@
-# Project Gameclient ~ __Group 4__
+# Project Gameclient ~ __Group 4__ 🔥
 
-### Thanks for checking out our project!
+### Thanks for checking out our project! :smile:
 \
 Members of this group include:
 | Name | Studentnumber | Github |
