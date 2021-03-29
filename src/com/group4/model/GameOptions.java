@@ -19,6 +19,9 @@ public class GameOptions {
 	// GameProperty instance holding the game logic
 	private GameProperty game;
 	
+	// Board instance, holds the board with tiles
+	private Board board;
+	
 	// Save the players into a map with Id => Player object
 	private HashMap<String, Player> players = new HashMap<String, Player>();
 	
@@ -51,6 +54,7 @@ public class GameOptions {
      * @param gameType
      */
 	public GameOptions(Difficulty difficulty, GameType gameType) {
+		
 		this.difficulty = difficulty;
 		this.gameType = gameType;
 		
@@ -63,7 +67,7 @@ public class GameOptions {
 		}
 		
 		// Create board
-		Board.create(this.game.getBoardHeight(), this.game.getBoardWidth());
+		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
 		
 	}
 	
@@ -92,6 +96,15 @@ public class GameOptions {
 	 */
 	public GameState getGameState() {
 		return this.gameState;
+	}
+	
+	/***
+	 * Get the board for the current game
+	 * 
+	 * @return Board - The board currently in use by the game
+	 */
+	public Board getBoard() {
+		return this.board;
 	}
 	
 	/***
