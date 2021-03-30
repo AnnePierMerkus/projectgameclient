@@ -16,6 +16,7 @@ public class Player {
 	 * 
 	 * @param id
 	 * @param gameProperty
+	 * @author mobieljoy12
 	 */
 	public Player(String id, GameProperty gameProperty) {
 		this.id = id;
@@ -26,6 +27,7 @@ public class Player {
 	 * Get player id
 	 * 
 	 * @return String - Player id
+	 * @author mobieljoy12
 	 */
 	public String getId() {
 		return this.id;
@@ -36,6 +38,7 @@ public class Player {
 	 * 
 	 * @param tile - The Tile to make a move on
 	 * @return boolean - Whether the move was legal
+	 * @author mobieljoy12
 	 */
 	public boolean makeMove(Tile tile) {
 		return this.gameProperty.makeMove(tile, this);
@@ -45,6 +48,7 @@ public class Player {
 	 * Get available Tiles to make a move on
 	 * 
 	 * @return List<Tile> - List of available Tiles to make a move on
+	 * @author mobieljoy12
 	 */
 	public List<Tile> getAvailableOptions(){
 		return this.gameProperty.getAvailableOptions(this);
