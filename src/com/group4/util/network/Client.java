@@ -48,6 +48,7 @@ public class Client implements Runnable{
         try{
             while ((line = this.input.readLine()) != null){
                 //change state of client determent by switch case
+                System.out.println(line);
             }
         }catch (Exception e){
             System.out.println("something went wrong with reading input stream: " + e);
