@@ -1,6 +1,6 @@
-# Project Gameclient ~ __Group 4__
+# Project Gameclient ~ __Group 4__ 🔥
 
-### Thanks for checking out our project!
+### Thanks for checking out our project! :smile:
 \
 Members of this group include:
 | Name | Studentnumber | Github |
@@ -24,7 +24,7 @@ Our goal will be to recieve an __8__ or higher, preferably a 10 of course, and m
 ---
 
 *Trello* can be found [here](https://github.com/AnnePierMerkus/projectgameclient/projects/1) \
-*Werkplan* can be found [here](https://drive.google.com/file/d/1XOHLrwsQqadLSGYwBzeHjx_vIe1ArEVy/view?usp=sharing)
+*Werkplan* can be found [here](https://drive.google.com/file/d/1515B817ur8C6HxOXohMHwcpTuTX0nzcv/view?usp=sharing)
 
 ---
 
