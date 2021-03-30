@@ -17,6 +17,12 @@ public class Client implements Runnable{
 
     private BufferedReader input;
 
+    /**
+     * Create connection to server
+     *
+     * @param url url location of server
+     * @param port port number of server
+     */
     public Client(String url, int port){
         try{
             //connect to server
@@ -32,6 +38,9 @@ public class Client implements Runnable{
         }
     }
 
+    /**
+     * Automatically executed by thread. listens to the server
+     */
     @Override
     public void run() {
         String line;
@@ -45,13 +54,25 @@ public class Client implements Runnable{
         }
     }
 
+    /**
+     * send a message to the server
+     *
+     * @param message String that should be sent to the server
+     */
+    public void sendMessage(String message){
+        this.output.println(message);
+    }
+
+    /**
+     * Close connection to the server
+     */
     public void close(){
         try {
             this.input.close();
             this.output.close();
             this.socket.close();
         }catch (Exception e){
-            System.out.println("Something whent wrong while trying to close the client: " + e);
+            System.out.println("Something went wrong while trying to close the client: " + e);
         }
     }
 }
