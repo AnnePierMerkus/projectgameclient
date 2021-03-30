@@ -15,6 +15,7 @@ public class Tile extends StackPane {
 	 * 
 	 * @param rowCoordinate - Row coordinate
 	 * @param columnCoordinate - Column coordinate
+	 * @author GRTerpstra
 	 */
 	public Tile(int rowCoordinate, int columnCoordinate) {
 		this.rowCoordinate = rowCoordinate;
@@ -31,6 +32,7 @@ public class Tile extends StackPane {
 	 * Get Row coordinate for this Tile
 	 * 
 	 * @return int - Row
+	 * @author GRTerpstra
 	 */
 	public int getRowCoordinate() {
 		return this.rowCoordinate;
@@ -40,6 +42,7 @@ public class Tile extends StackPane {
 	 * Get Column coordinate for this Tile
 	 * 
 	 * @return int - Column
+	 * @author GRTerpstra
 	 */
 	public int getColumnCoordinate() {
 		return this.columnCoordinate;

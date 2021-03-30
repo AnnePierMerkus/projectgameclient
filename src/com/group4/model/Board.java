@@ -12,13 +12,13 @@ public class Board {
 	
 	private List<Tile> gameBoard = new ArrayList<Tile>();
 	private int height;
-	private int width;	
-	
+	private int width;
 
 	/**
 	 * Method that creates a new board which size is defined by the given height and width.
 	 * @param height the number of rows the board has to contain.
 	 * @param width the number of columns the board has to contain.
+	 * @author GRTerpstra
 	 */
 	public Board(int height, int width) {
 		this.height = height;
@@ -38,6 +38,7 @@ public class Board {
 	
 	/**
 	 * Method that clears all settings of the board.
+	 * @author GRTerpstra
 	 */
 	public void reset() {
 		this.gameBoard = new ArrayList<Tile>();
@@ -46,6 +47,7 @@ public class Board {
 	/**
 	 * Method that returns the gameboard which consists of an ArrayList of tiles. 
 	 * @return ArrayList<Tile> t the gameboard.
+	 * @author GRTerpstra
 	 */
 	public List<Tile> getGameBoard(){
 		return this.gameBoard;
@@ -54,6 +56,7 @@ public class Board {
 	/**
 	 * Method that returns the height aka number of rows of the board.
 	 * @return int - the height of the board.
+	 * @author GRTerpstra
 	 */
 	public int getHeight() {
 		return this.height;
@@ -62,6 +65,7 @@ public class Board {
 	/**
 	 * Method that returns the width aka number of columns of the board.
 	 * @return int - the width of the board.
+	 * @author GRTerpstra
 	 */
 	public int getWidth() {
 		return this.width;
