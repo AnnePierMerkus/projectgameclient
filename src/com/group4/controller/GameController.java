@@ -1,6 +1,5 @@
 package com.group4.controller;
 
-import com.group4.model.Board;
 import com.group4.model.GameOptions;
 
 public class GameController {
@@ -22,7 +21,7 @@ public class GameController {
 	
 	// Multiplayer or not
 	private boolean multiplayer;
-
+	
 	public GameController(boolean multiplayer) {
 		this.multiplayer = multiplayer;
 	}
@@ -36,7 +35,6 @@ public class GameController {
 	public void endGame() {
 		//TODO - Swap scene to end game screen or home menu
 		this.game = null;
-		Board.reset();
 	}
 	
 	public GameOptions getGameOptions() {
