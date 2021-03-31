@@ -5,6 +5,8 @@ import com.group4.util.network.NetworkPlayer;
 
 /**
  * Class that represents Networkplayer when loggedOut
+ *
+ * @author Gemar Koning
  */
 public class LogoutState implements NetworkPlayerState{
 

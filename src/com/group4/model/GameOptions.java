@@ -179,7 +179,7 @@ public class GameOptions implements Observable {
 	@Override
 	public void notifyObservers() {
 		for(Observer observer : gameObservers) {
-			observer.update();
+			observer.update(this);
 		}
 	}
 	

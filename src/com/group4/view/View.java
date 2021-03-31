@@ -38,7 +38,7 @@ public class View implements Observable {
 	@Override
 	public void notifyObservers() {
 		for(Observer observer : viewObservers) {
-			observer.update();
+			observer.update(this);
 		}
 	}
 

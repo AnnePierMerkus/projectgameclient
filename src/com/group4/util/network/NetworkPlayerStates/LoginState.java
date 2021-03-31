@@ -17,6 +17,9 @@ public class LoginState implements NetworkPlayerState {
         //send message to connected server
         player.getClient().sendMessage("LOGOUT");
 
+        //close client connection to server
+        player.getClient().close();
+
         //set player to logout state
         player.setState(new LogoutState());
     }
@@ -29,17 +32,19 @@ public class LoginState implements NetworkPlayerState {
 
     @Override
     public void subscribePlayerToGame(NetworkPlayer player, String game) {
-
+        System.out.println("Subscribing to " + game);
+        player.getClient().sendMessage("SUBSCRIBE " + game);
     }
 
     @Override
     public void makeMove(NetworkPlayer player, int zet) {
-
+        System.out.println("Player is currently not in a match. Cannot make a move.");
     }
 
     @Override
     public void challengePlayer(NetworkPlayer player, String online_player, String game) {
-
+        System.out.println("Challenge " + online_player + " for game " + game);
+        player.getClient().sendMessage("CHALLENGE " + online_player + " " + game);
     }
 
     @Override
@@ -49,6 +54,6 @@ public class LoginState implements NetworkPlayerState {
 
     @Override
     public void forfeit(NetworkPlayer player) {
-
+        System.out.println("Player is currently not in a match. Cannot Forfeit");
     }
 }

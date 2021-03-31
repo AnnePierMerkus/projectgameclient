@@ -9,7 +9,7 @@ public class ViewObserver implements Observer {
 	}
 
 	@Override
-	public void update() {
+	public void update(Object object) {
 		
 	}
 }

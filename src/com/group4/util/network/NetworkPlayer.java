@@ -3,6 +3,7 @@ package com.group4.util.network;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.Tile;
+import com.group4.util.network.NetworkPlayerStates.LogoutState;
 import com.group4.util.network.NetworkPlayerStates.NetworkPlayerState;
 
 /**
@@ -19,21 +20,6 @@ public class NetworkPlayer extends Player {
 
     private NetworkPlayerState state;
 
-
-    /**
-     * Create a new network connected player with new network client to send and receive messages
-     *
-     * @param id user id
-     * @param gameProperty game instance
-     */
-    public NetworkPlayer(String id, GameProperty gameProperty) {
-        super(id, gameProperty);
-        this.client = new Client("localhost", 7789);
-
-        //set default player name
-        this.name = this.getId();
-    }
-
     /**
      * Create a new network connected player
      *
@@ -48,6 +34,9 @@ public class NetworkPlayer extends Player {
 
         //set default player name
         this.name = this.getId();
+
+        //set default state
+        this.state = new LogoutState();
     }
 
     /**
@@ -63,6 +52,9 @@ public class NetworkPlayer extends Player {
 
         //set name
         this.name = name;
+
+        //set default state
+        this.state = new LogoutState();
     }
 
 
