@@ -1,6 +1,7 @@
 package com.group4.controller;
 
 import com.group4.model.GameOptions;
+import com.group4.util.PlayerObserver;
 
 public class SingleplayerGameController extends GameController {
 
@@ -18,6 +19,9 @@ public class SingleplayerGameController extends GameController {
 	@Override
 	public void createGame(Difficulty difficulty, GameType gameType) {
 		this.game = new GameOptions(difficulty, gameType);
+		// Register observer in Player
+		PlayerObserver pObserver = new PlayerObserver(this);
+		this.game.getPlayers().values().forEach((p) -> p.registerObserver(pObserver));
 		//TODO - Swap scene to new game using main Controller
 		this.game.setGameState(GameState.PLAYING);
 	}

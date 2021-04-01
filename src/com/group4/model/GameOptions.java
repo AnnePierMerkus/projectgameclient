@@ -6,8 +6,8 @@ import java.util.HashMap;
 import com.group4.controller.GameController.Difficulty;
 import com.group4.controller.GameController.GameState;
 import com.group4.controller.GameController.GameType;
-import com.group4.observers.Observable;
-import com.group4.observers.Observer;
+import com.group4.util.observers.Observable;
+import com.group4.util.observers.Observer;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 
