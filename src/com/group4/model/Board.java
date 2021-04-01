@@ -1,8 +1,6 @@
 package com.group4.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.HashMap;
 import com.group4.util.Tile;
 
 /**
@@ -10,7 +8,7 @@ import com.group4.util.Tile;
  */
 public class Board {
 	
-	private List<Tile> gameBoard = new ArrayList<Tile>();
+	private HashMap<Integer, Tile> gameBoard = new HashMap<Integer, Tile>();
 	private int height;
 	private int width;
 
@@ -24,14 +22,11 @@ public class Board {
 		this.height = height;
 		this.width = width;
 
-		int counter = 0;
-		for(int i = 1; i <= height; i++) {
-			for(int j = 1; j <= width; j++) {
-				Tile tile = new Tile(i, j);
-				tile.setTranslateX((j-1) * 200);
-				tile.setTranslateY((i-1) * 200);
-				this.gameBoard.add(counter, tile);
-				counter++;
+		for(int row = 0; row <= height; row++) {
+			for(int col = 0; col <= width; col++) {
+				Tile tile = new Tile(row, col);
+				// ((row * getRowWidth()) + column)
+				this.gameBoard.put(((row * this.width) + col), tile);
 			}
 		}
 	}
@@ -41,7 +36,7 @@ public class Board {
 	 * @author GRTerpstra
 	 */
 	public void reset() {
-		this.gameBoard = new ArrayList<Tile>();
+		this.gameBoard = new HashMap<Integer, Tile>();
 	}
 	
 	/**
@@ -49,7 +44,7 @@ public class Board {
 	 * @return ArrayList<Tile> t the gameboard.
 	 * @author GRTerpstra
 	 */
-	public List<Tile> getGameBoard(){
+	public HashMap<Integer, Tile> getGameBoard(){
 		return this.gameBoard;
 	}
 	
@@ -71,7 +66,31 @@ public class Board {
 		return this.width;
 	}
 	
-	//TODO - Add methods to get & change Tiles
+	/***
+	 * Get a Tile from the gameboard
+	 * Returns null if index is out of bounds
+	 * 
+	 * @param index - The index for the Tile that is requested
+	 * @return Tile or null
+	 * @author mobieljoy12
+	 */
+	public Tile getTile(int index) {
+		return (this.gameBoard.containsKey(index)) ? this.gameBoard.get(index) : null;
+	}
+	
+	/***
+	 * Get a Tile from the gameboard
+	 * Returns null if index is out of bounds
+	 * 
+	 * @param row - The row of the Tile requested
+	 * @param col - The column of the Tile requested
+	 * @return Tile or null
+	 * @author mobieljoy12
+	 */
+	public Tile getTile(int row, int col) {
+		int index = ((row * this.height) + col);
+		return (this.gameBoard.containsKey(index)) ? this.gameBoard.get(index) : null;
+	}
 
 }
 
