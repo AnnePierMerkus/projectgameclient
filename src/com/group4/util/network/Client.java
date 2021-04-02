@@ -63,11 +63,13 @@ public class Client implements Runnable, Observable {
             while ((line = this.input.readLine()) != null){
                 //System.out.println("Output: " + line);
 
-                //store message
-                this.addMessage(line);
+                synchronized (this.messages){
+                    this.messages.add(line); //store message in arraylist
 
-                //notify observers that a message from server has been received
-                synchronized (this){ //synchronized in event of notifying observers while main thread is trying to add observer
+                    //notify threads that are looking at the messages arraylist that a change has occurred
+                    this.messages.notify();
+
+                    //notify observers that a message has been received
                     this.notifyObservers();
                 }
             }
@@ -106,16 +108,11 @@ public class Client implements Runnable, Observable {
     }
 
     /**
-     * add message to message list
-     *
-     * method is synchronized for the event of main thread trying to grab message while trying to store message
-     *
-     * method is only to be used internal by client itself
-     *
-     * @param message the string that needs to be added to
+     * Remove all received messages from list
      */
-    private synchronized void addMessage(String message){
-        this.messages.add(message);
+    public synchronized void clearMessages()
+    {
+        this.messages.clear();
     }
 
     /**

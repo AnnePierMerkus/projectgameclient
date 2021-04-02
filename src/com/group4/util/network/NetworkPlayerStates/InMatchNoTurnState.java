@@ -3,11 +3,11 @@ package com.group4.util.network.NetworkPlayerStates;
 import com.group4.util.network.NetworkPlayer;
 
 /**
- * State represents when player is in a match and player may make a move
+ * Player is in a match but has no turn
  *
  * @author Gemar Koning
  */
-public class InMatchPlayerTurnState implements NetworkPlayerState{
+public class InMatchNoTurnState implements NetworkPlayerState {
     @Override
     public void login(NetworkPlayer player) {
         System.out.println("Cannot login player. Player is already logged in.");
@@ -30,13 +30,7 @@ public class InMatchPlayerTurnState implements NetworkPlayerState{
 
     @Override
     public void makeMove(NetworkPlayer player, int zet) {
-        System.out.println("Making a move...");
-
-        //send move to server
-        player.getClient().sendMessage("MOVE " + zet);
-
-        //set player to no turn state
-        player.setState(new InMatchNoTurnState());
+        System.out.println("It is not the players turn. Cannot make a move");
     }
 
     @Override

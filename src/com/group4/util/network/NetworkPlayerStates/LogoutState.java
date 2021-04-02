@@ -1,6 +1,5 @@
 package com.group4.util.network.NetworkPlayerStates;
 
-import com.group4.util.Player;
 import com.group4.util.network.NetworkPlayer;
 
 /**
@@ -17,8 +16,24 @@ public class LogoutState implements NetworkPlayerState{
         //send login message to server
         player.getClient().sendMessage("LOGIN " + player.getName());
 
-        //go to login state for NetworkPlayer
-        player.setState(new LoginState());
+        //get a lock for client messages arraylist
+        synchronized (player.getClient().getMessages()){
+            try{
+                //wait for response message from server for max 5 second's
+                player.getClient().getMessages().wait(5000);
+
+                //if response from server is OK go to login state
+                if (player.getClient().getMessage().equals("OK")){
+                    player.setState(new LoginState());
+                    System.out.println("Player has been logged in");
+                }else{
+                    System.out.println("Player could not be logged in");
+                }
+            }catch (Exception e){
+                System.out.println("whoopsie error: " + e);
+            }
+        }
+
     }
 
     @Override

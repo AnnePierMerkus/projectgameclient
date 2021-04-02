@@ -66,7 +66,7 @@ public class NetworkPlayer extends Player {
      */
     @Override
     public boolean makeMove(Tile tile) {
-        this.state.makeMove(this, tile.getColumnCoordinate());//need to be altered a bit
+        this.state.makeMove(this, tile.getRowCoordinate() * tile.getColumnCoordinate());//need to be altered a bit
 
         return super.makeMove(tile);
     }
