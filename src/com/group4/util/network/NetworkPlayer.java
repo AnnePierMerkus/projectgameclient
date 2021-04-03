@@ -153,4 +153,13 @@ public class NetworkPlayer extends Player {
     public String getName() {
         return name;
     }
+
+    /**
+     * Set player name
+     *
+     * @param name player name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 }
