@@ -78,7 +78,8 @@ public class Client implements Runnable, Observable {
                 }
             }
         }catch (Exception e){
-            System.out.println("something went wrong with reading input stream: " + e);
+            System.out.println("something went wrong:" + e);
+            e.printStackTrace();
         }finally {
             this.close(); //close connection and buffers to cleanup memory
         }
@@ -99,7 +100,11 @@ public class Client implements Runnable, Observable {
      * @return latest received message
      */
     public synchronized String getMessage(){
-        return this.messages.get(this.messages.size() - 1);
+        if (this.messages.size() > 0){
+            return this.messages.get(this.messages.size() - 1);
+        }
+
+        return "";
     }
 
     /**
@@ -191,7 +196,7 @@ public class Client implements Runnable, Observable {
      *
      * @return ArrayList with values from most recent message
      */
-    public ArrayList<String> stringToArrayList(){
+    public ArrayList<String> messageToArrayList(){
         String src = new String(this.getMessage()); //make a new pointer so that we dont have to claim the lock to messages multiple times and deal with synchronization issues
 
         ArrayList result = new ArrayList();

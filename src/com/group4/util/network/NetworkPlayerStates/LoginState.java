@@ -17,8 +17,8 @@ public class LoginState implements NetworkPlayerState {
         //send message to connected server
         player.getClient().sendMessage("LOGOUT");
 
-        //close client connection to server
-        player.getClient().close();
+        //remove all messages from session
+        player.getClient().clearMessages();
 
         //set player to logout state
         player.setState(new LogoutState());
