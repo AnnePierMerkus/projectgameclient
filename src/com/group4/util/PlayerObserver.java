@@ -10,9 +10,10 @@ public class PlayerObserver implements Observer {
 	public PlayerObserver(SingleplayerGameController spGamecontroller) {
 		this.spGameController = spGamecontroller;
 	}
-	
+
 	@Override
-	public void update() {
+	public void update(Object object) {
+		// TODO Auto-generated method stub
 		
 	}
 	
