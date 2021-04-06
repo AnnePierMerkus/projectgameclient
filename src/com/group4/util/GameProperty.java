@@ -27,14 +27,6 @@ public abstract class GameProperty {
 	}
 	
 	/***
-	 * Get the amount of players for the game
-	 * 
-	 * @return Amount of players
-	 * @author GRTerpstra & mobieljoy12
-	 */
-	public abstract int getPlayerAmount();
-	
-	/***
 	 * The width of the board in number of columns
 	 * 
 	 * @return Number of columns

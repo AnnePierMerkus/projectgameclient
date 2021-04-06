@@ -12,11 +12,6 @@ public class TICTACTOE extends GameProperty {
 		this.displayNames.put("p1", "X");
 		this.displayNames.put("p2", "O");
 	}
-	
-	@Override
-	public int getPlayerAmount() {
-		return 2;
-	}
 
 	@Override
 	public int getBoardWidth() {

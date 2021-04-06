@@ -1,7 +1,8 @@
 package com.group4.util.network;
 
-import com.group4.observers.Observable;
-import com.group4.observers.Observer;
+import com.group4.util.observers.Observable;
+import com.group4.util.observers.Observer;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
