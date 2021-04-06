@@ -2,9 +2,6 @@ package com.group4.util.network;
 
 import com.group4.observers.Observable;
 import com.group4.observers.Observer;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -19,6 +16,7 @@ import java.util.Map;
  * @author Gemar Koning
  */
 public class Client implements Runnable, Observable {
+
     private Socket socket;
 
     private PrintWriter output;
