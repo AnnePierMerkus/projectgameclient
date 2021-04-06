@@ -5,10 +5,8 @@ import com.group4.controller.MultiplayerController;
 import com.group4.util.Tile;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.Scanner;
@@ -60,7 +58,7 @@ public class MainClass extends Application {
                 case 4: multiplayerController.subscribe("Tic-tac-toe");
                     break;
 
-                case 5: multiplayerController.player.makeMove(new Tile(scanner.nextInt(), scanner.nextInt()));
+                case 5: multiplayerController.player.makeMove(new Tile((scanner.nextInt() * multiplayerController.getOptions().getBoard().getWidth()) + scanner.nextInt()));
                     break;
 
                 case 6: multiplayerController.endGame();

@@ -25,7 +25,7 @@ public class Tile extends StackPane {
 	 * @return int - Index
 	 * @author GRTerpstra
 	 */
-	public int getRowCoordinate() {
+	public int getIndex() {
 		return this.index;
 	}
 	
