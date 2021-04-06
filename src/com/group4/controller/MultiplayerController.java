@@ -1,8 +1,6 @@
 package com.group4.controller;
 
-import com.group4.games.TICTACTOE;
 import com.group4.model.GameOptions;
-import com.group4.util.Player;
 import com.group4.util.network.Client;
 import com.group4.util.network.NetworkPlayer;
 import com.group4.util.network.NetworkPlayerStates.InMatchNoTurnState;
@@ -16,6 +14,7 @@ import javafx.event.ActionEvent;
  * @author Gemar Koning
  */
 public class MultiplayerController extends GameController {
+	
     protected Client client;
 
     protected Thread client_thread;
@@ -30,7 +29,7 @@ public class MultiplayerController extends GameController {
         this.client_thread = new Thread(client);
         this.client_thread.start();
 
-        this.player = new NetworkPlayer("1", new TICTACTOE(), this.client); //TODO game should be set later
+        this.player = (NetworkPlayer) this.game.getPlayer("p1");
 
         //temporary code
         String[] board = new String[]{
@@ -105,7 +104,7 @@ public class MultiplayerController extends GameController {
 
     @Override
     public void createGame(GameType gameType) {
-        this.game = new GameOptions(Difficulty.MEDIUM, gameType, true);
+        this.game = new GameOptions(Difficulty.MEDIUM, gameType, this.client);
         this.game.setGameState(GameState.PLAYING);
 
         //set player state
@@ -114,7 +113,7 @@ public class MultiplayerController extends GameController {
 
     @Override
     public void createGame(Difficulty difficulty, GameType gameType) {
-        this.game = new GameOptions(difficulty, gameType, true);
+        this.game = new GameOptions(difficulty, gameType, this.client);
         this.game.setGameState(GameState.PLAYING);
 
         //set player state
