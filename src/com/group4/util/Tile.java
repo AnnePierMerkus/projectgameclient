@@ -4,8 +4,7 @@ import javafx.scene.layout.StackPane;
 
 public class Tile extends StackPane {
 	
-	private int rowCoordinate;
-	private int columnCoordinate;
+	private int index;
 	
 	private Player playerOnTile = null;
 	
@@ -16,29 +15,18 @@ public class Tile extends StackPane {
 	 * @param columnCoordinate - Column coordinate
 	 * @author GRTerpstra
 	 */
-	public Tile(int rowCoordinate, int columnCoordinate) {
-		this.rowCoordinate = rowCoordinate;
-		this.columnCoordinate = columnCoordinate;
+	public Tile(int index) {
+		this.index = index;
 	}
 	
 	/***
-	 * Get Row coordinate for this Tile
+	 * Get Index for this Tile
 	 * 
-	 * @return int - Row
+	 * @return int - Index
 	 * @author GRTerpstra
 	 */
 	public int getRowCoordinate() {
-		return this.rowCoordinate;
-	}
-	
-	/***
-	 * Get Column coordinate for this Tile
-	 * 
-	 * @return int - Column
-	 * @author GRTerpstra
-	 */
-	public int getColumnCoordinate() {
-		return this.columnCoordinate;
+		return this.index;
 	}
 	
 	/***

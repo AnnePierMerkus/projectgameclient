@@ -24,9 +24,10 @@ public class Board {
 
 		for(int row = 0; row <= height; row++) {
 			for(int col = 0; col <= width; col++) {
-				Tile tile = new Tile(row, col);
 				// ((row * getRowWidth()) + column)
-				this.gameBoard.put(((row * this.width) + col), tile);
+				int index = (row * this.width) + col;
+				Tile tile = new Tile(index);
+				this.gameBoard.put(index, tile);
 			}
 		}
 	}
