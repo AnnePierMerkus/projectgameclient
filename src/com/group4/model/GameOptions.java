@@ -8,6 +8,8 @@ import com.group4.controller.GameController.GameType;
 import com.group4.util.BoardObserver;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
+import com.group4.util.network.Client;
+import com.group4.util.network.NetworkPlayer;
 
 public class GameOptions {
 	
@@ -22,9 +24,6 @@ public class GameOptions {
 	
 	// Board instance, holds the board with tiles
 	private Board board;
-	
-	// Whether it is multiplayer
-	private boolean multiplayer;
 	
 	// The boardobserver
 	private BoardObserver boardObserver = new BoardObserver(this);
@@ -55,31 +54,48 @@ public class GameOptions {
     }
 	
     /***
-     * Create a new game with given difficulty + gametype
+     * Create a new singleplayer game with given difficulty + gametype
      * 
      * @param difficulty
      * @param gameType
      * @author mobieljoy12
      */
-	public GameOptions(Difficulty difficulty, GameType gameType, boolean isMultiplayer) {
+	public GameOptions(Difficulty difficulty, GameType gameType) {
 		
 		this.difficulty = difficulty;
 		this.gameType = gameType;
-		this.multiplayer = isMultiplayer;
+		
+		// Create the game
+		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
+		
+		for(int playerCount = 1; playerCount < 3; playerCount++) {
+			this.players.put("p" + playerCount, new Player("p" + playerCount, this.game));
+		}
+		
+		// Create board
+		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
+		
+	}
+    
+    /***
+     * Create a new multiplayer game with given difficulty + gametype
+     * 
+     * @param difficulty
+     * @param gameType
+     * @author mobieljoy12
+     */
+	public GameOptions(Difficulty difficulty, GameType gameType, Client client) {
+		
+		this.difficulty = difficulty;
+		this.gameType = gameType;
 		
 		// Create the game
 		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
 		
 		// Create players, if multiplayer, networkplayer is p1
 		// Get network player via getPlayer("p1")
-		if(this.multiplayer) {
-			// TODO Make networkplayer here
-			this.players.put("p2", new Player("p2", this.game));
-		}else {
-			for(int playerCount = 1; playerCount < 3; playerCount++) {
-				this.players.put("p" + playerCount, new Player("p" + playerCount, this.game));
-			}
-		}
+		this.players.put("p1", new NetworkPlayer("p1", this.game, client));
+		this.players.put("p2", new Player("p2", this.game));
 		
 		// Create board
 		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
@@ -94,15 +110,6 @@ public class GameOptions {
 	 */
 	public Difficulty getDifficulty() {
 		return this.difficulty;
-	}
-	
-	/***
-	 * Whether the game is running in multiplayer
-	 * 
-	 * @return boolean - Is multiplayer
-	 */
-	public boolean isMultiplayer() {
-		return this.multiplayer;
 	}
 	
 	/***
@@ -169,5 +176,5 @@ public class GameOptions {
 	 */
 	public HashMap<String, Player> getPlayers(){
 		return this.players;
-	}	
+	}
 }
