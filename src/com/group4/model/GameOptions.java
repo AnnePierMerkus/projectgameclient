@@ -28,6 +28,9 @@ public class GameOptions implements Observable {
 	// Board instance, holds the board with tiles
 	private Board board;
 	
+	// Whether it is multiplayer
+	private boolean multiplayer;
+	
 	// Save the players into a map with Id => Player object
 	private HashMap<String, Player> players = new HashMap<String, Player>();
 	
@@ -60,10 +63,11 @@ public class GameOptions implements Observable {
      * @param gameType
      * @author mobieljoy12
      */
-	public GameOptions(Difficulty difficulty, GameType gameType) {
+	public GameOptions(Difficulty difficulty, GameType gameType, boolean isMultiplayer) {
 		
 		this.difficulty = difficulty;
 		this.gameType = gameType;
+		this.multiplayer = isMultiplayer;
 		
 		// Initializing gameObservers with an empty ArrayList to contain Observer objects.
 		this.gameObservers = new ArrayList<Observer>();
@@ -71,9 +75,15 @@ public class GameOptions implements Observable {
 		// Create the game
 		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
 		
-		// Create players
-		for(int index = 0; index < game.getPlayerAmount(); index++) {
-			this.players.put("p" + index, new Player("p" + index, this.game));
+		// Create players, if multiplayer, networkplayer is p1
+		// Get network player via getPlayer("p1")
+		if(this.multiplayer) {
+			// TODO Make networkplayer here
+			this.players.put("p2", new Player("p2", this.game));
+		}else {
+			for(int playerCount = 1; playerCount < 3; playerCount++) {
+				this.players.put("p" + playerCount, new Player("p" + playerCount, this.game));
+			}
 		}
 		
 		// Create board
@@ -89,6 +99,15 @@ public class GameOptions implements Observable {
 	 */
 	public Difficulty getDifficulty() {
 		return this.difficulty;
+	}
+	
+	/***
+	 * Whether the game is running in multiplayer
+	 * 
+	 * @return boolean - Is multiplayer
+	 */
+	public boolean isMultiplayer() {
+		return this.multiplayer;
 	}
 	
 	/***
@@ -133,6 +152,8 @@ public class GameOptions implements Observable {
 	
 	/***
 	 * Get Player
+	 * If multiplayer, p1 can be cast to network player
+	 * E.g. NetworkPlayer networkPlayer = (NetworkPlayer) GameOptions.getPlayer("p1");
 	 * 
 	 * @param id - String playerId
 	 * @return Player - The player found, or NULL
