@@ -44,12 +44,13 @@ public class LoginState implements NetworkPlayerState {
     @Override
     public void challengePlayer(NetworkPlayer player, String online_player, String game) {
         System.out.println("Challenge " + online_player + " for game " + game);
-        player.getClient().sendMessage("CHALLENGE " + online_player + " " + game);
+        player.getClient().sendMessage("CHALLENGE \"" + online_player + "\" \"" + game + "\"");
     }
 
     @Override
     public void acceptChallenge(NetworkPlayer player, String code) {
-
+        System.out.println("Accepting challenge: " + code);
+        player.getClient().sendMessage("challenge accept " + code);
     }
 
     @Override
