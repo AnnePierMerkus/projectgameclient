@@ -3,6 +3,8 @@ package com.group4.util;
 import java.util.HashMap;
 import java.util.List;
 
+import com.group4.model.GameOptions;
+
 /***
  * GameProperty interface
  * 
@@ -14,6 +16,11 @@ import java.util.List;
 public abstract class GameProperty {
 
 	protected HashMap<String, String> displayNames = new HashMap<String, String>();
+	protected GameOptions game;
+	
+	public GameProperty(GameOptions gameoptions) {
+		this.game = gameoptions;
+	}
 	
 	/***
 	 * For every player id, set a display name in the constructor of every game

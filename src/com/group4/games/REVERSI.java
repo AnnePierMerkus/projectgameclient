@@ -3,13 +3,15 @@ package com.group4.games;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.group4.model.GameOptions;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.Tile;
 
 public class REVERSI extends GameProperty {
 
-	public REVERSI() {
+	public REVERSI(GameOptions gameoptions) {
+		super(gameoptions);
 		this.displayNames.put("p1", "1");
 		this.displayNames.put("p2", "2");
 	}
@@ -33,7 +35,7 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public List<Tile> getAvailableOptions(Player player) {
-		ArrayList availableOptions = new ArrayList<Tile>();
+		ArrayList<Tile> availableOptions = new ArrayList<Tile>();
 		// TODO get and loop the board; for every stone check neighbours until whettger there is an empty spot or the board ends.
 		return availableOptions;
 	}
