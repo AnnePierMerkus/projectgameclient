@@ -1,6 +1,7 @@
 package com.group4.games;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.group4.model.GameOptions;
@@ -35,8 +36,58 @@ public class REVERSI extends GameProperty {
 	@Override
 	public List<Tile> getAvailableOptions(Player player) {
 		ArrayList<Tile> availableOptions = new ArrayList<Tile>();
-		// TODO get and loop the board; for every stone check neighbours until whettger there is an empty spot or the board ends.
+		HashMap<Integer, Tile> board = this.game.getBoard().getGameBoard();
+		for(Tile tile : board.values()) {
+			if(tile.getOccupant() == player) {
+				for(int i = 0; i < 7; i++) {
+					Tile currentTile = tile;
+					int directionOffset = getDirectionOffset(i);
+					boolean foundOpponentTile = false;
+					while(currentTile.getIndex() + directionOffset >= 0 && currentTile.getIndex() + directionOffset <= 63) {
+						currentTile = board.get(currentTile.getIndex() + directionOffset);
+						if((currentTile.getOccupant() == player) || (currentTile.getOccupant() == null && !(foundOpponentTile))) {
+							break;
+						}
+						else if(currentTile.getOccupant() != player && currentTile.getOccupant() != null) {
+							foundOpponentTile = true;
+							continue;
+						}
+						else if(currentTile.getOccupant() == null && foundOpponentTile) {
+							availableOptions.add(currentTile);
+							break;
+						}						
+					}
+				}
+			}
+		}
 		return availableOptions;
+	}
+	
+	public HashMap<Integer, Tile> swapTiles(Tile tile, Player player) {
+		HashMap<Integer, Tile> board = this.game.getBoard().getGameBoard();
+		for(int i = 0; i < 7; i++) {
+			Tile currentTile = tile;
+			int directionOffset = getDirectionOffset(i);
+			ArrayList<Tile> candidateTiles = new ArrayList<Tile>();
+			while(currentTile.getIndex() + directionOffset >= 0 && currentTile.getIndex() + directionOffset <= 63) {
+				currentTile = board.get(currentTile.getIndex() + directionOffset);
+				if((currentTile.getOccupant() == player && candidateTiles.isEmpty()) || (currentTile.getOccupant() == null && candidateTiles.isEmpty())) {
+					break;
+				}
+				else if(currentTile.getOccupant() != player && currentTile.getOccupant() != null) {
+					candidateTiles.add(currentTile);
+					continue;
+				}
+				else if(currentTile.getOccupant() == null && !(candidateTiles.isEmpty())) {
+					for(Tile candidateTile : candidateTiles) {
+						candidateTile.setOccupant(player);
+						board.put(candidateTile.getIndex(), candidateTile);
+					}	
+					break;
+				}	
+			}
+		}
+		return board;
 	}
 
 	@Override
@@ -51,6 +102,8 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean isLegalMove(Tile tile, Player player) {
+		// TODO make it so that the getAvailableOptions method only gets called once every turn. 
+		// this method should have access to the array of available moves without calling the getAvailableOption method.
 		List<Tile> availableOptions = this.getAvailableOptions(player);
 		if(availableOptions.isEmpty()) {
 			return false;
@@ -68,5 +121,27 @@ public class REVERSI extends GameProperty {
 		// TODO if both players have no legal moves to do: true.
 		return false;
 	}
-
+	
+	private int getDirectionOffset(int direction) {
+		int offset = 0;
+		switch(direction) {
+			case 0:
+				offset = -8;
+			case 1:
+				offset =  -7;
+			case 2:
+				offset =  +1;
+			case 3:
+				offset =  +9;
+			case 4:
+				offset =  +8;
+			case 5:
+				offset =  +7;
+			case 6:
+				offset =  -1;
+			case 7:
+				offset =  -9;
+		}
+		return offset;
+	}
 }
