@@ -24,9 +24,10 @@ public abstract class GameController extends Controller {
 	}
 	
 	/***
+	 * Get the GameOptions for the game currently going on
+	 * Returns null if no game is going on
 	 * 
-	 * 
-	 * @return GameOptions - Instance for the game that is currently going on
+	 * @return GameOptions or null - Instance for the game that is currently going on
 	 * @author mobieljoy12
 	 */
 	public GameOptions getOptions() {

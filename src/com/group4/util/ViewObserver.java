@@ -1,6 +1,6 @@
 package com.group4.util;
 
-import com.group4.observers.Observer;
+import com.group4.util.observers.Observer;
 
 public class ViewObserver implements Observer {
 
