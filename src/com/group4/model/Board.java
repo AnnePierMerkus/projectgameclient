@@ -29,9 +29,10 @@ public class Board implements Observable {
 
 		for(int row = 0; row <= height; row++) {
 			for(int col = 0; col <= width; col++) {
-				Tile tile = new Tile(row, col);
+				int index = (row * this.width) + col;
+				Tile tile = new Tile(index);
 				// ((row * getRowWidth()) + column)
-				this.gameBoard.put(((row * this.width) + col), tile);
+				this.gameBoard.put(index, tile);
 			}
 		}
 	}
