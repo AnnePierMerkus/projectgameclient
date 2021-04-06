@@ -54,8 +54,4 @@ public class TICTACTOE extends GameProperty {
 		return false;
 	}
 
-	@Override
-	public int getPlayerAmount() {
-		return 2;
-	}
 }

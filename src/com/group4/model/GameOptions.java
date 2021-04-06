@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.group4.controller.GameController.Difficulty;
 import com.group4.controller.GameController.GameState;
 import com.group4.controller.GameController.GameType;
+import com.group4.util.BoardObserver;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 
@@ -24,6 +25,9 @@ public class GameOptions {
 	
 	// Whether it is multiplayer
 	private boolean multiplayer;
+	
+	// The boardobserver
+	private BoardObserver boardObserver = new BoardObserver(this);
 	
 	// Save the players into a map with Id => Player object
 	private HashMap<String, Player> players = new HashMap<String, Player>();

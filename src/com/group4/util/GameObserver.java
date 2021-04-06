@@ -9,7 +9,7 @@ public class GameObserver implements Observer {
 	}
 
 	@Override
-	public void update() {
+	public void update(Object object) {
 		
 	}
 }

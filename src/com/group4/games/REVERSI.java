@@ -23,7 +23,6 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public int getBoardHeight() {
-		// TODO Auto-generated method stub
 		return 8;
 	}
 
@@ -42,8 +41,9 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean makeMove(Tile tile, Player player) {
-		if(isLegalMove(tile, player)) {
+		if(this.isLegalMove(tile, player)) {
 			// TODO change or set the player of the given tile in the board.
+			tile.setOccupant(player);
 			return true;
 		}
 		return false;
@@ -51,10 +51,11 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean isLegalMove(Tile tile, Player player) {
-		if(getAvailableOptions(player) == null) {
+		List<Tile> availableOptions = this.getAvailableOptions(player);
+		if(availableOptions.isEmpty()) {
 			return false;
 		}
-		else if(getAvailableOptions(player).contains(tile)) {
+		else if(availableOptions.contains(tile)) {
 			return true;
 		}
 		else {
@@ -66,11 +67,6 @@ public class REVERSI extends GameProperty {
 	public boolean gameHasEnded() {
 		// TODO if both players have no legal moves to do: true.
 		return false;
-	}
-
-	@Override
-	public int getPlayerAmount() {
-		return 2;
 	}
 
 }

@@ -3,6 +3,7 @@ package com.group4.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.group4.util.Tile;
+import com.group4.util.TileObserver;
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
 
@@ -15,6 +16,7 @@ public class Board implements Observable {
 	private int height;
 	private int width;
 	private ArrayList<Observer> boardObservers;
+	private TileObserver tileObserver = new TileObserver(this);
 
 	/**
 	 * Method that creates a new board which size is defined by the given height and width.
@@ -31,6 +33,7 @@ public class Board implements Observable {
 			for(int col = 0; col <= width; col++) {
 				int index = (row * this.width) + col;
 				Tile tile = new Tile(index);
+				tile.registerObserver(this.tileObserver);
 				// ((row * getRowWidth()) + column)
 				this.gameBoard.put(index, tile);
 			}
@@ -112,7 +115,7 @@ public class Board implements Observable {
 	@Override
 	public void notifyObservers() {
 		for(Observer observer : boardObservers) {
-			observer.update();
+			observer.update(null);
 		}		
 	}
 }

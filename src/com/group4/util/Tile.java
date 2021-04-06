@@ -1,12 +1,19 @@
 package com.group4.util;
 
+import java.util.ArrayList;
+
+import com.group4.util.observers.Observable;
+import com.group4.util.observers.Observer;
+
 import javafx.scene.layout.StackPane;
 
-public class Tile extends StackPane {
+public class Tile extends StackPane implements Observable {
 	
 	private int index;
 	
 	private Player playerOnTile = null;
+	
+	private ArrayList<Observer> observers = new ArrayList<Observer>();
 	
 	/***
 	 * Make a new Tile
@@ -48,6 +55,7 @@ public class Tile extends StackPane {
 	 */
 	public void setOccupant(Player occupant) {
 		this.playerOnTile = occupant;
+		this.notifyObservers();
 	}
 	
 	/***
@@ -56,6 +64,7 @@ public class Tile extends StackPane {
 	 */
 	public void reset() {
 		this.playerOnTile = null;
+		this.notifyObservers();
 	}
 	
 	/***
@@ -66,6 +75,21 @@ public class Tile extends StackPane {
 	 */
 	public boolean isOccupied() {
 		return (this.playerOnTile != null);
+	}
+
+	@Override
+	public void registerObserver(Observer observer) {
+		this.observers.add(observer);
+	}
+
+	@Override
+	public void removeObserver(Observer observer) {
+		this.observers.remove(observer);
+	}
+
+	@Override
+	public void notifyObservers() {
+		this.observers.forEach((o) -> o.update(null));
 	}
 	
 }

@@ -96,7 +96,5 @@ public abstract class GameProperty {
 	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract boolean gameHasEnded();
-
-	public abstract int getPlayerAmount();
 	
 }
