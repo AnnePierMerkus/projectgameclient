@@ -104,7 +104,7 @@ public class MultiplayerController extends GameController {
 
     @Override
     public void createGame(GameType gameType) {
-        this.game = new GameOptions(Difficulty.MEDIUM, gameType);
+        this.game = new GameOptions(Difficulty.MEDIUM, gameType, true);
         this.game.setGameState(GameState.PLAYING);
 
         //set player state
@@ -113,7 +113,7 @@ public class MultiplayerController extends GameController {
 
     @Override
     public void createGame(Difficulty difficulty, GameType gameType) {
-        this.game = new GameOptions(difficulty, gameType);
+        this.game = new GameOptions(difficulty, gameType, true);
         this.game.setGameState(GameState.PLAYING);
 
         //set player state
