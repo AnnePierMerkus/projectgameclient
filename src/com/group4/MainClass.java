@@ -48,7 +48,7 @@ public class MainClass extends Application {
         int input = 0;
         while((input = scanner.nextInt()) != 0){
             switch (input){
-                case 1: multiplayerController.login();
+                case 1: multiplayerController.login(null);
                     break;
 
                 case 2: multiplayerController.logout();

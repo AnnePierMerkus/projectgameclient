@@ -14,7 +14,5 @@ public class PlayerObserver implements Observer {
 	@Override
 	public void update(Object object) {
 		// TODO Auto-generated method stub
-		
 	}
-	
 }
