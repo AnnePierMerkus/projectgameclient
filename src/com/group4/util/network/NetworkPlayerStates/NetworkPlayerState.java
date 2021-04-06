@@ -17,6 +17,9 @@ public interface NetworkPlayerState{
     //get available game list for player
     void getGameList(NetworkPlayer player);
 
+    //get all connected online players from the server
+    void getConnectedPlayersList(NetworkPlayer player);
+
     //subscribe player to game
     void subscribePlayerToGame(NetworkPlayer player, String game);
 
