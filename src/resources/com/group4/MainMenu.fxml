@@ -6,52 +6,240 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane
-	fx:controller="com.group4.controller.ViewController"
-	xmlns:fx="http://javafx.com/fxml"
-	alignment="center"
-	hgap="10"
-	vgap="10" >
 
+<?import com.group4.view.MyToggleButton?>
+<GridPane
+	hgap="10"
+	fx:controller="com.group4.controller.ViewController"
+	style="-fx-background-image: url('https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-family-board-games-1588260911.jpg?crop=0.5xw:1xh;center,top&amp;resize=640:*')"
+	alignment="BOTTOM_LEFT"
+	xmlns:fx="http://javafx.com/fxml">
 	<padding>
 		<Insets
-			top="25"
-			right="25"
-			bottom="10"
-			left="25" />
+			bottom="200"
+			left="50"
+			right="50"/>
 	</padding>
+
+	<fx:define>
+		<ToggleGroup fx:id="GameGroup"/>
+		<ToggleGroup fx:id="ModeGroup"/>
+		<ToggleGroup fx:id="DifficultyGroup"/>
+	</fx:define>
+
+	<GridPane
+		alignment="TOP_CENTER"
+		GridPane.columnIndex="0"
+		GridPane.rowIndex="0"
+		hgap="10"
+		vgap="10" >
+
+		<HBox
+			spacing="10"
+			GridPane.hgrow="ALWAYS"
+			GridPane.vgrow="ALWAYS"
+			GridPane.columnIndex="0"
+			GridPane.rowIndex="0">
+
+			<MyToggleButton
+				fx:id="tic_tac_toe"
+				toggleGroup="$GameGroup"
+				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+				text="Tic-Tac-Toe"
+				HBox.hgrow="ALWAYS"
+				maxWidth="300"
+				maxHeight="50"
+				onAction="#tic_tac_toe" />
+		</HBox>
+
+		<HBox
+			spacing="10"
+			GridPane.hgrow="ALWAYS"
+			GridPane.vgrow="ALWAYS"
+			maxWidth="500"
+			maxHeight="500"
+			GridPane.columnIndex="0"
+			GridPane.rowIndex="1">
+
+			<MyToggleButton
+				fx:id="reversi"
+				toggleGroup="$GameGroup"
+				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+				text="Reversi"
+				HBox.hgrow="ALWAYS"
+				maxWidth="300"
+				maxHeight="50"
+				onAction="#reversi"/>
+		</HBox>
+
+		<rowConstraints>
+			<RowConstraints minHeight="44" maxHeight="44" />
+			<RowConstraints minHeight="44" maxHeight="44" />
+			<RowConstraints minHeight="44" maxHeight="44" />
+		</rowConstraints>
+	</GridPane>
+
+	<GridPane
+		fx:id="Mode"
+		alignment="TOP_CENTER"
+		GridPane.columnIndex="1"
+		GridPane.rowIndex="0"
+		visible="false"
+		hgap="0"
+		vgap="10" >
+
+		<HBox
+			spacing="10"
+			GridPane.hgrow="ALWAYS"
+			GridPane.vgrow="ALWAYS"
+			maxWidth="500"
+			maxHeight="500"
+			GridPane.columnIndex="0"
+			GridPane.rowIndex="0">
+
+			<MyToggleButton
+				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+				toggleGroup="$ModeGroup"
+				text="Local"
+				HBox.hgrow="ALWAYS"
+				maxWidth="300"
+				maxHeight="300"
+				onAction="#local"/>
+		</HBox>
+
+		<HBox
+			spacing="10"
+			GridPane.hgrow="ALWAYS"
+			GridPane.vgrow="ALWAYS"
+			maxWidth="500"
+			maxHeight="500"
+			GridPane.columnIndex="0"
+			GridPane.rowIndex="1">
+
+			<MyToggleButton
+				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+				toggleGroup="$ModeGroup"
+				text="Online"
+				HBox.hgrow="ALWAYS"
+				maxWidth="300"
+				maxHeight="300"
+				onAction="#online" />
+		</HBox>
+		<rowConstraints>
+			<RowConstraints minHeight="44" maxHeight="44" />
+			<RowConstraints minHeight="44" maxHeight="44" />
+		</rowConstraints>
+	</GridPane>
+
+	<GridPane
+		fx:id="difficulty"
+		alignment="TOP_CENTER"
+		GridPane.columnIndex="2"
+		GridPane.rowIndex="0"
+		visible="false"
+		hgap="0"
+		vgap="10" >
+
+		<HBox
+			spacing="10"
+			GridPane.hgrow="ALWAYS"
+			GridPane.vgrow="ALWAYS"
+			maxWidth="500"
+			maxHeight="500"
+			GridPane.columnIndex="0"
+			GridPane.rowIndex="0">
+
+			<MyToggleButton
+				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+				toggleGroup="$DifficultyGroup"
+				text="Easy"
+				HBox.hgrow="ALWAYS"
+				maxWidth="300"
+				maxHeight="300"
+				onAction="#easy" />
+		</HBox>
+		<HBox
+			spacing="10"
+			GridPane.hgrow="ALWAYS"
+			GridPane.vgrow="ALWAYS"
+			maxWidth="500"
+			maxHeight="500"
+			GridPane.columnIndex="0"
+			GridPane.rowIndex="1">
+
+			<MyToggleButton
+				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+				toggleGroup="$DifficultyGroup"
+				text="Medium"
+				HBox.hgrow="ALWAYS"
+				maxWidth="300"
+				maxHeight="300"
+				onAction="#medium" />
+		</HBox>
+
+		<HBox
+			spacing="10"
+			GridPane.hgrow="ALWAYS"
+			GridPane.vgrow="ALWAYS"
+			maxWidth="500"
+			maxHeight="500"
+			GridPane.columnIndex="0"
+			GridPane.rowIndex="2">
+
+			<MyToggleButton
+				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+				toggleGroup="$DifficultyGroup"
+				text="Hard"
+				HBox.hgrow="ALWAYS"
+				maxWidth="300"
+				maxHeight="300"
+				onAction="#hard" />
+		</HBox>
+
+		<rowConstraints>
+			<RowConstraints minHeight="44" maxHeight="44" />
+			<RowConstraints minHeight="44" maxHeight="44" />
+			<RowConstraints minHeight="44" maxHeight="44" />
+		</rowConstraints>
+	</GridPane>
 
 	<HBox
 		spacing="10"
-		alignment="center"
 		GridPane.columnIndex="0"
-		GridPane.rowIndex="0">
+		GridPane.rowIndex="1" >
 
-		<Button
-			text="Tic-Tac-Toe" />
-	</HBox>
-
-	<HBox
-		spacing="0"
-		alignment="center"
-		GridPane.columnIndex="1"
-		GridPane.rowIndex="0">
-
-		<Button
-			text="Othello" />
-	</HBox>
-	<HBox
-		spacing="0"
-		alignment="center"
-		GridPane.columnIndex="0"
-		GridPane.rowIndex="3" >
-
-		<Button
+		<MyToggleButton
+			style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
 			text="Quit"
-			onAction="#quit"
-			alignment="center"/>
-		</HBox>
+			HBox.hgrow="ALWAYS"
+			maxWidth="300"
+			maxHeight="50"
+			onAction="#quit"/>
+	</HBox>
 
+	<HBox
+		spacing="10"
+		GridPane.columnIndex="3"
+		GridPane.rowIndex="1" >
 
+		<MyToggleButton
+			fx:id="start"
+			style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+			text="Play -->"
+			HBox.hgrow="ALWAYS"
+			maxWidth="300"
+			maxHeight="50"
+			onAction="#start"/>
+	</HBox>
+
+	<columnConstraints>
+		<ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" maxWidth="200" />
+		<ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" maxWidth="200" />
+		<ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" maxWidth="200" />
+		<ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" maxWidth="200" />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints minHeight="190" maxHeight="190" />
+		<RowConstraints minHeight="44" maxHeight="44" />
+	</rowConstraints>
 </GridPane>
-
