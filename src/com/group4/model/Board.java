@@ -1,16 +1,20 @@
 package com.group4.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import com.group4.util.Tile;
+import com.group4.util.observers.Observable;
+import com.group4.util.observers.Observer;
 
 /**
  * Class that creates and defines the game board.
  */
-public class Board {
+public class Board implements Observable {
 	
 	private HashMap<Integer, Tile> gameBoard = new HashMap<Integer, Tile>();
 	private int height;
 	private int width;
+	private ArrayList<Observer> boardObservers;
 
 	/**
 	 * Method that creates a new board which size is defined by the given height and width.
@@ -19,6 +23,7 @@ public class Board {
 	 * @author GRTerpstra
 	 */
 	public Board(int height, int width) {
+		this.boardObservers = new ArrayList<Observer>();
 		this.height = height;
 		this.width = width;
 
@@ -92,5 +97,22 @@ public class Board {
 		return (this.gameBoard.containsKey(index)) ? this.gameBoard.get(index) : null;
 	}
 
+	@Override
+	public void registerObserver(Observer observer) {
+		this.boardObservers.add(observer);
+		
+	}
+
+	@Override
+	public void removeObserver(Observer observer) {
+		this.boardObservers.remove(observer);		
+	}
+
+	@Override
+	public void notifyObservers() {
+		for(Observer observer : boardObservers) {
+			observer.update();
+		}		
+	}
 }
 

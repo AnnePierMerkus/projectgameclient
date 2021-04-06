@@ -11,11 +11,8 @@ import com.group4.util.observers.Observer;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 
-public class GameOptions implements Observable {
+public class GameOptions {
 	
-	// List of all the observers watching this model.
-	private ArrayList<Observer> gameObservers;
-
 	// Difficulty holding enum value
 	private Difficulty difficulty;
 	
@@ -68,9 +65,6 @@ public class GameOptions implements Observable {
 		this.difficulty = difficulty;
 		this.gameType = gameType;
 		this.multiplayer = isMultiplayer;
-		
-		// Initializing gameObservers with an empty ArrayList to contain Observer objects.
-		this.gameObservers = new ArrayList<Observer>();
 		
 		// Create the game
 		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
@@ -174,34 +168,5 @@ public class GameOptions implements Observable {
 	 */
 	public HashMap<String, Player> getPlayers(){
 		return this.players;
-	}
-
-	/**
-	 * Method that adds observers to the gameObservers list.
-	 */
-	@Override
-	public void registerObserver(Observer observer) {
-		this.gameObservers.add(observer);
-		
-	}
-
-	/**
-	 * Method that removes observers from the gameObservers list.
-	 */
-	@Override
-	public void removeObserver(Observer observer) {
-		this.gameObservers.remove(observer);
-		
-	}
-
-	/**
-	 * Method that notifies all the observers in the gameObserver list that there is an update.
-	 */
-	@Override
-	public void notifyObservers() {
-		for(Observer observer : gameObservers) {
-			observer.update();
-		}
-	}
-	
+	}	
 }
