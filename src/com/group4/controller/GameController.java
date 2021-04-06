@@ -2,7 +2,7 @@ package com.group4.controller;
 
 import com.group4.model.GameOptions;
 
-public class GameController {
+public abstract class GameController extends Controller {
 	
 	public enum GameType {
 		TICTACTOE, REVERSI
@@ -17,32 +17,48 @@ public class GameController {
 	}
 	
 	// The game that is currently going on
-	private GameOptions game = null;
+	protected GameOptions game = null;
 	
-	// Multiplayer or not
-	private boolean multiplayer;
-	
-	public GameController(boolean multiplayer) {
-		this.multiplayer = multiplayer;
+	protected GameController() {
+		super();
 	}
 	
-	public void createGame(Difficulty difficulty, GameType gameType) {
-		this.game = new GameOptions(difficulty, gameType);
-		//TODO - Swap scene to new game
-		this.game.setGameState(GameState.PLAYING);
-	}
-	
-	public void endGame() {
-		//TODO - Swap scene to end game screen or home menu
-		this.game = null;
-	}
-	
-	public GameOptions getGameOptions() {
+	/***
+	 * Get the GameOptions for the game currently going on
+	 * Returns null if no game is going on
+	 * 
+	 * @return GameOptions or null - Instance for the game that is currently going on
+	 * @author mobieljoy12
+	 */
+	public GameOptions getOptions() {
 		return this.game;
 	}
 	
-	public boolean isMultiplayer() {
-		return this.multiplayer;
-	}
+	/***
+	 * Create a new game with automatic difficulty or multiplayer in mind
+	 * Abstract so the Singeplayer and Multiplayer can have their own implementation
+	 * 
+	 * @param gameType
+	 * @author mobieljoy12
+	 */
+	abstract void createGame(GameType gameType);
+	
+	/***
+	 * Create a new game
+	 * Abstract so the Singeplayer and Multiplayer can have their own implementation
+	 * 
+	 * @param difficulty
+	 * @param gameType
+	 * @author mobieljoy12
+	 */
+	abstract void createGame(Difficulty difficulty, GameType gameType);
+	
+	/***
+	 * End the current game
+	 * Abstract so the Singeplayer and Multiplayer can have their own implementation
+	 * 
+	 * @author mobieljoy12
+	 */
+	abstract void endGame();
 	
 }

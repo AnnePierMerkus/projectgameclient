@@ -20,22 +20,17 @@ public abstract class GameProperty {
 	 * E.g. HashMap.put("p1", "White"); HashMap.put("p2", "Black");
 	 * 
 	 * @return String - Display name for given playerId
+	 * @author GRTerpstra & mobieljoy12
 	 */
 	public String getDiplayName(String playerId) {
 		return (this.displayNames.containsKey(playerId)) ? this.displayNames.get(playerId) : "";
 	}
 	
 	/***
-	 * Get the amount of players for the game
-	 * 
-	 * @return Amount of players
-	 */
-	public abstract int getPlayerAmount();
-	
-	/***
 	 * The width of the board in number of columns
 	 * 
 	 * @return Number of columns
+	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract int getBoardWidth();
 	
@@ -43,6 +38,7 @@ public abstract class GameProperty {
 	 * The height of the board in number of columns
 	 * 
 	 * @return Number of columns
+	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract int getBoardHeight();
 	
@@ -53,6 +49,7 @@ public abstract class GameProperty {
 	 * So 0 would mean p1 starts the game
 	 * 
 	 * @return Player index that should start
+	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract int playerStart();
 	
@@ -61,6 +58,7 @@ public abstract class GameProperty {
 	 * 
 	 * @param player - The player to give options for
 	 * @return List<Tile> - List of Tile options player could play
+	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract List<Tile> getAvailableOptions(Player player);
 	
@@ -70,6 +68,7 @@ public abstract class GameProperty {
 	 * @param tile - The tile to make a move on
 	 * @param player - The Player to make the move for
 	 * @return boolean - Whether move was legal
+	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract boolean makeMove(Tile tile, Player player);
 	
@@ -79,6 +78,7 @@ public abstract class GameProperty {
 	 * @param tile - The tile to make the move on
 	 * @param player - The Player to make the move with
 	 * @return boolean - Whether the move is legal
+	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract boolean isLegalMove(Tile tile, Player player);
 	
@@ -86,6 +86,7 @@ public abstract class GameProperty {
 	 * Whether the game has ended or should continue
 	 * 
 	 * @return boolean - Whether the game has ended
+	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract boolean gameHasEnded();
 	
