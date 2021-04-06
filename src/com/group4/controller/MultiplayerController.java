@@ -8,6 +8,7 @@ import com.group4.util.network.NetworkPlayer;
 import com.group4.util.network.NetworkPlayerStates.InMatchNoTurnState;
 import com.group4.util.network.NetworkPlayerStates.InMatchPlayerTurnState;
 import com.group4.util.network.NetworkPlayerStates.LoginState;
+import javafx.event.ActionEvent;
 
 /**
  *
@@ -82,7 +83,7 @@ public class MultiplayerController extends GameController {
     }
 
     //log the player into the multiplayer server and set username
-    public void login(){
+    public void login(ActionEvent event){
         this.player.setName("idea"); //name from view form field here
         this.player.login();
     }

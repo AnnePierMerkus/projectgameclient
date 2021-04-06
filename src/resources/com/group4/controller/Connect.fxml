@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<?import com.group4.view.MyToggleButton?>
+
+<GridPane
+    vgap="10"
+    fx:controller="com.group4.controller.MultiplayerController"
+    style="-fx-background-image: url('https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-family-board-games-1588260911.jpg?crop=0.5xw:1xh;center,top&amp;resize=640:*')"
+    alignment="CENTER"
+    xmlns:fx="http://javafx.com/fxml">
+
+    <TextField
+        promptText="Username"
+        alignment="CENTER_LEFT"
+        focusTraversable="false"
+        maxWidth="200"
+        minWidth="200"
+        minHeight="35"
+        maxHeight="35"
+        GridPane.rowIndex="0"/>
+
+    <MyToggleButton
+        fx:id="tic_tac_toe"
+        style="-fx-background-color: #03afe6; -fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+        text="Connect"
+        HBox.hgrow="ALWAYS"
+        maxWidth="200"
+        minWidth="200"
+        minHeight="35"
+        maxHeight="35"
+        GridPane.rowIndex="1"
+        onAction="#login" />
+</GridPane>

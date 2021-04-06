@@ -4,7 +4,9 @@ import com.group4.util.Tile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
@@ -17,21 +19,12 @@ import java.awt.*;
 
 
 public class ViewController {
-    GameController.GameType gameType;
+    boolean online = false;
 
     GameController.Difficulty gameDifficulty;
 
     @FXML
-    GridPane Mode;
-
-    @FXML
     GridPane difficulty;
-
-    @FXML
-    ToggleButton tic_tac_toe;
-
-    @FXML
-    ToggleButton reversi;
 
     @FXML
     ToggleButton start;
@@ -54,39 +47,6 @@ public class ViewController {
     }
 
     /**
-     * Calls selectGame.
-     * @param event The UI element used to call this function.
-     */
-    @FXML
-    protected void tic_tac_toe(ActionEvent event) {
-        selectGame(GameController.GameType.TICTACTOE);
-    }
-
-    /**
-     * Calls selectGame.
-     * @param event The UI element used to call this function.
-     */
-    @FXML
-    protected void reversi(ActionEvent event) {
-        selectGame(GameController.GameType.REVERSI);
-    }
-
-    /**
-     * Sets gameType to the selected game and turns UI elements on/off.
-     * @param gameType The selected game.
-     */
-    private void selectGame(GameController.GameType gameType)
-    {
-        this.gameType = gameType;
-        Mode.setVisible(true);
-        difficulty.setVisible(false);
-        ModeGroup.selectToggle(null);
-        DifficultyGroup.selectToggle(null);
-        start.setDisable(true);
-        start.setSelected(false);
-    }
-
-    /**
      * Set mode to local.
      * @param event The UI element used to call this function.
      */
@@ -95,6 +55,8 @@ public class ViewController {
         difficulty.setVisible(true);
         start.setDisable(true);
         start.setSelected(false);
+
+        online = false;
     }
 
     /**
@@ -107,7 +69,8 @@ public class ViewController {
         DifficultyGroup.selectToggle(null);
         start.setDisable(false);
         start.setSelected(false);
-        // Set multiplayer stuff.
+
+        online = true;
     }
 
     /**
@@ -140,11 +103,15 @@ public class ViewController {
         gameDifficulty = GameController.Difficulty.HARD;
     }
 
-    @FXML void start(ActionEvent event) {
+    @FXML void start(ActionEvent event) throws Exception {
         // Start game with correct gametype/difficult/multiplayer
         Stage stage = (Stage) start.getScene().getWindow();
-        System.out.println(stage);
-        stage.setScene(new Scene(fillInBoard()));
+        if (online) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Connect.fxml"));
+            Parent root = loader.load();
+
+            stage.setScene(new Scene(root, 500, 500));
+        }
     }
 
     public Pane fillInBoard() {
