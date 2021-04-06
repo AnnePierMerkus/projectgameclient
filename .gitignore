@@ -2,3 +2,4 @@ out/
 Project2.3Framework_old.iml
 *.iml
 *.bin
+/bin/

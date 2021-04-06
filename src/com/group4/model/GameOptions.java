@@ -10,7 +10,6 @@ import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.network.Client;
 import com.group4.util.network.NetworkPlayer;
-import com.group4.util.observers.Observer;
 
 public class GameOptions {
 	
