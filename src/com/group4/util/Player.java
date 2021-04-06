@@ -75,7 +75,7 @@ public class Player implements Observable {
 
 	@Override
 	public void notifyObservers() {
-		this.observers.forEach((o) -> o.update());
+		this.observers.forEach((o) -> o.update(this));
 	}
 	
 }

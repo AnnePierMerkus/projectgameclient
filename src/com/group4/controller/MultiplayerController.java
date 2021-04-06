@@ -29,7 +29,7 @@ public class MultiplayerController extends GameController {
         this.client_thread = new Thread(client);
         this.client_thread.start();
 
-        this.player = new NetworkPlayer("1", new TICTACTOE(), this.client); //TODO game should be set later
+        this.player = new NetworkPlayer("1", new TICTACTOE(), this.client); //needs to become this.game.getGameOptions()
 
         //temporary code
         String[] board = new String[]{
