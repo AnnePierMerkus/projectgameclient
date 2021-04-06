@@ -149,12 +149,12 @@ public class ViewController {
 
     public Pane fillInBoard() {
         Pane root = new Pane();
-        GameController gameController = new GameController(false);
+        GameController gameController = new SingleplayerGameController(false);
         gameController.createGame(GameController.Difficulty.EASY, GameController.GameType.TICTACTOE);
         root.setPrefSize(600, 600);
-        for(Tile tile : gameController.getGameOptions().getBoard().getGameBoard()) {
-            root.getChildren().add(tile);
-        }
+        //for(Tile tile : gameController.getOptions().getBoard().getGameBoard()) {
+        //    root.getChildren().add(tile);
+        //}
         return root;
     }
 }

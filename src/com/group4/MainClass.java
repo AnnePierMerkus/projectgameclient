@@ -18,19 +18,6 @@ public class MainClass extends Application {
 		launch(args);
 	}
 
-	// Creates a Pane which contains all the tiles for now.
-	// TODO Has to be moved to the view.
-	public Pane fillInBoard() {
-		Pane root = new Pane();
-		GameController gameController = new GameController(false);
-		gameController.createGame(GameController.Difficulty.EASY, GameController.GameType.TICTACTOE);
-		root.setPrefSize(600, 600);
-		for(Tile tile : gameController.getGameOptions().getBoard().getGameBoard()) {
-			root.getChildren().add(tile);
-		}
-		return root;
-	}
-
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub

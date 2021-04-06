@@ -1,4 +1,4 @@
-package com.group4.observers;
+package com.group4.util.observers;
 
 public interface Observable {
 	void registerObserver(Observer observer);
