@@ -1,23 +1,19 @@
 package com.group4.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.group4.controller.GameController.Difficulty;
 import com.group4.controller.GameController.GameState;
 import com.group4.controller.GameController.GameType;
-import com.group4.util.observers.Observable;
-import com.group4.util.observers.Observer;
+import com.group4.util.BoardObserver;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.network.Client;
 import com.group4.util.network.NetworkPlayer;
+import com.group4.util.observers.Observer;
 
-public class GameOptions implements Observable {
+public class GameOptions {
 	
-	// List of all the observers watching this model.
-	private ArrayList<Observer> gameObservers;
-
 	// Difficulty holding enum value
 	private Difficulty difficulty;
 	
@@ -29,6 +25,9 @@ public class GameOptions implements Observable {
 	
 	// Board instance, holds the board with tiles
 	private Board board;
+	
+	// The boardobserver
+	private BoardObserver boardObserver = new BoardObserver(this);
 	
 	// Save the players into a map with Id => Player object
 	private HashMap<String, Player> players = new HashMap<String, Player>();
@@ -67,9 +66,6 @@ public class GameOptions implements Observable {
 		this.difficulty = difficulty;
 		this.gameType = gameType;
 		
-		// Initializing gameObservers with an empty ArrayList to contain Observer objects.
-		this.gameObservers = new ArrayList<Observer>();
-		
 		// Create the game
 		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
 		
@@ -93,9 +89,6 @@ public class GameOptions implements Observable {
 		
 		this.difficulty = difficulty;
 		this.gameType = gameType;
-		
-		// Initializing gameObservers with an empty ArrayList to contain Observer objects.
-		this.gameObservers = new ArrayList<Observer>();
 		
 		// Create the game
 		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
@@ -185,33 +178,4 @@ public class GameOptions implements Observable {
 	public HashMap<String, Player> getPlayers(){
 		return this.players;
 	}
-
-	/**
-	 * Method that adds observers to the gameObservers list.
-	 */
-	@Override
-	public void registerObserver(Observer observer) {
-		this.gameObservers.add(observer);
-		
-	}
-
-	/**
-	 * Method that removes observers from the gameObservers list.
-	 */
-	@Override
-	public void removeObserver(Observer observer) {
-		this.gameObservers.remove(observer);
-		
-	}
-
-	/**
-	 * Method that notifies all the observers in the gameObserver list that there is an update.
-	 */
-	@Override
-	public void notifyObservers() {
-		for(Observer observer : gameObservers) {
-			observer.update(this);
-		}
-	}
-	
 }

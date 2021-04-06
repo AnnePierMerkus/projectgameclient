@@ -2,7 +2,6 @@ package com.group4.view;
 
 import java.util.ArrayList;
 
-
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
 
