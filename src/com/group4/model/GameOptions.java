@@ -75,8 +75,8 @@ public class GameOptions {
 		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
 		
 	}
-    
-    /***
+
+	/***
      * Create a new multiplayer game with given difficulty + gametype
      * Make the network player p1 so it can be retrieved using the getPlayer method
      * 

@@ -46,7 +46,7 @@
 			<MyToggleButton
 				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
 				toggleGroup="$ModeGroup"
-				text="Local"
+				text="Locald"
 				HBox.hgrow="ALWAYS"
 				maxWidth="300"
 				maxHeight="300"
