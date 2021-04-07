@@ -6,3 +6,5 @@ Project2.3Framework.iml
 *.bin
 /bin/
 bin
+.settings
+.settings/
