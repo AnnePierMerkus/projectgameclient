@@ -1,5 +1,6 @@
 package com.group4.controller;
 
+import com.group4.util.Tile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,20 +13,30 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.Iterator;
+import java.util.Map;
+
 
 public class ViewController {
     boolean online = false;
 
     GameController.Difficulty gameDifficulty;
+    GameController.GameType gameType;
 
     @FXML
     GridPane difficulty;
+
+    @FXML
+    GridPane game;
 
     @FXML
     ToggleButton start;
 
     @FXML
     ToggleGroup ModeGroup;
+
+    @FXML
+    ToggleGroup GameGroup;
 
     @FXML
     ToggleGroup DifficultyGroup;
@@ -47,7 +58,7 @@ public class ViewController {
      */
     @FXML
     protected void local(ActionEvent event) {
-        difficulty.setVisible(true);
+        game.setVisible(true);
         start.setDisable(true);
         start.setSelected(false);
 
@@ -60,12 +71,36 @@ public class ViewController {
      */
     @FXML
     protected void online(ActionEvent event) {
+        game.setVisible(false);
         difficulty.setVisible(false);
+
         DifficultyGroup.selectToggle(null);
+        GameGroup.selectToggle(null);
+
         start.setDisable(false);
         start.setSelected(false);
 
         online = true;
+    }
+
+    @FXML
+    protected void tic_tac_toe(ActionEvent event)
+    {
+        selectGame(GameController.GameType.TICTACTOE);
+    }
+
+    @FXML
+    protected void reversi(ActionEvent event)
+    {
+        selectGame(GameController.GameType.REVERSI);
+    }
+
+    private void selectGame(GameController.GameType gameType)
+    {
+        this.gameType = gameType;
+        start.setDisable(true);
+        difficulty.setVisible(true);
+        DifficultyGroup.selectToggle(null);
     }
 
     /**
@@ -99,25 +134,46 @@ public class ViewController {
     }
 
     @FXML void start(ActionEvent event) throws Exception {
-        // Start game with correct gametype/difficult/multiplayer
         Stage stage = (Stage) start.getScene().getWindow();
+
         if (online) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Online.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Connect.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 500, 500);
-            //scene.getStylesheets().add(getClass().getResource("test.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("test.css").toExternalForm());
+
+            stage.setScene(scene);
+        }
+        else
+        {
+            Scene scene = new Scene(fillInBoard());
             stage.setScene(scene);
         }
     }
 
-    public Pane fillInBoard() {
-        Pane root = new Pane();
+    public GridPane fillInBoard() {
+        GridPane root = new GridPane();
         GameController gameController = new SingleplayerGameController(false);
-        gameController.createGame(GameController.Difficulty.EASY, GameController.GameType.TICTACTOE);
+        gameController.createGame(GameController.Difficulty.EASY, gameType);
         root.setPrefSize(600, 600);
-        //for(Tile tile : gameController.getOptions().getBoard().getGameBoard()) {
-        //    root.getChildren().add(tile);
-        //}
+
+        Iterator it = gameController.getOptions().getBoard().getGameBoard().entrySet().iterator();
+        int row = 0;
+        int column = 0;
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+
+            root.add((Tile)pair.getValue(), column, row);
+            column++;
+
+            if (((int)pair.getKey() + 1) % gameController.getOptions().getBoard().getWidth() == 0)
+            {
+                column = 0;
+                row++;
+            }
+
+            it.remove();
+        }
         return root;
     }
 }

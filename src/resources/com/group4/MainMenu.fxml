@@ -22,6 +22,7 @@
 	</padding>
 
 	<fx:define>
+		<ToggleGroup fx:id="GameGroup"/>
 		<ToggleGroup fx:id="ModeGroup"/>
 		<ToggleGroup fx:id="DifficultyGroup"/>
 	</fx:define>
@@ -46,7 +47,7 @@
 			<MyToggleButton
 				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
 				toggleGroup="$ModeGroup"
-				text="Locald"
+				text="Local"
 				HBox.hgrow="ALWAYS"
 				maxWidth="300"
 				maxHeight="300"
@@ -78,9 +79,62 @@
 	</GridPane>
 
 	<GridPane
-		fx:id="difficulty"
+		fx:id="game"
 		alignment="TOP_CENTER"
 		GridPane.columnIndex="1"
+		GridPane.rowIndex="0"
+		visible="false"
+		hgap="0"
+		vgap="10" >
+
+		<HBox
+			spacing="10"
+			GridPane.hgrow="ALWAYS"
+			GridPane.vgrow="ALWAYS"
+			maxWidth="500"
+			maxHeight="500"
+			GridPane.columnIndex="0"
+			GridPane.rowIndex="0">
+
+			<MyToggleButton
+				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+				toggleGroup="$GameGroup"
+				text="tic_tac_toe"
+				HBox.hgrow="ALWAYS"
+				maxWidth="300"
+				maxHeight="300"
+				onAction="#tic_tac_toe"/>
+		</HBox>
+
+		<HBox
+			spacing="10"
+			GridPane.hgrow="ALWAYS"
+			GridPane.vgrow="ALWAYS"
+			maxWidth="500"
+			maxHeight="500"
+			GridPane.columnIndex="0"
+			GridPane.rowIndex="1">
+
+			<MyToggleButton
+				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+				toggleGroup="$GameGroup"
+				text="Reversi"
+				HBox.hgrow="ALWAYS"
+				maxWidth="300"
+				maxHeight="300"
+				onAction="#reversi" />
+		</HBox>
+		<rowConstraints>
+			<RowConstraints minHeight="44" maxHeight="44" />
+			<RowConstraints minHeight="44" maxHeight="44" />
+		</rowConstraints>
+	</GridPane>
+
+
+	<GridPane
+		fx:id="difficulty"
+		alignment="TOP_CENTER"
+		GridPane.columnIndex="2"
 		GridPane.rowIndex="0"
 		visible="false"
 		hgap="0"
@@ -165,7 +219,7 @@
 
 	<HBox
 		spacing="10"
-		GridPane.columnIndex="2"
+		GridPane.columnIndex="3"
 		GridPane.rowIndex="1" >
 
 		<MyToggleButton

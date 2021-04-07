@@ -39,6 +39,7 @@ public class MultiplayerController extends GameController {
         this.networkPlayer = new NetworkPlayer("p1", client);
 
         //add networkplayer to players list
+        this.players = new HashMap<>();
         this.players.put("p1", this.networkPlayer);
 
         //create and add second player that will be used by the server

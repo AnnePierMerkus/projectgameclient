@@ -11,6 +11,7 @@
 <?import com.group4.view.MyToggleButton?>
 
 <StackPane
+    fx:controller="com.group4.controller.MultiplayerController"
     fx:id="root"
     xmlns:fx="http://javafx.com/fxml"
     alignment="CENTER">
@@ -18,7 +19,7 @@
     <ImageView fitWidth="${root.width}" fitHeight="${root.height}" >
         <!--  ^^  bind to size of node with fx:id="root" ^^  -->
         <image>
-            <Image url="https://wallpaperaccess.com/full/3637344.png"/>
+            <Image url="@bluefade.png"/>
         </image>
     </ImageView>
 
@@ -47,6 +48,7 @@
             minWidth="200"
             minHeight="35"
             maxHeight="35"
-            GridPane.rowIndex="1"/>
+            GridPane.rowIndex="1"
+            onAction="#login"/>
     </GridPane>
 </StackPane>

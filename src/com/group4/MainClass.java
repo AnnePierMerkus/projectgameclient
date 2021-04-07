@@ -58,8 +58,8 @@ public class MainClass extends Application {
                 case 4: multiplayerController.subscribe("Tic-tac-toe");
                     break;
 
-                case 5: multiplayerController.player.makeMove(new Tile((scanner.nextInt() * multiplayerController.getOptions().getBoard().getWidth()) + scanner.nextInt()));
-                    break;
+               // case 5: multiplayerController.player.makeMove(new Tile((scanner.nextInt() * multiplayerController.getOptions().getBoard().getWidth()) + scanner.nextInt()));
+                 //   break;
 
                 case 6: multiplayerController.endGame();
                     break;
