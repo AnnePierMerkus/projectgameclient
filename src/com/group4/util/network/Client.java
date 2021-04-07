@@ -29,30 +29,26 @@ public class Client implements Runnable, Observable {
     private ArrayList<String> messages;
 
     /**
-     * Create connection to server
+     * Create connection to server throws exception if connection could not be made
      *
      * @param url url location of server
      * @param port port number of server
      */
-    public Client(String url, int port) {
-        try{
-            //connect to server
-            this.socket = new Socket(url, port);
+    public Client(String url, int port) throws Exception{
+        //connect to server
+        this.socket = new Socket(url, port);
 
-            //set output
-            this.output = new PrintWriter(this.socket.getOutputStream(), true);
+        //set output
+        this.output = new PrintWriter(this.socket.getOutputStream(), true);
 
-            //set input
-            this.input = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+        //set input
+        this.input = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 
-            //new observers list
-            this.observers = new ArrayList<>();
+        //new observers list
+        this.observers = new ArrayList<>();
 
-            //new messages list
-            this.messages = new ArrayList<>();
-        }catch (Exception e){
-            System.out.println("Could not connect to server: " + e);
-        }
+        //new messages list
+        this.messages = new ArrayList<>();
     }
 
     /**

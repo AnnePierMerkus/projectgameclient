@@ -26,8 +26,14 @@ public class LoginState implements NetworkPlayerState {
 
     @Override
     public void getGameList(NetworkPlayer player) {
-        System.out.println("getting gamelist from logged in player");
+        System.out.println("getting game list from logged in player");
         player.getClient().sendMessage("GET gamelist");
+    }
+
+    @Override
+    public void getPlayerList(NetworkPlayer player) {
+        System.out.println("getting player list from logged in player");
+        player.getClient().sendMessage("GET playerlist");
     }
 
     @Override

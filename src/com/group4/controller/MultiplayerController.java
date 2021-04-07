@@ -39,59 +39,63 @@ public class MultiplayerController extends GameController {
     GridPane matchmaking;
 
     public MultiplayerController(){
-        //create client for communication with server
-        this.client = new Client("localhost", 7789);
+        try{
+            //create client for communication with server
+            this.client = new Client("localhost", 7789);
 
-        //start client on new thread for responsiveness
-        this.client_thread = new Thread(client);
-        this.client_thread.start();
+            //start client on new thread for responsiveness
+            this.client_thread = new Thread(client);
+            this.client_thread.start();
 
-        //create networkplayer
-        this.networkPlayer = new NetworkPlayer("p1", client);
+            //create networkplayer
+            this.networkPlayer = new NetworkPlayer("p1", client);
 
-        //add networkplayer to players list
-        this.players = new HashMap<>();
-        this.players.put("p1", this.networkPlayer);
+            //add networkplayer to players list
+            this.players = new HashMap<>();
+            this.players.put("p1", this.networkPlayer);
 
-        //create and add second player that will be used by the server
-        this.players.put("p2", new Player("p2"));
+            //create and add second player that will be used by the server
+            this.players.put("p2", new Player("p2"));
 
-        //register new observer to client for
-        this.client.registerObserver((Object object) -> {
-            Client client2 = (Client) object; //upper cast object to client
+            //register new observer to client for
+            this.client.registerObserver((Object object) -> {
+                Client client2 = (Client) object; //upper cast object to client
 
-            String message = client2.getMessage(); //get the most recent message
+                String message = client2.getMessage(); //get the most recent message
 
-            //check if the server has received a move
-            if (message.contains("GAME MOVE")){
-                HashMap<String, String> hashmap_msg = client2.messageToMap(); //parse message from server to map
+                //check if the server has received a move
+                if (message.contains("GAME MOVE")){
+                    HashMap<String, String> hashmap_msg = client2.messageToMap(); //parse message from server to map
 
-                //check if player move is the opponent of client user
-                if (!hashmap_msg.get("PLAYER").equals(this.networkPlayer.getName())){
-                    this.game.getPlayer("p2").makeMove(new Tile(Integer.parseInt(hashmap_msg.get("MOVE"))));
+                    //check if player move is the opponent of client user
+                    if (!hashmap_msg.get("PLAYER").equals(this.networkPlayer.getName())){
+                        this.game.getPlayer("p2").makeMove(new Tile(Integer.parseInt(hashmap_msg.get("MOVE"))));
+                    }
                 }
-            }
 
-            //match is over set networkplayer state and end the game
-            if (message.contains("WIN") || message.contains("LOSS") || message.contains("DRAW")){
-                this.networkPlayer.setState(new LoginState());
-                this.endGame();
-            }
-
-            //its network players turn to make a move set state
-            if (message.contains("YOURTURN")){
-                this.networkPlayer.setState(new InMatchPlayerTurnState());
-            }
-
-            //a match has been started by the server
-            if (message.contains("MATCH")){
-                if (client2.messageToMap().get("GAMETYPE").equals("Tic-tac-toe")){
-                    this.createGame(GameType.TICTACTOE);
-                }else {
-                    this.createGame(GameType.REVERSI);
+                //match is over set networkplayer state and end the game
+                if (message.contains("WIN") || message.contains("LOSS") || message.contains("DRAW")){
+                    this.networkPlayer.setState(new LoginState());
+                    this.endGame();
                 }
-            }
-        });
+
+                //its network players turn to make a move set state
+                if (message.contains("YOURTURN")){
+                    this.networkPlayer.setState(new InMatchPlayerTurnState());
+                }
+
+                //a match has been started by the server
+                if (message.contains("MATCH")){
+                    if (client2.messageToMap().get("GAMETYPE").equals("Tic-tac-toe")){
+                        this.createGame(GameType.TICTACTOE);
+                    }else {
+                        this.createGame(GameType.REVERSI);
+                    }
+                }
+            });
+        }catch (Exception e){
+            System.out.println("Could not connect to server: " + e);
+        }
     }
 
     public void ff(KeyEvent event)

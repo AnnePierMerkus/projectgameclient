@@ -125,6 +125,13 @@ public class NetworkPlayer extends Player {
     }
 
     /**
+     * Get online players connected to server
+     */
+    public void getOnlinePlayers(){
+        this.state.getPlayerList(this);
+    }
+
+    /**
      * Set current player state
      *
      * @param playerState State in which player currently is.
