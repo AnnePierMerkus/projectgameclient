@@ -9,6 +9,7 @@ import com.group4.model.GameOptions;
  * GameProperty interface
  * 
  * Holds all methods every game class should have
+ * TODO - Add exceptions for when gameoptions not set
  * 
  * @author Gerwin Terpstra & Jasper van der Kooi
  *
@@ -16,10 +17,15 @@ import com.group4.model.GameOptions;
 public abstract class GameProperty {
 
 	protected HashMap<String, String> displayNames = new HashMap<String, String>();
-	protected GameOptions game;
-	
-	public GameProperty(GameOptions gameoptions) {
-		this.game = gameoptions;
+	protected GameOptions game = null;
+
+	/***
+	 * Set the Gameoptions
+	 * 
+	 * @param gameOptions
+	 */
+	public void setGameOptions(GameOptions gameOptions) {
+		this.game = gameOptions;
 	}
 	
 	/***

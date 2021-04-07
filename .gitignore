@@ -1,5 +1,10 @@
 out/
-Project2.3Framework_old.iml
+.idea/
+.idea
+Project2.3Framework.iml
 *.iml
 *.bin
 /bin/
+bin
+.settings
+.settings/

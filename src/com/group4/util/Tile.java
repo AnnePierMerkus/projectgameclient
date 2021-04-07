@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
 
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class Tile extends StackPane implements Observable {
 	
@@ -18,12 +23,22 @@ public class Tile extends StackPane implements Observable {
 	/***
 	 * Make a new Tile
 	 * 
-	 * @param rowCoordinate - Row coordinate
-	 * @param columnCoordinate - Column coordinate
+	 * @param index
 	 * @author GRTerpstra
 	 */
 	public Tile(int index) {
 		this.index = index;
+		Rectangle border = new Rectangle(100, 100);
+		border.setFill(null);
+		border.setStroke(Color.BLACK);
+		setAlignment(Pos.CENTER);
+		getChildren().addAll(border);
+
+		setOnMouseClicked(mouseEvent ->
+		{
+			setStyle("-fx-background-color: blue");
+			System.out.println("Clicked on " + this.getIndex());
+		});
 	}
 	
 	/***

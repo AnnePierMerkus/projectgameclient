@@ -28,9 +28,8 @@ public class Board implements Observable {
 		this.boardObservers = new ArrayList<Observer>();
 		this.height = height;
 		this.width = width;
-
-		for(int row = 0; row <= height; row++) {
-			for(int col = 0; col <= width; col++) {
+		for(int row = 0; row < height; row++) {
+			for(int col = 0; col < width; col++) {
 				// ((row * getRowWidth()) + column)
 				int index = (row * this.width) + col;
 				Tile tile = new Tile(index);

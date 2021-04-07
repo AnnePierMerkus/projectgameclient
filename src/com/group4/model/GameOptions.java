@@ -8,7 +8,6 @@ import com.group4.controller.GameController.GameType;
 import com.group4.util.BoardObserver;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
-import com.group4.util.network.Client;
 
 public class GameOptions {
 	
@@ -44,7 +43,9 @@ public class GameOptions {
     @SuppressWarnings("deprecation")
     private GameProperty instantiate(final String className, @SuppressWarnings("rawtypes") final Class type) {
     	try {
-            return (GameProperty) type.cast(Class.forName(className).newInstance());
+    		GameProperty newGame = (GameProperty) type.cast(Class.forName(className).newInstance());
+    		newGame.setGameOptions(this);
+            return newGame;
         } catch (InstantiationException
                 | IllegalAccessException
                 | ClassNotFoundException e) {
@@ -75,8 +76,8 @@ public class GameOptions {
 		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
 		
 	}
-    
-    /***
+
+	/***
      * Create a new multiplayer game with given difficulty + gametype
      * Make the network player p1 so it can be retrieved using the getPlayer method
      * 
@@ -84,7 +85,7 @@ public class GameOptions {
      * @param gameType
      * @author mobieljoy12
      */
-	public GameOptions(Difficulty difficulty, GameType gameType, Client client, HashMap<String, Player> players) {
+	public GameOptions(Difficulty difficulty, GameType gameType, HashMap<String, Player> players) {
 		
 		this.difficulty = difficulty;
 		this.gameType = gameType;

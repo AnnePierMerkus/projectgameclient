@@ -2,15 +2,13 @@ package com.group4.games;
 
 import java.util.List;
 
-import com.group4.model.GameOptions;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.Tile;
 
 public class TICTACTOE extends GameProperty {
 
-	public TICTACTOE(GameOptions gameoptions) {
-		super(gameoptions);
+	public TICTACTOE() {
 		this.displayNames.put("p1", "X");
 		this.displayNames.put("p2", "O");
 	}

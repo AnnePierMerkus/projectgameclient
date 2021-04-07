@@ -1,6 +1,8 @@
 package com.group4.controller;
 
 import com.group4.model.GameOptions;
+import com.group4.util.Player;
+import com.group4.util.Tile;
 import com.group4.util.network.Client;
 import com.group4.util.network.NetworkPlayer;
 import com.group4.util.network.NetworkPlayerStates.InMatchNoTurnState;
@@ -8,8 +10,10 @@ import com.group4.util.network.NetworkPlayerStates.InMatchPlayerTurnState;
 import com.group4.util.network.NetworkPlayerStates.LoginState;
 import javafx.event.ActionEvent;
 
+import java.util.HashMap;
+
 /**
- *
+ * Multiplayer Controller for controlling mutiplayer view and network player
  *
  * @author Gemar Koning
  */
@@ -19,66 +23,68 @@ public class MultiplayerController extends GameController {
 
     protected Thread client_thread;
 
+    protected HashMap<String, Player> players;
+
     public NetworkPlayer networkPlayer;
 
     public MultiplayerController(){
-        //create client for communication with server
-        this.client = new Client("localhost", 7789);
+        try{
+            //create client for communication with server
+            this.client = new Client("localhost", 7789);
 
-        //start client on new thread for responsiveness
-        this.client_thread = new Thread(client);
-        this.client_thread.start();
+            //start client on new thread for responsiveness
+            this.client_thread = new Thread(client);
+            this.client_thread.start();
 
-        this.networkPlayer = (NetworkPlayer) this.game.getPlayer("p1");
+            //create networkplayer
+            this.networkPlayer = new NetworkPlayer("p1", client);
 
-        //temporary code
-        String[] board = new String[]{
-                "[]","[]","[]",
-                "[]","[]","[]",
-                "[]","[]","[]"};
+            //add networkplayer to players list
+            this.players = new HashMap<>();
+            this.players.put("p1", this.networkPlayer);
 
-        //register method for ending and starting game
-        this.client.registerObserver((Object object) -> {
-            Client client1 = (Client) object; //cast object to client instance
-            System.out.println(client1.getMessage());
+            //create and add second player that will be used by the server
+            this.players.put("p2", new Player("p2"));
 
-            //temporary code needs to be in game itself
-            if (client1.getMessage().contains("WIN") || client1.getMessage().contains("LOSS") || client1.getMessage().contains("DRAW")){
-                System.out.println("Match over. Result: " + client1.getMessage());
-                this.networkPlayer.setState(new LoginState());
-            }
+            //register new observer to client for
+            this.client.registerObserver((Object object) -> {
+                Client client2 = (Client) object; //upper cast object to client
 
-            //temporary code needs to be in game itself
-            if (client1.getMessage().contains("YOURTURN")){
-                this.networkPlayer.setState(new InMatchPlayerTurnState());
-            }
+                String message = client2.getMessage(); //get the most recent message
 
-            //temporary code for demo
-            if (client1.getMessage().contains("GAME MOVE")){
-                if (client1.messageToMap().get("PLAYER").equals("idea")){
-                    board[Integer.parseInt(client1.messageToMap().get("MOVE"))] = "[*]";
-                }else{
-                    board[Integer.parseInt(client1.messageToMap().get("MOVE"))] = "[0]";
-                }
+                //check if the server has received a move
+                if (message.contains("GAME MOVE")){
+                    HashMap<String, String> hashmap_msg = client2.messageToMap(); //parse message from server to map
 
-                for (int i = 0; i < board.length; i++){
-                    if (((i + 1) % 3) == 0){
-                        System.out.println(board[i]);
-                    }else {
-                        System.out.print(board[i]);
+                    //check if player move is the opponent of client user
+                    if (!hashmap_msg.get("PLAYER").equals(this.networkPlayer.getName())){
+                        this.game.getPlayer("p2").makeMove(new Tile(Integer.parseInt(hashmap_msg.get("MOVE"))));
                     }
                 }
-            }
 
-            if (client1.getMessage().contains("MATCH")){
-                System.out.println(client1.getMessage());
-                if (client1.messageToMap().get("GAMETYPE").equals("Tic-tac-toe")){
-                    this.createGame(GameType.TICTACTOE);
-                }else {
-                    this.createGame(GameType.REVERSI);
+                //match is over set networkplayer state and end the game
+                if (message.contains("WIN") || message.contains("LOSS") || message.contains("DRAW")){
+                    this.networkPlayer.setState(new LoginState());
+                    this.endGame();
                 }
-            }
-        });
+
+                //its network players turn to make a move set state
+                if (message.contains("YOURTURN")){
+                    this.networkPlayer.setState(new InMatchPlayerTurnState());
+                }
+
+                //a match has been started by the server
+                if (message.contains("MATCH")){
+                    if (client2.messageToMap().get("GAMETYPE").equals("Tic-tac-toe")){
+                        this.createGame(GameType.TICTACTOE);
+                    }else {
+                        this.createGame(GameType.REVERSI);
+                    }
+                }
+            });
+        }catch (Exception e){
+            System.out.println("Could not connect to server: " + e);
+        }
     }
 
     //log the player into the multiplayer server and set username
@@ -105,7 +111,7 @@ public class MultiplayerController extends GameController {
     @Override
     public void createGame(GameType gameType) {
     	// TODO - Add players here
-        this.game = new GameOptions(Difficulty.MEDIUM, gameType, this.client);
+        this.game = new GameOptions(Difficulty.MEDIUM, gameType, this.players);
         this.game.setGameState(GameState.PLAYING);
 
         //set player state
@@ -115,7 +121,7 @@ public class MultiplayerController extends GameController {
     @Override
     public void createGame(Difficulty difficulty, GameType gameType) {
     	// TODO - Add players here
-        this.game = new GameOptions(difficulty, gameType, this.client);
+        this.game = new GameOptions(difficulty, gameType, this.players);
         this.game.setGameState(GameState.PLAYING);
 
         //set player state
@@ -125,5 +131,6 @@ public class MultiplayerController extends GameController {
     @Override
     public void endGame() {
         this.networkPlayer.forfeit(); //give up on current game this wil end the game
+        this.game.cleanUp(); //set players back to no game state
     }
 }
