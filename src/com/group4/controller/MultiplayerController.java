@@ -19,7 +19,7 @@ public class MultiplayerController extends GameController {
 
     protected Thread client_thread;
 
-    public NetworkPlayer player;
+    public NetworkPlayer networkPlayer;
 
     public MultiplayerController(){
         //create client for communication with server
@@ -29,7 +29,7 @@ public class MultiplayerController extends GameController {
         this.client_thread = new Thread(client);
         this.client_thread.start();
 
-        this.player = (NetworkPlayer) this.game.getPlayer("p1");
+        this.networkPlayer = (NetworkPlayer) this.game.getPlayer("p1");
 
         //temporary code
         String[] board = new String[]{
@@ -45,12 +45,12 @@ public class MultiplayerController extends GameController {
             //temporary code needs to be in game itself
             if (client1.getMessage().contains("WIN") || client1.getMessage().contains("LOSS") || client1.getMessage().contains("DRAW")){
                 System.out.println("Match over. Result: " + client1.getMessage());
-                this.player.setState(new LoginState());
+                this.networkPlayer.setState(new LoginState());
             }
 
             //temporary code needs to be in game itself
             if (client1.getMessage().contains("YOURTURN")){
-                this.player.setState(new InMatchPlayerTurnState());
+                this.networkPlayer.setState(new InMatchPlayerTurnState());
             }
 
             //temporary code for demo
@@ -83,45 +83,47 @@ public class MultiplayerController extends GameController {
 
     //log the player into the multiplayer server and set username
     public void login(ActionEvent event){
-        this.player.setName("idea"); //name from view form field here
-        this.player.login();
+        this.networkPlayer.setName("idea"); //name from view form field here
+        this.networkPlayer.login();
     }
 
     //logout from server
     public void logout(){
-        this.player.logout();
+        this.networkPlayer.logout();
     }
 
     //subscribe to game type
     public void subscribe(String type){
-        this.player.subscribe(type);// game name from view form field here
+        this.networkPlayer.subscribe(type);// game name from view form field here
     }
 
     //get available games from server
     public void getAvailableGames(){
-        this.player.getAvailableGames();
+        this.networkPlayer.getAvailableGames();
     }
 
     @Override
     public void createGame(GameType gameType) {
+    	// TODO - Add players here
         this.game = new GameOptions(Difficulty.MEDIUM, gameType, this.client);
         this.game.setGameState(GameState.PLAYING);
 
         //set player state
-        this.player.setState(new InMatchNoTurnState());
+        this.networkPlayer.setState(new InMatchNoTurnState());
     }
 
     @Override
     public void createGame(Difficulty difficulty, GameType gameType) {
+    	// TODO - Add players here
         this.game = new GameOptions(difficulty, gameType, this.client);
         this.game.setGameState(GameState.PLAYING);
 
         //set player state
-        this.player.setState(new InMatchNoTurnState());
+        this.networkPlayer.setState(new InMatchNoTurnState());
     }
 
     @Override
     public void endGame() {
-        this.player.forfeit(); //give up on current game this wil end the game
+        this.networkPlayer.forfeit(); //give up on current game this wil end the game
     }
 }

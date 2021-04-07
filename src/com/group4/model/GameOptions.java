@@ -9,7 +9,6 @@ import com.group4.util.BoardObserver;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.network.Client;
-import com.group4.util.network.NetworkPlayer;
 
 public class GameOptions {
 	
@@ -69,7 +68,7 @@ public class GameOptions {
 		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
 		
 		for(int playerCount = 1; playerCount < 3; playerCount++) {
-			this.players.put("p" + playerCount, new Player("p" + playerCount, this.game));
+			this.players.put("p" + playerCount, new Player("p" + playerCount));
 		}
 		
 		// Create board
@@ -79,12 +78,13 @@ public class GameOptions {
     
     /***
      * Create a new multiplayer game with given difficulty + gametype
+     * Make the network player p1 so it can be retrieved using the getPlayer method
      * 
      * @param difficulty
      * @param gameType
      * @author mobieljoy12
      */
-	public GameOptions(Difficulty difficulty, GameType gameType, Client client) {
+	public GameOptions(Difficulty difficulty, GameType gameType, Client client, HashMap<String, Player> players) {
 		
 		this.difficulty = difficulty;
 		this.gameType = gameType;
@@ -94,8 +94,8 @@ public class GameOptions {
 		
 		// Create players, if multiplayer, networkplayer is p1
 		// Get network player via getPlayer("p1")
-		this.players.put("p1", new NetworkPlayer("p1", this.game, client));
-		this.players.put("p2", new Player("p2", this.game));
+		players.values().forEach((p) -> p.setGameProperty(this.game));
+		this.players = players;
 		
 		// Create board
 		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
@@ -177,4 +177,12 @@ public class GameOptions {
 	public HashMap<String, Player> getPlayers(){
 		return this.players;
 	}
+	
+	/***
+	 * Make sure all players are no longer in game
+	 */
+	public void cleanUp() {
+		this.players.values().forEach((p) -> p.setGameProperty(null));
+	}
+	
 }
