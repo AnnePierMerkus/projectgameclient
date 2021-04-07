@@ -9,6 +9,11 @@ import com.group4.util.network.NetworkPlayerStates.InMatchNoTurnState;
 import com.group4.util.network.NetworkPlayerStates.InMatchPlayerTurnState;
 import com.group4.util.network.NetworkPlayerStates.LoginState;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
 import java.util.HashMap;
 
@@ -26,6 +31,12 @@ public class MultiplayerController extends GameController {
     protected HashMap<String, Player> players;
 
     public NetworkPlayer networkPlayer;
+
+    @FXML
+    StackPane loginScreen;
+
+    @FXML
+    GridPane matchmaking;
 
     public MultiplayerController(){
         //create client for communication with server
@@ -83,10 +94,19 @@ public class MultiplayerController extends GameController {
         });
     }
 
+    public void ff(KeyEvent event)
+    {
+        if(event.getCode() == KeyCode.ENTER)
+            login(null);
+    }
+
     //log the player into the multiplayer server and set username
     public void login(ActionEvent event){
         this.networkPlayer.setName("idea"); //name from view form field here
         this.networkPlayer.login();
+
+        loginScreen.setVisible(false);
+        matchmaking.setVisible(true);
     }
 
     //logout from server
