@@ -47,6 +47,11 @@ public class LogoutState implements NetworkPlayerState{
     }
 
     @Override
+    public void getPlayerList(NetworkPlayer player) {
+        System.out.println("Player is not logged in. Cannot retrieve player list.");
+    }
+
+    @Override
     public void subscribePlayerToGame(NetworkPlayer player, String game) {
         System.out.println("Player is not logged in. Cannot subscribe to game.");
     }
