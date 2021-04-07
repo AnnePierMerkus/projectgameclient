@@ -93,8 +93,9 @@ public class REVERSI extends GameProperty {
 	@Override
 	public boolean makeMove(Tile tile, Player player) {
 		if(this.isLegalMove(tile, player)) {
-			// TODO change or set the player of the given tile in the board.
 			tile.setOccupant(player);
+			// TODO update change in board
+			swapTiles(tile, player);
 			return true;
 		}
 		return false;
