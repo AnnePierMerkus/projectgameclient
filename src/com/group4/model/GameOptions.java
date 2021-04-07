@@ -8,7 +8,6 @@ import com.group4.controller.GameController.GameType;
 import com.group4.util.BoardObserver;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
-import com.group4.util.network.Client;
 
 public class GameOptions {
 	
@@ -44,7 +43,9 @@ public class GameOptions {
     @SuppressWarnings("deprecation")
     private GameProperty instantiate(final String className, @SuppressWarnings("rawtypes") final Class type) {
     	try {
-            return (GameProperty) type.cast(Class.forName(className).newInstance());
+    		GameProperty newGame = (GameProperty) type.cast(Class.forName(className).newInstance());
+    		newGame.setGameOptions(this);
+            return newGame;
         } catch (InstantiationException
                 | IllegalAccessException
                 | ClassNotFoundException e) {

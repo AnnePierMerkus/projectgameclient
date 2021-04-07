@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.group4.model.GameOptions;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.Tile;
 
 public class REVERSI extends GameProperty {
 
-	public REVERSI(GameOptions gameoptions) {
-		super(gameoptions);
+	public REVERSI() {
 		this.displayNames.put("p1", "1");
 		this.displayNames.put("p2", "2");
 	}
