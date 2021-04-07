@@ -1,12 +1,15 @@
 package com.group4.controller;
 
 import com.group4.model.GameOptions;
+import com.group4.util.Player;
 import com.group4.util.network.Client;
 import com.group4.util.network.NetworkPlayer;
 import com.group4.util.network.NetworkPlayerStates.InMatchNoTurnState;
 import com.group4.util.network.NetworkPlayerStates.InMatchPlayerTurnState;
 import com.group4.util.network.NetworkPlayerStates.LoginState;
 import javafx.event.ActionEvent;
+
+import java.util.HashMap;
 
 /**
  *
@@ -19,6 +22,8 @@ public class MultiplayerController extends GameController {
 
     protected Thread client_thread;
 
+    protected HashMap<String, Player> players;
+
     public NetworkPlayer networkPlayer;
 
     public MultiplayerController(){
@@ -29,7 +34,13 @@ public class MultiplayerController extends GameController {
         this.client_thread = new Thread(client);
         this.client_thread.start();
 
-        this.networkPlayer = (NetworkPlayer) this.game.getPlayer("p1");
+        //create networkplayer
+        this.networkPlayer = new NetworkPlayer("p1", client);
+
+        //add networkplayer to players list
+        this.players.put("p1", this.networkPlayer);
+
+
 
         //temporary code
         String[] board = new String[]{
@@ -105,7 +116,7 @@ public class MultiplayerController extends GameController {
     @Override
     public void createGame(GameType gameType) {
     	// TODO - Add players here
-        this.game = new GameOptions(Difficulty.MEDIUM, gameType, this.client);
+        this.game = new GameOptions(Difficulty.MEDIUM, gameType, this.players);
         this.game.setGameState(GameState.PLAYING);
 
         //set player state
@@ -115,7 +126,7 @@ public class MultiplayerController extends GameController {
     @Override
     public void createGame(Difficulty difficulty, GameType gameType) {
     	// TODO - Add players here
-        this.game = new GameOptions(difficulty, gameType, this.client);
+        this.game = new GameOptions(difficulty, gameType, this.players);
         this.game.setGameState(GameState.PLAYING);
 
         //set player state

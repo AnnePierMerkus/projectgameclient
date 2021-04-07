@@ -24,12 +24,11 @@ public class NetworkPlayer extends Player {
      * Create a new network connected player
      *
      * @param id user id
-     * @param gameProperty game instance
      * @param client client connected to server
      *
      */
-    public NetworkPlayer(String id, GameProperty gameProperty, Client client) {
-        super(id, gameProperty);
+    public NetworkPlayer(String id, Client client) {
+        super(id);
         this.client = client;
 
         //set default player name
@@ -43,11 +42,10 @@ public class NetworkPlayer extends Player {
      *
      * @param id user id
      * @param name user display name for server
-     * @param gameProperty game instance
      * @param client
      */
-    public NetworkPlayer(String id, String name, GameProperty gameProperty, Client client) {
-        super(id, gameProperty);
+    public NetworkPlayer(String id, String name, Client client) {
+        super(id);
         this.client = client;
 
         //set name
@@ -66,8 +64,7 @@ public class NetworkPlayer extends Player {
      */
     @Override
     public boolean makeMove(Tile tile) {
-        this.state.makeMove(this, tile.getRowCoordinate() * tile.getColumnCoordinate());//TODO need to be altered a bit
-
+        this.state.makeMove(this, tile.getIndex());
         return super.makeMove(tile);
     }
 

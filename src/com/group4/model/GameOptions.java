@@ -84,7 +84,7 @@ public class GameOptions {
      * @param gameType
      * @author mobieljoy12
      */
-	public GameOptions(Difficulty difficulty, GameType gameType, Client client, HashMap<String, Player> players) {
+	public GameOptions(Difficulty difficulty, GameType gameType, HashMap<String, Player> players) {
 		
 		this.difficulty = difficulty;
 		this.gameType = gameType;
