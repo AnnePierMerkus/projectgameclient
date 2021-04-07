@@ -24,6 +24,15 @@ public class REVERSI extends GameProperty {
 	public int getBoardHeight() {
 		return 8;
 	}
+	
+	@Override
+	public void doSetup() {
+		// Set the default values on the board
+		this.game.getBoard().getTile(27).setOccupant(this.game.getPlayer("p1"));
+		this.game.getBoard().getTile(36).setOccupant(this.game.getPlayer("p1"));
+		this.game.getBoard().getTile(28).setOccupant(this.game.getPlayer("p2"));
+		this.game.getBoard().getTile(35).setOccupant(this.game.getPlayer("p2"));
+	}
 
 	@Override
 	public int playerStart() {

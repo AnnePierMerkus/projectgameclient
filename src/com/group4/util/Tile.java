@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

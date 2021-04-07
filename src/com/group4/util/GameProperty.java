@@ -56,6 +56,12 @@ public abstract class GameProperty {
 	public abstract int getBoardHeight();
 	
 	/***
+	 * Method will be called before the match starts and after the board is made
+	 * E.g. for setting tiles
+	 */
+	public abstract void doSetup();
+	
+	/***
 	 * The player that should start the game
 	 * Set to -1 if player should be chosen at random
 	 * Use 0 if first listed player should start, 1 if the second etc.
