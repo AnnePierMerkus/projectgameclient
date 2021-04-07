@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<?import com.group4.view.MyToggleButton?>
+<GridPane
+    vgap="2"
+    minHeight="500"
+    alignment="TOP_CENTER"
+    xmlns:fx="http://javafx.com/fxml">
+    <padding>
+        <Insets
+            left="50"
+            right="50"/>
+    </padding>
+
+    <Text
+        text="Available games:"
+        GridPane.columnIndex="0"
+        GridPane.rowIndex="0">
+        <GridPane.margin>
+            <Insets
+            bottom="-20"/>
+        </GridPane.margin>
+    </Text>
+
+    <GridPane
+        fx:id="Games"
+        alignment="TOP_CENTER"
+        GridPane.columnIndex="0"
+        GridPane.rowIndex="1"
+        hgap="0"
+        vgap="2" >
+
+        <HBox
+            spacing="10"
+            GridPane.hgrow="ALWAYS"
+            maxWidth="500"
+            maxHeight="500"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="0">
+
+            <MyToggleButton
+                style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                text="tic-tac-toe"
+                alignment="CENTER_LEFT"
+                HBox.hgrow="ALWAYS"
+                maxWidth="500"
+                maxHeight="300" />
+        </HBox>
+
+
+        <HBox
+            spacing="10"
+            alignment="CENTER_RIGHT"
+            maxWidth="500"
+            maxHeight="500"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="1">
+
+            <MyToggleButton
+                style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                text="Reversi"
+                alignment="CENTER_LEFT"
+                HBox.hgrow="ALWAYS"
+                maxWidth="500"
+                maxHeight="300" />
+        </HBox>
+
+        <rowConstraints>
+            <RowConstraints minHeight="40" maxHeight="40" />
+            <RowConstraints minHeight="40" maxHeight="40" />
+        </rowConstraints>
+    </GridPane>
+
+    <HBox
+        spacing="10"
+        maxWidth="500"
+        maxHeight="500"
+        alignment="TOP_RIGHT"
+        GridPane.columnIndex="0"
+        GridPane.rowIndex="2">
+
+        <GridPane.margin>
+            <Insets
+                top="10"/>
+        </GridPane.margin>
+
+        <MyToggleButton
+            style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+            text="Find Players"
+            HBox.hgrow="ALWAYS"
+            maxWidth="100"
+            maxHeight="300" />
+    </HBox>
+
+    <Text
+        text="Online players:"
+        GridPane.columnIndex="0"
+        GridPane.rowIndex="3">
+        <GridPane.margin>
+            <Insets
+                bottom="-20"/>
+        </GridPane.margin>
+    </Text>
+
+    <GridPane
+        fx:id="Players"
+        alignment="TOP_CENTER"
+        GridPane.columnIndex="0"
+        GridPane.rowIndex="4"
+        hgap="0"
+        vgap="2" >
+
+        <HBox
+            spacing="10"
+            GridPane.hgrow="ALWAYS"
+            maxWidth="500"
+            maxHeight="500"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="0">
+
+            <MyToggleButton
+                style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                text="Pro_player_69"
+                alignment="CENTER_LEFT"
+                HBox.hgrow="ALWAYS"
+                maxWidth="500"
+                maxHeight="300" />
+        </HBox>
+
+
+        <HBox
+            spacing="10"
+            alignment="CENTER_RIGHT"
+            maxWidth="500"
+            maxHeight="500"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="1">
+
+            <MyToggleButton
+                style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                text="Idea"
+                alignment="CENTER_LEFT"
+                HBox.hgrow="ALWAYS"
+                maxWidth="500"
+                maxHeight="300" />
+        </HBox>
+
+        <rowConstraints>
+            <RowConstraints minHeight="40" maxHeight="40" />
+            <RowConstraints minHeight="40" maxHeight="40" />
+        </rowConstraints>
+    </GridPane>
+
+    <HBox
+        spacing="10"
+        maxWidth="500"
+        maxHeight="500"
+        alignment="TOP_RIGHT"
+        GridPane.columnIndex="0"
+        GridPane.rowIndex="5">
+
+        <GridPane.margin>
+            <Insets
+                top="10"/>
+        </GridPane.margin>
+        <MyToggleButton
+            style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+            text="Challenge"
+            HBox.hgrow="ALWAYS"
+            maxWidth="100"
+            maxHeight="300" />
+    </HBox>
+
+    <GridPane
+        style="-fx-border-color: black"
+        fx:id="Notification"
+        alignment="TOP_RIGHT"
+        GridPane.columnIndex="0"
+        GridPane.rowIndex="7"
+        hgap="10"
+        vgap="2" >
+        <padding>
+            <Insets
+                left="10"
+                top="10"
+                bottom="10"
+                right="4"/>
+        </padding>
+
+        <Text
+            text="You have been challenged by: placeholder"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="0" />
+        <HBox
+            spacing="10"
+            GridPane.hgrow="ALWAYS"
+            maxWidth="500"
+            maxHeight="500"
+            GridPane.columnIndex="1"
+            GridPane.rowIndex="0">
+
+            <MyToggleButton
+                style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                text="Accept"
+                HBox.hgrow="ALWAYS"
+                maxWidth="500"
+                maxHeight="300" />
+        </HBox>
+
+        <HBox
+            spacing="10"
+            alignment="CENTER_RIGHT"
+            maxWidth="500"
+            maxHeight="500"
+            GridPane.columnIndex="2"
+            GridPane.rowIndex="0">
+
+            <MyToggleButton
+                style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                text="Decline"
+                HBox.hgrow="ALWAYS"
+                maxWidth="500"
+                maxHeight="300" />
+        </HBox>
+
+        <columnConstraints>
+            <ColumnConstraints minWidth="225" maxWidth="225" />
+            <ColumnConstraints minWidth="60" maxWidth="60" />
+            <ColumnConstraints minWidth="60" maxWidth="60" />
+        </columnConstraints>
+    </GridPane>
+
+    <rowConstraints>
+        <RowConstraints minHeight="40" maxHeight="40" />
+        <RowConstraints minHeight="83" maxHeight="83" />
+        <RowConstraints minHeight="40" maxHeight="40" />
+        <RowConstraints minHeight="40" maxHeight="40" />
+        <RowConstraints minHeight="83" maxHeight="83" />
+        <RowConstraints minHeight="40" maxHeight="40" />
+        <RowConstraints minHeight="40" maxHeight="40" />
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints minWidth="400" />
+    </columnConstraints>
+</GridPane>

@@ -81,8 +81,8 @@ public class GameOptions implements Observable {
 		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
 		
 	}
-    
-    /***
+
+	/***
      * Create a new multiplayer game with given difficulty + gametype
      * 
      * @param difficulty
