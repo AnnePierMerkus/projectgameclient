@@ -1,4 +1,6 @@
 out/
+.idea/
+.idea
 Project2.3Framework.iml
 *.iml
 *.bin
