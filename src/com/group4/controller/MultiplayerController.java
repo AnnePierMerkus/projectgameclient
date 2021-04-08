@@ -197,6 +197,8 @@ public class MultiplayerController extends GameController {
         }else {
             System.out.println("Please select a game");
         }
+
+        challenge_btn.setSelected(false);
     }
 
     @FXML
@@ -316,7 +318,16 @@ public class MultiplayerController extends GameController {
 
     //subscribe to game type
     public void subscribe(ActionEvent event){
-        this.networkPlayer.subscribe("");// game name from view form field here
+        ToggleButton join_lobby_btn = (ToggleButton) event.getSource();
+
+        ToggleButton selected_game_btn = (ToggleButton) this.GameGroup.getSelectedToggle();
+
+        if (selected_game_btn != null){
+            this.networkPlayer.subscribe(selected_game_btn.getText());// game name from view form field here
+        }else{
+            System.out.println("please select a game to join");
+        }
+
         joinLobby.setSelected(false);
     }
 
