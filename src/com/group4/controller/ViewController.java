@@ -162,7 +162,6 @@ public class ViewController {
         int column = 0;
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
-
             root.add((Tile)pair.getValue(), column, row);
             column++;
 
@@ -171,8 +170,6 @@ public class ViewController {
                 column = 0;
                 row++;
             }
-
-            it.remove();
         }
         return root;
     }

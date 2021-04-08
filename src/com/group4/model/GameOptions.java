@@ -72,16 +72,16 @@ public class GameOptions {
 		
 		// Create the game
 		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
-		
+
 		// Create board
 		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
-		
+
 		// Setup the board if needed - TODO ~ Test the setup
 		this.game.doSetup();
 		
 		// Give the first player the turn
 		this.toggleTurn();
-		
+
 	}
 	
 	/***
