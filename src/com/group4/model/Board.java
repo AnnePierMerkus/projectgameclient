@@ -113,9 +113,7 @@ public class Board implements Observable {
 
 	@Override
 	public void notifyObservers() {
-		for(Observer observer : boardObservers) {
-			observer.update(null);
-		}		
+		this.boardObservers.forEach((o) -> o.update(this));	
 	}
 }
 

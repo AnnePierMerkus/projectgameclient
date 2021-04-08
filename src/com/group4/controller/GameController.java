@@ -1,6 +1,8 @@
 package com.group4.controller;
 
 import com.group4.model.GameOptions;
+import com.group4.util.PlayerObserver;
+import com.group4.util.Tile;
 
 public abstract class GameController extends Controller {
 	
@@ -15,6 +17,9 @@ public abstract class GameController extends Controller {
 	public enum GameState {
 		PREPARING, PLAYING, ENDED
 	}
+	
+	// Initiate the player observer
+	protected PlayerObserver playerObserver = new PlayerObserver(this);
 	
 	// The game that is currently going on
 	protected GameOptions game = null;
@@ -32,6 +37,20 @@ public abstract class GameController extends Controller {
 	 */
 	public GameOptions getOptions() {
 		return this.game;
+	}
+	
+	/***
+	 * Returns player index on which player has the turn
+	 * 0 for p1, 1 for p2 etc.
+	 * Returns negative when no player has the turn
+	 * 
+	 * @return int - Which player has the turn
+	 */
+	public int toggleTurn() {
+		if(this.game != null) { // No player currently has the turn
+			return this.game.toggleTurn();
+		}
+		return -1;
 	}
 	
 	/***

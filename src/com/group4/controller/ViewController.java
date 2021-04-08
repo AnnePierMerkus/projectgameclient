@@ -153,7 +153,7 @@ public class ViewController {
 
     public GridPane fillInBoard() {
         GridPane root = new GridPane();
-        GameController gameController = new SingleplayerGameController(false);
+        GameController gameController = new SingleplayerGameController();
         gameController.createGame(GameController.Difficulty.EASY, gameType);
         root.setPrefSize(600, 600);
 

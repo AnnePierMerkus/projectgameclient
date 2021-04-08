@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -33,11 +31,10 @@ public class Tile extends StackPane implements Observable {
 		border.setStroke(Color.BLACK);
 		setAlignment(Pos.CENTER);
 		getChildren().addAll(border);
-
+		
 		setOnMouseClicked(mouseEvent ->
 		{
-			setStyle("-fx-background-color: blue");
-			System.out.println("Clicked on " + this.getIndex());
+			PlayerList.players.values().forEach((p) -> p.makeMove(this));
 		});
 	}
 	
@@ -70,6 +67,10 @@ public class Tile extends StackPane implements Observable {
 	 */
 	public void setOccupant(Player occupant) {
 		this.playerOnTile = occupant;
+		if(occupant != null) {
+			String color = (this.playerOnTile.getId().equals("p1")) ? "black" : "gray";
+			setStyle("-fx-background-color: " + color);
+		}
 		this.notifyObservers();
 	}
 	
@@ -104,7 +105,7 @@ public class Tile extends StackPane implements Observable {
 
 	@Override
 	public void notifyObservers() {
-		this.observers.forEach((o) -> o.update(null));
+		this.observers.forEach((o) -> o.update(this));
 	}
 	
 }

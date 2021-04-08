@@ -19,6 +19,18 @@ public abstract class GameProperty {
 	protected HashMap<String, String> displayNames = new HashMap<String, String>();
 	protected GameOptions game = null;
 
+	//TODO remove later
+	public void tempDisplayBoard() {
+		for(int row = 0; row < this.game.getBoard().getHeight(); row++) {
+			for(int col = 0; col < this.game.getBoard().getWidth(); col++) {
+				// ((row * getRowWidth()) + column)
+				int tileIndex = (row * this.game.getBoard().getWidth()) + col;
+				String id = (this.game.getBoard().getTile(tileIndex).getOccupant() == null) ? "" : this.game.getBoard().getTile((row * this.game.getBoard().getWidth()) + col).getOccupant().getId();
+				System.out.println(" [" + id + "] ");
+			}
+		}
+	}
+	
 	/***
 	 * Set the Gameoptions
 	 * 
@@ -54,6 +66,12 @@ public abstract class GameProperty {
 	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract int getBoardHeight();
+	
+	/***
+	 * Method will be called before the match starts and after the board is made
+	 * E.g. for setting tiles
+	 */
+	public abstract void doSetup();
 	
 	/***
 	 * The player that should start the game

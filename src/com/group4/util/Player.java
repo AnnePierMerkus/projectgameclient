@@ -1,15 +1,27 @@
 package com.group4.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+import com.group4.util.observers.Observable;
+import com.group4.util.observers.Observer;
 
+public class Player implements Observable {
+
+	public enum PlayerState {
+		WAITING, PLAYING_NO_TURN, PLAYING_HAS_TURN	
+	};
+	
 	// String because player id's should be formatted as: "p{id}"
 	// E.g. p1, p2, p3 etc.
 	private String id;
 	
 	// Gameproperty instance so player can reach the game object
 	private GameProperty gameProperty = null;
+	
+	private PlayerState playerState;
+	
+	private ArrayList<Observer> observers = new ArrayList<Observer>();
 	
 	/***
 	 * Create a new Player
@@ -20,6 +32,7 @@ public class Player {
 	 */
 	public Player(String id) {
 		this.id = id;
+		this.playerState = PlayerState.WAITING;
 	}
 	
 	/***
@@ -33,6 +46,24 @@ public class Player {
 	}
 	
 	/***
+	 * Get the PlayerState
+	 * 
+	 * @return PlayerState - The state the player is currently in
+	 */
+	public PlayerState getPlayerState() {
+		return this.playerState;
+	}
+	
+	/***
+	 * Set the player state
+	 * 
+	 * @param state - The state to set the player to
+	 */
+	public void setPlayerState(PlayerState state) {
+		this.playerState = state;
+	}
+	
+	/***
 	 * Make a move on the board on a given Tile
 	 * Returns false if player is not in a game
 	 * 
@@ -40,12 +71,12 @@ public class Player {
 	 * @return boolean - Whether the move was legal
 	 * @author mobieljoy12
 	 */
-	public boolean makeMove(Tile tile) {
-		if(this.gameProperty == null) {
-			//TODO - Catch exception, player is not in a game so he can not make a move
-			return false;
-		}
-		return (this.gameProperty.isLegalMove(tile, this)) ? this.gameProperty.makeMove(tile, this) : false;
+	public void makeMove(Tile tile) {
+		// Don't allow moves if player does not have the turn
+		if(this.playerState != PlayerState.PLAYING_HAS_TURN) return;
+		
+		// If move is legal, notify observers to toggle turn
+		if(this.gameProperty.makeMove(tile, this)) this.notifyObservers();
 	}
 	
 	/***
@@ -58,6 +89,7 @@ public class Player {
 	public List<Tile> getAvailableOptions(){
 		if(this.gameProperty == null) {
 			//TODO - Catch exception, player is not in a game so he can not get available options
+			System.out.println("Player tried getting options while gameproperty doesn't exist");
 			return null;
 		}
 		return this.gameProperty.getAvailableOptions(this);
@@ -70,6 +102,21 @@ public class Player {
 	 */
 	public void setGameProperty(GameProperty game) {
 		this.gameProperty = game;
+	}
+
+	@Override
+	public void registerObserver(Observer observer) {
+		this.observers.add(observer);
+	}
+
+	@Override
+	public void removeObserver(Observer observer) {
+		this.observers.remove(observer);
+	}
+
+	@Override
+	public void notifyObservers() {
+		this.observers.forEach((o) -> o.update(this));
 	}
 	
 }

@@ -22,6 +22,11 @@ public class TICTACTOE extends GameProperty {
 	public int getBoardHeight() {
 		return 3;
 	}
+	
+	@Override
+	public void doSetup() {
+		// No setup needed
+	}
 
 	@Override
 	public int playerStart() {
