@@ -75,7 +75,7 @@ public class GameOptions {
 
 		// Create board
 		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
-
+		
 		// Setup the board if needed - TODO ~ Test the setup
 		this.game.doSetup();
 		

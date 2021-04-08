@@ -47,11 +47,11 @@ public class REVERSI extends GameProperty {
 		HashMap<Integer, Tile> board = this.game.getBoard().getGameBoard();
 		for(Tile tile : board.values()) {
 			if(tile.getOccupant() == player) {
-				for(int i = 0; i < 7; i++) {
+				for(int i = 0; i < 8; i++) {
 					Tile currentTile = tile;
-					int directionOffset = getDirectionOffset(i);
+					int directionOffset = getDirectionOffset(i);					
 					boolean foundOpponentTile = false;
-					while(currentTile.getIndex() + directionOffset >= 0 && currentTile.getIndex() + directionOffset <= 63) {
+					while(currentTile.getIndex() + directionOffset >= 0 && currentTile.getIndex() + directionOffset <= 63) {						
 						currentTile = board.get(currentTile.getIndex() + directionOffset);
 						if((currentTile.getOccupant() == player) || (currentTile.getOccupant() == null && !(foundOpponentTile))) {
 							break;
@@ -71,35 +71,34 @@ public class REVERSI extends GameProperty {
 		return availableOptions;
 	}
 	
-	public HashMap<Integer, Tile> swapTiles(Tile tile, Player player) {
+	public void swapTiles(Tile tile, Player player) {
 		HashMap<Integer, Tile> board = this.game.getBoard().getGameBoard();
-		for(int i = 0; i < 7; i++) {
+		for(int i = 0; i < 8; i++) {
 			Tile currentTile = tile;
 			int directionOffset = getDirectionOffset(i);
 			ArrayList<Tile> candidateTiles = new ArrayList<Tile>();
 			while(currentTile.getIndex() + directionOffset >= 0 && currentTile.getIndex() + directionOffset <= 63) {
 				currentTile = board.get(currentTile.getIndex() + directionOffset);
-				if((currentTile.getOccupant() == player && candidateTiles.isEmpty()) || (currentTile.getOccupant() == null && candidateTiles.isEmpty())) {
+				if((currentTile.getOccupant() == player && candidateTiles.isEmpty()) || (currentTile.getOccupant() == null)) {
 					break;
 				}
 				else if(currentTile.getOccupant() != player && currentTile.getOccupant() != null) {
 					candidateTiles.add(currentTile);
 					continue;
 				}
-				else if(currentTile.getOccupant() == null && !(candidateTiles.isEmpty())) {
+				else if(currentTile.getOccupant() == player && !(candidateTiles.isEmpty())) {
 					for(Tile candidateTile : candidateTiles) {
-						candidateTile.setOccupant(player);
-						board.put(candidateTile.getIndex(), candidateTile);
+						this.game.getBoard().getTile(candidateTile.getIndex()).setOccupant(player);
 					}	
 					break;
 				}	
 			}
 		}
-		return board;
 	}
 
 	@Override
 	public boolean makeMove(Tile tile, Player player) {
+		System.out.println(player.getId());
 		System.out.println("Making move...");
 		if(this.isLegalMove(tile, player)) {
 			System.out.println("Move legal");
@@ -141,20 +140,28 @@ public class REVERSI extends GameProperty {
 		switch(direction) {
 			case 0:
 				offset = -8;
+				break;
 			case 1:
 				offset =  -7;
+				break;
 			case 2:
 				offset =  +1;
+				break;
 			case 3:
 				offset =  +9;
+				break;
 			case 4:
 				offset =  +8;
+				break;
 			case 5:
 				offset =  +7;
+				break;
 			case 6:
 				offset =  -1;
+				break;
 			case 7:
 				offset =  -9;
+				break;
 		}
 		return offset;
 	}
