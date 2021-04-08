@@ -159,10 +159,22 @@
                     top="10"/>
             </GridPane.margin>
 
+
+            <MyToggleButton
+                fx:id="joinLobby"
+                style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                text="Join Lobby"
+                HBox.hgrow="ALWAYS"
+                maxWidth="100"
+                focusTraversable="false"
+                maxHeight="300"
+                onAction="#subscribe"/>
+
             <MyToggleButton
                 fx:id="findPlayers"
                 style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
                 text="Find Players"
+                focusTraversable="false"
                 HBox.hgrow="ALWAYS"
                 maxWidth="100"
                 maxHeight="300"
@@ -255,7 +267,7 @@
                 GridPane.rowIndex="0">
 
                 <MyToggleButton
-                        fx:id="notificationAcceptBtn"
+                    fx:id="notificationAcceptBtn"
                     style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
                     text="Accept"
                     HBox.hgrow="ALWAYS"

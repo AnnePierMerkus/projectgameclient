@@ -16,6 +16,8 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -26,8 +28,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Multiplayer Controller for controlling multiplayer view and network player
@@ -61,6 +66,9 @@ public class MultiplayerController extends GameController {
 
     @FXML
     MyToggleButton findPlayers;
+
+    @FXML
+    MyToggleButton joinLobby;
 
     @FXML
     ToggleGroup PlayersGroup;
@@ -307,8 +315,9 @@ public class MultiplayerController extends GameController {
     }
 
     //subscribe to game type
-    public void subscribe(String type){
-        this.networkPlayer.subscribe(type);// game name from view form field here
+    public void subscribe(ActionEvent event){
+        this.networkPlayer.subscribe("");// game name from view form field here
+        joinLobby.setSelected(false);
     }
 
     //get available games from server
@@ -331,6 +340,13 @@ public class MultiplayerController extends GameController {
 
         //set player state
         this.networkPlayer.setState(new InMatchNoTurnState());
+
+        Stage stage = (Stage) notificationAcceptBtn.getScene().getWindow();
+
+        Platform.runLater(() -> {
+            Scene scene = new Scene(fillInBoard());
+            stage.setScene(scene);
+        });
     }
 
     @Override
@@ -348,8 +364,6 @@ public class MultiplayerController extends GameController {
 
         //set player state
         this.networkPlayer.setState(new InMatchNoTurnState());
-
-        //TODO SWAP SCENE TO GAME
     }
 
     @Override
@@ -388,6 +402,27 @@ public class MultiplayerController extends GameController {
         this.networkPlayer.acceptChallenge(this.current_challenge.getCode());
         this.Notification.setVisible(false);
         this.notificationAcceptBtn.setVisible(false);
+    }
+
+    public GridPane fillInBoard() {
+        GridPane root = new GridPane();
+        root.setPrefSize(600, 600);
+
+        Iterator it = getOptions().getBoard().getGameBoard().entrySet().iterator();
+        int row = 0;
+        int column = 0;
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            root.add((Tile)pair.getValue(), column, row);
+            column++;
+
+            if (((int)pair.getKey() + 1) % getOptions().getBoard().getWidth() == 0)
+            {
+                column = 0;
+                row++;
+            }
+        }
+        return root;
     }
 
     public void notificationDecline(){

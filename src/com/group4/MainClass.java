@@ -35,35 +35,4 @@ public class MainClass extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-
-	public void networkTestCode(){
-        //network test code REMOVE IN FINAL VERSION
-        MultiplayerController multiplayerController = new MultiplayerController();
-
-
-        //the while loop represent the view that wil be implemented later
-        Scanner scanner = new Scanner(System.in);
-        int input = 0;
-        while((input = scanner.nextInt()) != 0){
-            switch (input){
-                case 1: multiplayerController.login(null);
-                    break;
-
-                case 2: multiplayerController.logout();
-                    break;
-
-                case 3: multiplayerController.getAvailableGames();
-                    break;
-
-                case 4: multiplayerController.subscribe("Tic-tac-toe");
-                    break;
-
-               // case 5: multiplayerController.player.makeMove(new Tile((scanner.nextInt() * multiplayerController.getOptions().getBoard().getWidth()) + scanner.nextInt()));
-                 //   break;
-
-                case 6: multiplayerController.endGame();
-                    break;
-            }
-        }
-    }
 }
