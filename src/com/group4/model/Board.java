@@ -31,7 +31,21 @@ public class Board implements Observable {
 		for(int row = 0; row < height; row++) {
 			for(int col = 0; col < width; col++) {
 				// ((row * getRowWidth()) + column)
-				Tile tile = new Tile((row * this.width) + col);
+				int weight = 0;
+				if ((row == 0 || row == height - 1) && (col == 0 || col == width - 1)) {
+					weight = 20;
+				}
+				else if (row == 0 || row == height - 1 || col == 0 || col == width - 1) {
+					weight = 10;
+				}
+				else if (row == 1 || row == height - 2 || col == 1 || col == width - 2) {
+					weight = 1;
+				}
+				else {
+					weight = 5;
+				}
+
+				Tile tile = new Tile((row * this.width) + col, weight);
 				tile.registerObserver(this.tileObserver);
 				this.gameBoard.put(tile.getIndex(), tile);
 			}

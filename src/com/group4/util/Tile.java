@@ -1,6 +1,8 @@
 package com.group4.util;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
@@ -13,7 +15,9 @@ import javafx.scene.shape.Rectangle;
 public class Tile extends StackPane implements Observable {
 	
 	private int index;
-	
+
+	private int weight = 0;
+
 	private Player playerOnTile = null;
 	
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
@@ -24,8 +28,39 @@ public class Tile extends StackPane implements Observable {
 	 * @param index
 	 * @author GRTerpstra
 	 */
+	public Tile(int index, int weight) {
+		this.index = index;
+		if (weight == 0)
+			this.weight = weight;
+		Rectangle border = new Rectangle(100, 100);
+		border.setFill(null);
+		border.setStroke(Color.BLACK);
+		setAlignment(Pos.CENTER);
+		getChildren().addAll(border);
+
+		setOnMouseClicked(mouseEvent ->
+		{
+			/*PlayerList.players.values().forEach((p) -> {
+				if (p.getPlayerState() == Player.PlayerState.PLAYING_HAS_TURN) {
+					p.makeMove(this);
+				}
+			});*/
+			Iterator it = PlayerList.players.entrySet().iterator();
+			while (it.hasNext())
+			{
+				Map.Entry pair = (Map.Entry)it.next();
+				if (((Player)pair.getValue()).getPlayerState() == Player.PlayerState.PLAYING_HAS_TURN)
+				{
+					((Player) pair.getValue()).makeMove(this);
+					break;
+				}
+			}
+		});
+	}
+
 	public Tile(int index) {
 		this.index = index;
+		this.weight = weight;
 		Rectangle border = new Rectangle(100, 100);
 		border.setFill(null);
 		border.setStroke(Color.BLACK);
@@ -47,7 +82,17 @@ public class Tile extends StackPane implements Observable {
 	public int getIndex() {
 		return this.index;
 	}
-	
+
+	/***
+	 * Get weight for this Tile
+	 *
+	 * @return int - weight
+	 * @author AnnePierMerkus
+	 */
+	public int getWeight() {
+		return this.weight;
+	}
+
 	/***
 	 * Get the Player on this Tile
 	 * Returns null if there is no player
@@ -68,7 +113,7 @@ public class Tile extends StackPane implements Observable {
 	public void setOccupant(Player occupant) {
 		this.playerOnTile = occupant;
 		if(occupant != null) {
-			String color = (this.playerOnTile.getId().equals("p1")) ? "gray" : "black";
+			String color = (this.playerOnTile.getId().equals("p1")) ? "blue" : "red";
 			setStyle("-fx-background-color: " + color);
 		}
 		this.notifyObservers();

@@ -3,6 +3,8 @@ package com.group4.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.group4.AI.AI_Interface;
+import com.group4.AI.Reversi_AI;
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
 
@@ -23,6 +25,8 @@ public class Player implements Observable {
 	private PlayerState playerState;
 	
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
+
+	private AI_Interface ai_interface;
 	
 	/***
 	 * Create a new Player
@@ -34,7 +38,19 @@ public class Player implements Observable {
 		this.id = id;
 		this.playerState = PlayerState.WAITING;
 	}
-	
+
+	/***
+	 * Create a new Player
+	 *
+	 * @param id
+	 * @author mobieljoy12
+	 */
+	public Player(String id, AI_Interface ai_interface) {
+		this.ai_interface = ai_interface;
+		this.id = id;
+		this.playerState = PlayerState.WAITING;
+	}
+
 	/***
 	 * Get player id
 	 * 
@@ -76,9 +92,22 @@ public class Player implements Observable {
 	public void makeMove(Tile tile) {
 		// Don't allow moves if player does not have the turn
 		if(this.playerState != PlayerState.PLAYING_HAS_TURN) return;
-		
-		// If move is legal, notify observers to toggle turn
-		if(this.gameProperty.makeMove(tile, this)) this.notifyObservers();
+		System.out.println("noai" + this.getId());
+		if (ai_interface != null)
+		{
+			try {
+				System.out.println("sleep" + this.getId());
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			this.gameProperty.makeMove(ai_interface.makeMove(getAvailableOptions()), this);
+			this.notifyObservers();
+		} // If move is legal, notify observers to toggle turn
+		else if(this.gameProperty.makeMove(tile, this)){
+			this.notifyObservers();
+
+		}
 	}
 	
 	/***

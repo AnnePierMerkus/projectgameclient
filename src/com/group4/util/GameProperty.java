@@ -26,9 +26,8 @@ public abstract class GameProperty {
 				// ((row * getRowWidth()) + column)
 				int tileIndex = (row * this.game.getBoard().getWidth()) + col;
 				String id = (this.game.getBoard().getTile(tileIndex).getOccupant() == null) ? "" : this.game.getBoard().getTile((row * this.game.getBoard().getWidth()) + col).getOccupant().getId();
-				System.out.print(" [" + id + "] ");
+				//System.out.print(" [" + id + "] ");
 			}
-			System.out.println();
 		}
 
 	}
