@@ -27,7 +27,6 @@ public class Player implements Observable {
 	 * Create a new Player
 	 * 
 	 * @param id
-	 * @param gameProperty
 	 * @author mobieljoy12
 	 */
 	public Player(String id) {

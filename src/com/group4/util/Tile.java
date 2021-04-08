@@ -31,7 +31,7 @@ public class Tile extends StackPane implements Observable {
 		border.setStroke(Color.BLACK);
 		setAlignment(Pos.CENTER);
 		getChildren().addAll(border);
-		
+
 		setOnMouseClicked(mouseEvent ->
 		{
 			PlayerList.players.values().forEach((p) -> p.makeMove(this));
