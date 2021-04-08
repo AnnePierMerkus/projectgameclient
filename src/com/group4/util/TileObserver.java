@@ -13,7 +13,9 @@ public class TileObserver implements Observer {
 	
 	@Override
 	public void update(Object object) {
-		board.notifyObservers();
+		Tile tile = (Tile) object;
+		
+		this.board.notifyObservers();
 	}
 
 }

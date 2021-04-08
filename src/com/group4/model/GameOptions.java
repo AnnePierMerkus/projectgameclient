@@ -1,13 +1,11 @@
 package com.group4.model;
 
-import java.util.HashMap;
-
+import java.util.concurrent.ThreadLocalRandom;
 import com.group4.controller.GameController.Difficulty;
 import com.group4.controller.GameController.GameState;
 import com.group4.controller.GameController.GameType;
 import com.group4.util.BoardObserver;
 import com.group4.util.GameProperty;
-import com.group4.util.Player;
 
 public class GameOptions {
 	
@@ -26,8 +24,8 @@ public class GameOptions {
 	// The boardobserver
 	private BoardObserver boardObserver = new BoardObserver(this);
 	
-	// Save the players into a map with Id => Player object
-	private HashMap<String, Player> players = new HashMap<String, Player>();
+	// Which player has the turn, negative if no game is going on
+	private int playerTurn = -1;
 	
 	// Set the default gameState to preparing
 	private GameState gameState = GameState.PREPARING;
@@ -54,7 +52,7 @@ public class GameOptions {
     }
 	
     /***
-     * Create a new singleplayer game with given difficulty + gametype
+     * Create a new game with given difficulty + gametype
      * 
      * @param difficulty
      * @param gameType
@@ -68,45 +66,45 @@ public class GameOptions {
 		// Create the game
 		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
 		
-		for(int playerCount = 1; playerCount < 3; playerCount++) {
-			this.players.put("p" + playerCount, new Player("p" + playerCount));
-		}
-		
 		// Create board
 		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
 		
 		// Setup the board if needed - TODO ~ Test the setup
 		this.game.doSetup();
 		
+		// Give the first player the turn
+		this.toggleTurn();
+		
 	}
-
+	
 	/***
-     * Create a new multiplayer game with given difficulty + gametype
-     * Make the network player p1 so it can be retrieved using the getPlayer method
-     * 
-     * @param difficulty
-     * @param gameType
-     * @author mobieljoy12
-     */
-	public GameOptions(Difficulty difficulty, GameType gameType, HashMap<String, Player> players) {
-		
-		this.difficulty = difficulty;
-		this.gameType = gameType;
-		
-		// Create the game
-		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
-		
-		// Create players, if multiplayer, networkplayer is p1
-		// Get network player via getPlayer("p1")
-		players.values().forEach((p) -> p.setGameProperty(this.game));
-		this.players = players;
-		
-		// Create board
-		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
-		
-		// Setup the board if needed
-		this.game.doSetup();
-		
+	 * Returns player index on which player has the turn
+	 * 0 for p1, 1 for p2 etc.
+	 * Returns negative when no player has the turn
+	 * 
+	 * @return int - Which player has the turn
+	 */
+	public int toggleTurn() {
+		if(this.playerTurn < 0) { // No player currently has the turn
+			int gameBasePlayerStart = this.game.playerStart();
+			if(gameBasePlayerStart < 0) { // Game says player start doesn't matter
+				this.playerTurn = ThreadLocalRandom.current().nextInt(0, 2);
+			}else {
+				this.playerTurn = gameBasePlayerStart;
+			}
+		}else {
+			this.playerTurn = (this.playerTurn == 0) ? 1 : 0;
+		}
+		return this.playerTurn;
+	}
+	
+	/***
+	 * Get the current player turn
+	 * 
+	 * @return int - The player index that currently has the turn
+	 */
+	public int getPlayerTurn() {
+		return this.playerTurn;
 	}
 	
 	/***
@@ -157,39 +155,6 @@ public class GameOptions {
 	 */
 	public void setGameState(GameState state) {
 		this.gameState = state;
-	}
-	
-	/***
-	 * Get Player
-	 * If multiplayer, p1 can be cast to network player
-	 * E.g. NetworkPlayer networkPlayer = (NetworkPlayer) GameOptions.getPlayer("p1");
-	 * 
-	 * @param id - String playerId
-	 * @return Player - The player found, or NULL
-	 * @author mobieljoy12
-	 */
-	public Player getPlayer(String id) {
-		if(this.players.containsKey(id)) {
-			return this.players.get(id);
-		}
-		return null;
-	}
-	
-	/***
-	 * Get all players
-	 * 
-	 * @return HashMap<String, Player> - HashMap with all players with id
-	 * @author mobieljoy12
-	 */
-	public HashMap<String, Player> getPlayers(){
-		return this.players;
-	}
-	
-	/***
-	 * Make sure all players are no longer in game
-	 */
-	public void cleanUp() {
-		this.players.values().forEach((p) -> p.setGameProperty(null));
 	}
 	
 }
