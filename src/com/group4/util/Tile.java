@@ -52,7 +52,7 @@ public class Tile extends StackPane implements Observable {
 	 * Get the Player on this Tile
 	 * Returns null if there is no player
 	 * 
-	 * @return Player or null
+	 * @return Player - The player on this tile
 	 * @author mobieljoy12
 	 */
 	public Player getOccupant() {
@@ -76,6 +76,7 @@ public class Tile extends StackPane implements Observable {
 	
 	/***
 	 * Make this tile unoccupied
+	 * 
 	 * @author mobieljoy12
 	 */
 	public void reset() {
@@ -86,7 +87,7 @@ public class Tile extends StackPane implements Observable {
 	/***
 	 * Check if the Tile is occupied
 	 * 
-	 * @return boolean - Whether Tile is occupied
+	 * @return boolean - Occupied
 	 * @author mobieljoy12
 	 */
 	public boolean isOccupied() {

@@ -36,6 +36,12 @@ public class PlayerList {
 		return null;
 	}
 	
+	/***
+	 * Get the size of the PlayerList
+	 * 
+	 * @return int - Size
+	 * @author mobieljoy12
+	 */
 	public static int size() {
 		return players.size();
 	}
@@ -52,6 +58,8 @@ public class PlayerList {
 	
 	/***
 	 * Make sure all players are no longer in game
+	 * 
+	 * @author mobieljoy12
 	 */
 	public static void cleanUp() {
 		players.values().forEach((p) -> p.setGameProperty(null));
