@@ -137,10 +137,10 @@ public class ViewController {
         Stage stage = (Stage) start.getScene().getWindow();
 
         if (online) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Connect.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Online.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 500, 500);
-            scene.getStylesheets().add(getClass().getResource("test.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("../test.css").toExternalForm());
 
             stage.setScene(scene);
         }

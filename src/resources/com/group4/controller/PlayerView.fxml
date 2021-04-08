@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.group4.view.MyToggleButton?>
+<HBox
+    spacing="10"
+    GridPane.hgrow="ALWAYS"
+    maxWidth="500"
+    maxHeight="500">
+
+    <MyToggleButton
+        style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+        alignment="CENTER_LEFT"
+        HBox.hgrow="ALWAYS"
+        maxWidth="500"
+        maxHeight="300" />
+</HBox>
