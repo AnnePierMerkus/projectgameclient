@@ -181,22 +181,26 @@
             </GridPane.margin>
         </Text>
 
-        <GridPane
-            fx:id="playersGrid"
-            visible="false"
-            alignment="TOP_CENTER"
-            GridPane.columnIndex="0"
-            GridPane.rowIndex="4"
-            hgap="0"
-            vgap="2" >
+        <ScrollPane
+                GridPane.columnIndex="0"
+                GridPane.rowIndex="4"
+                fitToWidth="true">
+            <GridPane
+                    fx:id="playersGrid"
+                    visible="false"
+                    alignment="TOP_CENTER"
 
-            <!-- players are dynamically added here-->
+                    hgap="0"
+                    vgap="2" >
 
-            <rowConstraints>
-                <RowConstraints minHeight="40" maxHeight="40" />
-                <RowConstraints minHeight="40" maxHeight="40" />
-            </rowConstraints>
-        </GridPane>
+                <!-- players are dynamically added here-->
+
+                <rowConstraints>
+                    <RowConstraints minHeight="40" maxHeight="40" />
+                    <RowConstraints minHeight="40" maxHeight="40" />
+                </rowConstraints>
+            </GridPane>
+        </ScrollPane>
 
         <HBox
             fx:id="challenge"
@@ -227,6 +231,7 @@
             alignment="TOP_RIGHT"
             GridPane.columnIndex="0"
             GridPane.rowIndex="7"
+            visible="false"
             hgap="10"
             vgap="2" >
             <padding>
@@ -237,7 +242,7 @@
                     right="4"/>
             </padding>
 
-            <Text
+            <Text fx:id="notification_text"
                 text="You have been challenged by: placeholder"
                 GridPane.columnIndex="0"
                 GridPane.rowIndex="0" />
@@ -250,11 +255,13 @@
                 GridPane.rowIndex="0">
 
                 <MyToggleButton
+                        fx:id="notificationAcceptBtn"
                     style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
                     text="Accept"
                     HBox.hgrow="ALWAYS"
                     maxWidth="500"
-                    maxHeight="300" />
+                    maxHeight="300"
+                    onAction="#notificationAccept"/>
             </HBox>
 
             <HBox
@@ -265,12 +272,13 @@
                 GridPane.columnIndex="2"
                 GridPane.rowIndex="0">
 
-                <MyToggleButton
+                <MyToggleButton fx:id="notificationDeclineBtn"
                     style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
                     text="Decline"
                     HBox.hgrow="ALWAYS"
                     maxWidth="500"
-                    maxHeight="300" />
+                    maxHeight="300"
+                    onAction="#notificationDecline"/>
             </HBox>
 
             <columnConstraints>
@@ -285,7 +293,7 @@
             <RowConstraints minHeight="82" maxHeight="82" />
             <RowConstraints minHeight="40" maxHeight="40" />
             <RowConstraints minHeight="40" maxHeight="40" />
-            <RowConstraints minHeight="82" maxHeight="82" />
+            <RowConstraints minHeight="123" maxHeight="400" />
             <RowConstraints minHeight="40" maxHeight="40" />
             <RowConstraints minHeight="40" maxHeight="40" />
         </rowConstraints>

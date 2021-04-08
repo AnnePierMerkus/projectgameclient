@@ -1,5 +1,6 @@
 package com.group4.controller;
 
+import com.group4.model.Challenge;
 import com.group4.model.GameOptions;
 import com.group4.util.Player;
 import com.group4.util.Player.PlayerState;
@@ -77,6 +78,22 @@ public class MultiplayerController extends GameController {
 
     //--------------end-login-screen-----------
 
+    //--------------Notification---------------
+    @FXML
+    GridPane Notification;
+
+    @FXML
+    Text notification_text;
+
+    @FXML
+    MyToggleButton notificationAcceptBtn;
+
+    @FXML
+    MyToggleButton notificationDeclineBtn;
+
+    //variable to store received challenges
+    private Challenge current_challenge;
+
     public MultiplayerController(){
         try{
             //create client for communication with server
@@ -128,6 +145,12 @@ public class MultiplayerController extends GameController {
                 });
             }));
 
+            this.client.registerObserver((object -> {
+                Platform.runLater(() -> {
+                    this.receiveChallenge(object);
+                });
+            }));
+
             //register turn method to determin players turn
             this.client.registerObserver((this::setTurn));
 
@@ -166,12 +189,6 @@ public class MultiplayerController extends GameController {
         }else {
             System.out.println("Please select a game");
         }
-    }
-
-    public void acceptChallenge(String challenge_number){
-        this.networkPlayer.acceptChallenge(challenge_number);
-
-        //todo set state and create game?
     }
 
     @FXML
@@ -220,10 +237,6 @@ public class MultiplayerController extends GameController {
                         playersGrid.add(playerView, 0, playersGrid.getChildren().size());
                         playersGrid.getRowConstraints().add(new RowConstraints(40, 40, 40));
 
-                        RowConstraints row = matchmaking.getRowConstraints().get(4);
-                        row.setMinHeight(row.getMinHeight() + 41);
-                        row.setMaxHeight(row.getMaxHeight() + 41);
-                        matchmaking.getRowConstraints().set(4, row);
                         System.out.println(matchmaking.getRowConstraints());
                     }catch (Exception e){
                         System.out.println("Player could not be added to view." + e);
@@ -335,6 +348,8 @@ public class MultiplayerController extends GameController {
 
         //set player state
         this.networkPlayer.setState(new InMatchNoTurnState());
+
+        //TODO SWAP SCENE TO GAME
     }
 
     @Override
@@ -344,7 +359,54 @@ public class MultiplayerController extends GameController {
 
     public void giveUp(){
         this.networkPlayer.forfeit(); //give up on current game this wil end the game
-
         this.endGame();
+    }
+
+    public void receiveChallenge(Object object){
+        Client client = (Client) object;
+        String message = client.getMessage();
+
+        if (message.contains("GAME CHALLENGE")){
+            HashMap<String, String> message_to_map = client.messageToMap();
+
+            //challenge received and not canceled
+            if (!message.contains("CANCELLED")){
+                //make a new current challenge
+                this.current_challenge = new Challenge(message_to_map.get("CHALLENGER"), message_to_map.get("CHALLENGENUMBER"), message_to_map.get("GAMETYPE"));
+
+                this.revealNotification("You have been challenged by " + this.current_challenge.getUsername(), true);
+            }else{
+
+                this.revealNotification("Challenge has been cancelled, number" + message_to_map.get("CHALLENGENUMBER"), false);
+
+                System.out.println("Challenge has been cancelled by player");
+            }
+        }
+    }
+
+    public void notificationAccept(){
+        this.networkPlayer.acceptChallenge(this.current_challenge.getCode());
+        this.Notification.setVisible(false);
+        this.notificationAcceptBtn.setVisible(false);
+    }
+
+    public void notificationDecline(){
+        this.Notification.setVisible(false);
+        this.notificationDeclineBtn.setVisible(false);
+    }
+
+    public void revealNotification(String msg, boolean controls){
+        this.Notification.setVisible(true);
+        this.notification_text.setText(msg);
+
+        if (controls){
+            //reveal notification buttons
+            this.notificationAcceptBtn.setVisible(true);
+            this.notificationDeclineBtn.setVisible(true);
+        }else {
+            //reveal notification buttons
+            this.notificationAcceptBtn.setVisible(false);
+            this.notificationDeclineBtn.setVisible(false);
+        }
     }
 }
