@@ -105,7 +105,7 @@
 
                 <MyToggleButton
                     style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-                    text="tic-tac-toe"
+                    text="Tic-tac-toe"
                     toggleGroup="$GameGroup"
                     alignment="CENTER_LEFT"
                     HBox.hgrow="ALWAYS"
@@ -190,43 +190,7 @@
             hgap="0"
             vgap="2" >
 
-            <HBox
-                spacing="10"
-                GridPane.hgrow="ALWAYS"
-                maxWidth="500"
-                maxHeight="500"
-                GridPane.columnIndex="0"
-                GridPane.rowIndex="0">
-
-                <MyToggleButton
-                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-                    text="Pro_player_69"
-                    toggleGroup="$PlayersGroup"
-                    alignment="CENTER_LEFT"
-                    HBox.hgrow="ALWAYS"
-                    maxWidth="500"
-                    maxHeight="300"
-                    onAction="#queue"/>
-            </HBox>
-
-
-            <HBox
-                spacing="10"
-                alignment="CENTER_RIGHT"
-                maxWidth="500"
-                maxHeight="500"
-                GridPane.columnIndex="0"
-                GridPane.rowIndex="1">
-
-                <MyToggleButton
-                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-                    text="Idea"
-                    toggleGroup="$PlayersGroup"
-                    alignment="CENTER_LEFT"
-                    HBox.hgrow="ALWAYS"
-                    maxWidth="500"
-                    maxHeight="300" />
-            </HBox>
+            <!-- players are dynamically added here-->
 
             <rowConstraints>
                 <RowConstraints minHeight="40" maxHeight="40" />
