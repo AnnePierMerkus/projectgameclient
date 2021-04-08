@@ -11,6 +11,7 @@ import com.group4.util.network.NetworkPlayerStates.InMatchNoTurnState;
 import com.group4.util.network.NetworkPlayerStates.InMatchPlayerTurnState;
 import com.group4.util.network.NetworkPlayerStates.LoginState;
 import com.group4.view.MyToggleButton;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +29,7 @@ import javafx.scene.text.Text;
 import java.util.HashMap;
 
 /**
- * Multiplayer Controller for controlling mutiplayer view and network player
+ * Multiplayer Controller for controlling multiplayer view and network player
  *
  * @author Gemar Koning
  */
@@ -62,6 +63,9 @@ public class MultiplayerController extends GameController {
 
     @FXML
     ToggleGroup PlayersGroup;
+
+    @FXML
+    ToggleGroup GameGroup;
 
     //--------------login-screen---------------
 
@@ -97,25 +101,10 @@ public class MultiplayerController extends GameController {
 
                 String message = client2.getMessage(); //get the most recent message
 
-                //check if the server has received a move
-                if (message.contains("GAME MOVE")){
-                    HashMap<String, String> hashmap_msg = client2.messageToMap(); //parse message from server to map
-
-                    //check if player move is the opponent of client user
-                    if (!hashmap_msg.get("PLAYER").equals(this.networkPlayer.getName())){
-                        PlayerList.getPlayer("p2").makeMove(new Tile(Integer.parseInt(hashmap_msg.get("MOVE"))));
-                    }
-                }
-
                 //match is over set networkplayer state and end the game
                 if (message.contains("WIN") || message.contains("LOSS") || message.contains("DRAW")){
                     this.networkPlayer.setState(new LoginState());
                     this.endGame();
-                }
-
-                //its network players turn to make a move set state
-                if (message.contains("YOURTURN")){
-                    this.networkPlayer.setState(new InMatchPlayerTurnState());
                 }
 
                 //a match has been started by the server
@@ -127,6 +116,21 @@ public class MultiplayerController extends GameController {
                     }
                 }
             });
+
+            //register observer for adding players
+            this.client.registerObserver((object -> {
+                Platform.runLater(() -> {
+                    //remove any previous added players
+                    this.clearPlayerView();
+
+                    //add new players
+                    this.addPlayers(object);
+                });
+            }));
+
+            //register turn method to determin players turn
+            this.client.registerObserver((this::setTurn));
+
         }catch (Exception e){
             System.out.println("Could not connect to server: " + e);
         }
@@ -147,7 +151,21 @@ public class MultiplayerController extends GameController {
     @FXML
     protected void challenge(ActionEvent event)
     {
-        // Code to challenge someone else
+        ToggleButton challenge_btn = (ToggleButton) event.getSource();
+
+        ToggleButton selected_player_btn = (ToggleButton) this.PlayersGroup.getSelectedToggle();
+        ToggleButton selected_game_btn = (ToggleButton) this.GameGroup.getSelectedToggle();
+
+        if (selected_game_btn != null){
+            if (selected_player_btn != null){
+                //challenge player with selected player and selected game
+                this.networkPlayer.challenge(selected_player_btn.getText(), selected_game_btn.getText());
+            }else{
+                System.out.println("Please select a valid game");
+            }
+        }else {
+            System.out.println("Please select a game");
+        }
     }
 
     @FXML
@@ -155,7 +173,8 @@ public class MultiplayerController extends GameController {
     {
         showPlayers(true);
 
-        addPlayers();
+        //send online players commando to server
+        this.networkPlayer.getOnlinePlayers();
     }
 
     private void showPlayers(boolean show)
@@ -167,27 +186,75 @@ public class MultiplayerController extends GameController {
     }
 
     /**
-     * Add parameters where needed
-     * @throws Exception
+     * Add players to view with observer
+     *
+     * @author Anne Pier / Gemar Koning
+     *
+     * @param object
      */
-    public void addPlayers() throws Exception
+    public void addPlayers(Object object)
     {
-        HBox playerView = FXMLLoader.load(getClass().getResource("playerView.fxml"));
-        ToggleButton playerButton = (ToggleButton) playerView.getChildren().get(0);
-        playerButton.setText("Playername");
-        playerButton.setToggleGroup(PlayersGroup);
-        playerButton.setOnAction(event -> {
-            // Code when player button clicked.
-        });
+        Client client = (Client) object;
 
-        playersGrid.add(playerView, 0, playersGrid.getChildren().size());
-        playersGrid.getRowConstraints().add(new RowConstraints(40, 40, 40));
+        if (client.getMessage().contains("PLAYERLIST")){
+            for (String player_name : client.messageToArrayList()){
+                if (!player_name.equals(this.networkPlayer.getName())){
+                    try{
+                        HBox playerView = FXMLLoader.load(getClass().getResource("playerView.fxml"));
+                        ToggleButton playerButton = (ToggleButton) playerView.getChildren().get(0);
 
-        RowConstraints row = matchmaking.getRowConstraints().get(4);
-        row.setMinHeight(row.getMinHeight() + 41);
-        row.setMaxHeight(row.getMaxHeight() + 41);
-        matchmaking.getRowConstraints().set(4, row);
-        System.out.println(matchmaking.getRowConstraints());
+                        //add player name to button
+                        playerButton.setText(player_name);
+
+                        playerButton.setToggleGroup(PlayersGroup);
+                        playerButton.setOnAction(event -> {
+
+                        });
+
+                        playersGrid.add(playerView, 0, playersGrid.getChildren().size());
+                        playersGrid.getRowConstraints().add(new RowConstraints(40, 40, 40));
+
+                        RowConstraints row = matchmaking.getRowConstraints().get(4);
+                        row.setMinHeight(row.getMinHeight() + 41);
+                        row.setMaxHeight(row.getMaxHeight() + 41);
+                        matchmaking.getRowConstraints().set(4, row);
+                        System.out.println(matchmaking.getRowConstraints());
+                    }catch (Exception e){
+                        System.out.println("Player could not be added to view." + e);
+                    }
+                }
+            }
+        }
+    }
+
+    public void setTurn(Object object){
+        Client client = (Client) object; //upper cast object to client
+
+        String message = client.getMessage(); //get the most recent message
+
+        //check if the server has received a move
+        if (message.contains("GAME MOVE")){
+            HashMap<String, String> hashmap_msg = client.messageToMap(); //parse message from server to map
+
+            //check if player move is the opponent of client user
+            if (!hashmap_msg.get("PLAYER").equals(this.networkPlayer.getName())){
+                //its not the players turn so set the player to no turn state
+                this.networkPlayer.setState(new InMatchNoTurnState());
+
+                //let the server make a move on the board
+                PlayerList.getPlayer("p2").makeMove(new Tile(Integer.parseInt(hashmap_msg.get("MOVE"))));
+            }
+        }
+
+        //its network players turn to make a move set state
+        if (message.contains("YOURTURN")){
+            this.networkPlayer.setState(new InMatchPlayerTurnState());
+        }
+    }
+
+    //clear all players from screen
+    public void clearPlayerView(){
+        this.playersGrid.getChildren().clear();
     }
 
     @FXML
@@ -266,7 +333,12 @@ public class MultiplayerController extends GameController {
 
     @Override
     public void endGame() {
-        this.networkPlayer.forfeit(); //give up on current game this wil end the game
         PlayerList.cleanUp(); //set players back to no game state
+    }
+
+    public void giveUp(){
+        this.networkPlayer.forfeit(); //give up on current game this wil end the game
+
+        this.endGame();
     }
 }
