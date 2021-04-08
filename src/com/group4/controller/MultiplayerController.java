@@ -168,6 +168,12 @@ public class MultiplayerController extends GameController {
         }
     }
 
+    public void acceptChallenge(String challenge_number){
+        this.networkPlayer.acceptChallenge(challenge_number);
+
+        //todo set state and create game?
+    }
+
     @FXML
     protected void queue(ActionEvent event) throws Exception
     {
