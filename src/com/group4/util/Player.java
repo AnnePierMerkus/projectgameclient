@@ -19,6 +19,7 @@ public class Player implements Observable {
 	// Gameproperty instance so player can reach the game object
 	private GameProperty gameProperty = null;
 	
+	// Holding the state the player is currently in
 	private PlayerState playerState;
 	
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
@@ -48,6 +49,7 @@ public class Player implements Observable {
 	 * Get the PlayerState
 	 * 
 	 * @return PlayerState - The state the player is currently in
+	 * @author mobieljoy12
 	 */
 	public PlayerState getPlayerState() {
 		return this.playerState;
@@ -57,6 +59,7 @@ public class Player implements Observable {
 	 * Set the player state
 	 * 
 	 * @param state - The state to set the player to
+	 * @author mobieljoy12
 	 */
 	public void setPlayerState(PlayerState state) {
 		this.playerState = state;
@@ -98,6 +101,7 @@ public class Player implements Observable {
 	 * Set a GameProperty to a player when he joins a game
 	 * 
 	 * @param game - GameProperty instance
+	 * @author mobieljoy12
 	 */
 	public void setGameProperty(GameProperty game) {
 		this.gameProperty = game;

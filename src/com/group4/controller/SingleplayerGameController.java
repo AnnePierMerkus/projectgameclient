@@ -4,6 +4,11 @@ import com.group4.model.GameOptions;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
 
+/***
+ * SingleplayerGameController controls the game for singleplayer matches
+ * 
+ * @author mobieljoy12
+ */
 public class SingleplayerGameController extends GameController {
 
 	public SingleplayerGameController() {

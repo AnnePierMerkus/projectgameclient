@@ -45,6 +45,7 @@ public abstract class GameController extends Controller {
 	 * Returns negative when no player has the turn
 	 * 
 	 * @return int - Which player has the turn
+	 * @author mobieljoy12
 	 */
 	public int toggleTurn() {
 		if(this.game != null) { // No player currently has the turn

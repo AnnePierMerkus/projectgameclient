@@ -11,7 +11,7 @@ import com.group4.model.GameOptions;
  * Holds all methods every game class should have
  * TODO - Add exceptions for when gameoptions not set
  * 
- * @author Gerwin Terpstra & Jasper van der Kooi
+ * @author GRTerpstra & mobieljoy12
  *
  */
 public abstract class GameProperty {
@@ -37,6 +37,7 @@ public abstract class GameProperty {
 	 * Set the Gameoptions
 	 * 
 	 * @param gameOptions
+	 * @author mobieljoy12
 	 */
 	public void setGameOptions(GameOptions gameOptions) {
 		this.game = gameOptions;

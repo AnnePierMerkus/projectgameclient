@@ -90,6 +90,7 @@ public class GameOptions {
 	 * Returns negative when no player has the turn
 	 * 
 	 * @return int - Which player has the turn
+	 * @author mobieljoy12
 	 */
 	public int toggleTurn() {
 		PlayerList.players.values().forEach((p) -> p.setPlayerState(PlayerState.PLAYING_NO_TURN));
@@ -111,6 +112,7 @@ public class GameOptions {
 	 * Get the current player turn
 	 * 
 	 * @return int - The player index that currently has the turn
+	 * @author mobieljoy12
 	 */
 	public int getPlayerTurn() {
 		return this.playerTurn;
@@ -120,6 +122,7 @@ public class GameOptions {
 	 * Get the game logic for the current game
 	 * 
 	 * @return GameProperty - the game logic
+	 * @author mobieljoy12
 	 */
 	public GameProperty getGameProperty() {
 		return this.game;

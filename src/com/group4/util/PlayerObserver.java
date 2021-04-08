@@ -7,6 +7,12 @@ public class PlayerObserver implements Observer {
 
 	private GameController gameController;
 	
+	/***
+	 * PlayerObserver lets controller know when player has done a turn
+	 * 
+	 * @param gameController
+	 * @author mobieljoy12
+	 */
 	public PlayerObserver(GameController gameController) {
 		this.gameController = gameController;
 	}
