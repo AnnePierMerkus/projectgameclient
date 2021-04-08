@@ -22,7 +22,6 @@
 	</padding>
 
 	<fx:define>
-		<ToggleGroup fx:id="GameGroup"/>
 		<ToggleGroup fx:id="ModeGroup"/>
 		<ToggleGroup fx:id="DifficultyGroup"/>
 	</fx:define>
@@ -51,7 +50,10 @@
 				HBox.hgrow="ALWAYS"
 				maxWidth="300"
 				maxHeight="300"
-				onAction="#local"/>
+				onAction="#local">
+
+
+			</MyToggleButton>
 		</HBox>
 
 		<HBox
@@ -103,7 +105,11 @@
 				HBox.hgrow="ALWAYS"
 				maxWidth="300"
 				maxHeight="300"
-				onAction="#tic_tac_toe"/>
+				onAction="#tic_tac_toe">
+			<toggleGroup>
+				<ToggleGroup fx:id="GameGroup"/>
+			</toggleGroup>
+			</MyToggleButton>
 		</HBox>
 
 		<HBox

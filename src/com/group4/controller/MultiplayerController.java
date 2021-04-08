@@ -8,12 +8,20 @@ import com.group4.util.network.NetworkPlayer;
 import com.group4.util.network.NetworkPlayerStates.InMatchNoTurnState;
 import com.group4.util.network.NetworkPlayerStates.InMatchPlayerTurnState;
 import com.group4.util.network.NetworkPlayerStates.LoginState;
+import com.group4.view.MyToggleButton;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
 import java.util.HashMap;
 
@@ -37,6 +45,21 @@ public class MultiplayerController extends GameController {
 
     @FXML
     GridPane matchmaking;
+
+    @FXML
+    GridPane playersGrid;
+
+    @FXML
+    HBox challenge;
+
+    @FXML
+    Text onlinePlayers;
+
+    @FXML
+    MyToggleButton findPlayers;
+
+    @FXML
+    ToggleGroup PlayersGroup;
 
     public MultiplayerController(){
         try{
@@ -98,13 +121,73 @@ public class MultiplayerController extends GameController {
         }
     }
 
-    public void ff(KeyEvent event)
+    @FXML
+    protected void tic_tac_toe(ActionEvent event)
+    {
+        showPlayers(false);
+    }
+
+    @FXML
+    protected void reversi(ActionEvent event)
+    {
+        showPlayers(false);
+    }
+
+    @FXML
+    protected void challenge(ActionEvent event)
+    {
+        // Code to challenge someone else
+    }
+
+    @FXML
+    protected void queue(ActionEvent event) throws Exception
+    {
+        showPlayers(true);
+
+        addPlayers();
+    }
+
+    private void showPlayers(boolean show)
+    {
+        findPlayers.setSelected(false);
+        playersGrid.setVisible(show);
+        challenge.setVisible(show);
+        onlinePlayers.setVisible(show);
+    }
+
+    /**
+     * Add parameters where needed
+     * @throws Exception
+     */
+    public void addPlayers() throws Exception
+    {
+        HBox playerView = FXMLLoader.load(getClass().getResource("playerView.fxml"));
+        ToggleButton playerButton = (ToggleButton) playerView.getChildren().get(0);
+        playerButton.setText("Playername");
+        playerButton.setToggleGroup(PlayersGroup);
+        playerButton.setOnAction(event -> {
+            // Code when player button clicked.
+        });
+
+        playersGrid.add(playerView, 0, playersGrid.getChildren().size());
+        playersGrid.getRowConstraints().add(new RowConstraints(40, 40, 40));
+
+        RowConstraints row = matchmaking.getRowConstraints().get(4);
+        row.setMinHeight(row.getMinHeight() + 41);
+        row.setMaxHeight(row.getMaxHeight() + 41);
+        matchmaking.getRowConstraints().set(4, row);
+        System.out.println(matchmaking.getRowConstraints());
+    }
+
+    @FXML
+    protected void loginEnter(KeyEvent event)
     {
         if(event.getCode() == KeyCode.ENTER)
             login(null);
     }
 
     //log the player into the multiplayer server and set username
+    @FXML
     public void login(ActionEvent event){
         this.networkPlayer.setName("idea"); //name from view form field here
         this.networkPlayer.login();
