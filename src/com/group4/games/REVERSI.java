@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
+import com.group4.util.PlayerList;
 import com.group4.util.Tile;
 
 public class REVERSI extends GameProperty {
@@ -28,10 +29,10 @@ public class REVERSI extends GameProperty {
 	@Override
 	public void doSetup() {
 		// Set the default values on the board
-		this.game.getBoard().getTile(27).setOccupant(this.game.getPlayer("p1"));
-		this.game.getBoard().getTile(36).setOccupant(this.game.getPlayer("p1"));
-		this.game.getBoard().getTile(28).setOccupant(this.game.getPlayer("p2"));
-		this.game.getBoard().getTile(35).setOccupant(this.game.getPlayer("p2"));
+		this.game.getBoard().getTile(27).setOccupant(PlayerList.getPlayer("p1"));
+		this.game.getBoard().getTile(36).setOccupant(PlayerList.getPlayer("p1"));
+		this.game.getBoard().getTile(28).setOccupant(PlayerList.getPlayer("p2"));
+		this.game.getBoard().getTile(35).setOccupant(PlayerList.getPlayer("p2"));
 	}
 
 	@Override
@@ -99,12 +100,17 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean makeMove(Tile tile, Player player) {
+		System.out.println("Making move...");
 		if(this.isLegalMove(tile, player)) {
+			System.out.println("Move legal");
 			tile.setOccupant(player);
 			// TODO update change in board
 			swapTiles(tile, player);
+			this.tempDisplayBoard(); //TODO remove later
 			return true;
 		}
+		this.tempDisplayBoard(); //TODO remove later
+		System.out.println("Move illegal");
 		return false;
 	}
 

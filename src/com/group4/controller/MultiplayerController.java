@@ -2,6 +2,8 @@ package com.group4.controller;
 
 import com.group4.model.GameOptions;
 import com.group4.util.Player;
+import com.group4.util.Player.PlayerState;
+import com.group4.util.PlayerList;
 import com.group4.util.Tile;
 import com.group4.util.network.Client;
 import com.group4.util.network.NetworkPlayer;
@@ -10,7 +12,6 @@ import com.group4.util.network.NetworkPlayerStates.InMatchPlayerTurnState;
 import com.group4.util.network.NetworkPlayerStates.LoginState;
 import com.group4.view.MyToggleButton;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
@@ -85,11 +86,10 @@ public class MultiplayerController extends GameController {
             this.networkPlayer = new NetworkPlayer("p1", client);
 
             //add networkplayer to players list
-            this.players = new HashMap<>();
-            this.players.put("p1", this.networkPlayer);
+            PlayerList.addPlayer(this.networkPlayer);
 
             //create and add second player that will be used by the server
-            this.players.put("p2", new Player("p2"));
+            PlayerList.addPlayer(new Player("p2"));
 
             //register new observer to client for
             this.client.registerObserver((Object object) -> {
@@ -103,7 +103,7 @@ public class MultiplayerController extends GameController {
 
                     //check if player move is the opponent of client user
                     if (!hashmap_msg.get("PLAYER").equals(this.networkPlayer.getName())){
-                        this.game.getPlayer("p2").makeMove(new Tile(Integer.parseInt(hashmap_msg.get("MOVE"))));
+                        PlayerList.getPlayer("p2").makeMove(new Tile(Integer.parseInt(hashmap_msg.get("MOVE"))));
                     }
                 }
 
@@ -232,9 +232,16 @@ public class MultiplayerController extends GameController {
 
     @Override
     public void createGame(GameType gameType) {
-    	// TODO - Add players here
-        this.game = new GameOptions(Difficulty.MEDIUM, gameType, this.players);
-        this.game.setGameState(GameState.PLAYING);
+    	
+    	this.game = new GameOptions(Difficulty.MEDIUM, gameType);
+    	
+    	// Set PlayerState to has turn, turns will be monitored by server instead
+    	for(Player p : PlayerList.players.values()) {
+    		p.setPlayerState(PlayerState.PLAYING_HAS_TURN);
+    		p.setGameProperty(this.game.getGameProperty());
+    	}
+    	
+    	this.game.setGameState(GameState.PLAYING);
 
         //set player state
         this.networkPlayer.setState(new InMatchNoTurnState());
@@ -242,8 +249,15 @@ public class MultiplayerController extends GameController {
 
     @Override
     public void createGame(Difficulty difficulty, GameType gameType) {
-    	// TODO - Add players here
-        this.game = new GameOptions(difficulty, gameType, this.players);
+    	
+    	this.game = new GameOptions(difficulty, gameType);
+    	
+    	// Set PlayerState to has turn, turns will be monitored by server instead
+    	for(Player p : PlayerList.players.values()) {
+    		p.setPlayerState(PlayerState.PLAYING_HAS_TURN);
+    		p.setGameProperty(this.game.getGameProperty());
+    	}
+        
         this.game.setGameState(GameState.PLAYING);
 
         //set player state
@@ -253,6 +267,6 @@ public class MultiplayerController extends GameController {
     @Override
     public void endGame() {
         this.networkPlayer.forfeit(); //give up on current game this wil end the game
-        this.game.cleanUp(); //set players back to no game state
+        PlayerList.cleanUp(); //set players back to no game state
     }
 }

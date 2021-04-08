@@ -34,8 +34,7 @@ public class Tile extends StackPane implements Observable {
 		
 		setOnMouseClicked(mouseEvent ->
 		{
-			this.notifyObservers();
-			System.out.println("Clicked on " + this.getIndex());
+			PlayerList.players.values().forEach((p) -> p.makeMove(this));
 		});
 	}
 	

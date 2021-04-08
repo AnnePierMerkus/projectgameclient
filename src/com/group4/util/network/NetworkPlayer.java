@@ -1,6 +1,5 @@
 package com.group4.util.network;
 
-import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.Tile;
 import com.group4.util.network.NetworkPlayerStates.LogoutState;
@@ -14,6 +13,7 @@ import com.group4.util.network.NetworkPlayerStates.NetworkPlayerState;
  * @author Gemar Koning
  */
 public class NetworkPlayer extends Player {
+	
     private String name;
 
     private Client client;
@@ -63,9 +63,9 @@ public class NetworkPlayer extends Player {
      * @return
      */
     @Override
-    public boolean makeMove(Tile tile) {
+    public void makeMove(Tile tile) {
         this.state.makeMove(this, tile.getIndex());
-        return super.makeMove(tile);
+        super.makeMove(tile);
     }
 
     /**

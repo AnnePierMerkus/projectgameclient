@@ -6,6 +6,8 @@ import com.group4.controller.GameController.GameState;
 import com.group4.controller.GameController.GameType;
 import com.group4.util.BoardObserver;
 import com.group4.util.GameProperty;
+import com.group4.util.Player.PlayerState;
+import com.group4.util.PlayerList;
 
 public class GameOptions {
 	
@@ -63,6 +65,11 @@ public class GameOptions {
 		this.difficulty = difficulty;
 		this.gameType = gameType;
 		
+		if(PlayerList.size() < 2) {
+			System.out.println("Need at least two players to play the game");
+			//TODO - Throw exception, need at least two players to play the game
+		}
+		
 		// Create the game
 		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
 		
@@ -85,6 +92,7 @@ public class GameOptions {
 	 * @return int - Which player has the turn
 	 */
 	public int toggleTurn() {
+		PlayerList.players.values().forEach((p) -> p.setPlayerState(PlayerState.PLAYING_NO_TURN));
 		if(this.playerTurn < 0) { // No player currently has the turn
 			int gameBasePlayerStart = this.game.playerStart();
 			if(gameBasePlayerStart < 0) { // Game says player start doesn't matter
@@ -95,6 +103,7 @@ public class GameOptions {
 		}else {
 			this.playerTurn = (this.playerTurn == 0) ? 1 : 0;
 		}
+		PlayerList.getPlayer("p"+(this.playerTurn+1)).setPlayerState(PlayerState.PLAYING_HAS_TURN);
 		return this.playerTurn;
 	}
 	
@@ -105,6 +114,15 @@ public class GameOptions {
 	 */
 	public int getPlayerTurn() {
 		return this.playerTurn;
+	}
+	
+	/***
+	 * Get the game logic for the current game
+	 * 
+	 * @return GameProperty - the game logic
+	 */
+	public GameProperty getGameProperty() {
+		return this.game;
 	}
 	
 	/***
