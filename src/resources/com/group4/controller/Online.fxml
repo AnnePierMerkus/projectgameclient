@@ -36,6 +36,7 @@
             alignment="CENTER">
 
             <TextField
+                fx:id="username"
                 id="Username"
                 style="-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);"
                 promptText="Username"

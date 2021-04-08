@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
@@ -60,6 +61,16 @@ public class MultiplayerController extends GameController {
 
     @FXML
     ToggleGroup PlayersGroup;
+
+    //--------------login-screen---------------
+
+    @FXML
+    TextField username;
+
+    @FXML
+    MyToggleButton connect;
+
+    //--------------end-login-screen-----------
 
     public MultiplayerController(){
         try{
@@ -189,11 +200,19 @@ public class MultiplayerController extends GameController {
     //log the player into the multiplayer server and set username
     @FXML
     public void login(ActionEvent event){
-        this.networkPlayer.setName("idea"); //name from view form field here
-        this.networkPlayer.login();
+        if (client != null){
+            if (!username.getText().trim().isEmpty()){
+                this.networkPlayer.setName(username.getText());
+                this.networkPlayer.login();
 
-        loginScreen.setVisible(false);
-        matchmaking.setVisible(true);
+                loginScreen.setVisible(false);
+                matchmaking.setVisible(true);
+            }else{
+                System.out.println("Please enter a username");
+            }
+        }
+
+        this.connect.setSelected(false);
     }
 
     //logout from server
