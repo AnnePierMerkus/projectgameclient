@@ -71,7 +71,7 @@ public class REVERSI extends GameProperty {
 		return availableOptions;
 	}
 	
-	public HashMap<Integer, Tile> swapTiles(Tile tile, Player player) {
+	public void swapTiles(Tile tile, Player player) {
 		HashMap<Integer, Tile> board = this.game.getBoard().getGameBoard();
 		for(int i = 0; i < 7; i++) {
 			Tile currentTile = tile;
@@ -88,14 +88,12 @@ public class REVERSI extends GameProperty {
 				}
 				else if(currentTile.getOccupant() == null && !(candidateTiles.isEmpty())) {
 					for(Tile candidateTile : candidateTiles) {
-						candidateTile.setOccupant(player);
-						board.put(candidateTile.getIndex(), candidateTile);
+						this.game.getBoard().getTile(candidateTile.getIndex()).setOccupant(player);
 					}	
 					break;
 				}	
 			}
 		}
-		return board;
 	}
 
 	@Override
