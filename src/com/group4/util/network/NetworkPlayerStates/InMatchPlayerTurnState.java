@@ -34,7 +34,7 @@ public class InMatchPlayerTurnState implements NetworkPlayerState{
     }
 
     @Override
-    public void makeMove(NetworkPlayer player, int zet) {
+    public boolean makeMove(NetworkPlayer player, int zet) {
         System.out.println("Making a move...");
 
         //send move to server
@@ -42,6 +42,8 @@ public class InMatchPlayerTurnState implements NetworkPlayerState{
 
         //set player to no turn state
         player.setState(new InMatchNoTurnState());
+
+        return true;
     }
 
     @Override

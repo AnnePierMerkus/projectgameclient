@@ -48,10 +48,8 @@ public class Board implements Observable {
 				Tile tile = new Tile((row * this.width) + col, weight);
 				tile.registerObserver(this.tileObserver);
 				this.gameBoard.put(tile.getIndex(), tile);
-				System.out.println(tile.getWeight());
 			}
 		}
-		System.out.println(gameBoard.get(0).getWeight());
 	}
 	
 	/**
