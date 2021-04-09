@@ -97,6 +97,10 @@ public class MultiplayerController extends GameController {
     @FXML
     MyToggleButton notificationDeclineBtn;
 
+    //-------------end-notification-------------
+
+    String startingPlayer;
+
     //variable to store received challenges
     private Challenge current_challenge;
 
@@ -133,6 +137,12 @@ public class MultiplayerController extends GameController {
                 //a match has been started by the server
                 if (message.contains("MATCH")){
                     HashMap<String, String> messageToMap = client2.messageToMap();
+
+                    if (messageToMap.get("PLAYERTOMOVE").equals(this.networkPlayer.getName())){
+                        this.startingPlayer = "p1";
+                    }else{
+                        this.startingPlayer = "p2";
+                    }
 
                     if (messageToMap.get("GAMETYPE").equals("Tic-tac-toe")){
                         this.createGame(GameType.TICTACTOE);
@@ -339,7 +349,7 @@ public class MultiplayerController extends GameController {
     @Override
     public void createGame(GameType gameType) {
     	
-    	this.game = new GameOptions(Difficulty.MEDIUM, gameType);
+    	this.game = new GameOptions(Difficulty.MEDIUM, gameType, this.startingPlayer);
     	
     	// Set PlayerState to has turn, turns will be monitored by server instead
     	for(Player p : PlayerList.players.values()) {
@@ -363,7 +373,7 @@ public class MultiplayerController extends GameController {
     @Override
     public void createGame(Difficulty difficulty, GameType gameType) {
     	
-    	this.game = new GameOptions(difficulty, gameType);
+    	this.game = new GameOptions(difficulty, gameType, this.startingPlayer);
     	
     	// Set PlayerState to has turn, turns will be monitored by server instead
     	for(Player p : PlayerList.players.values()) {
