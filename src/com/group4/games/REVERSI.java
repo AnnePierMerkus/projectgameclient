@@ -36,9 +36,9 @@ public class REVERSI extends GameProperty {
 	}
 
 	@Override
-	public int playerStart() {
-		// TODO Auto-generated method stub
-		return 0;
+	public String playerStart() {
+		// Black always starts
+		return "p1";
 	}
 
 	@Override
@@ -129,10 +129,8 @@ public class REVERSI extends GameProperty {
 			tile.setOccupant(player);
 			// TODO update change in board
 			swapTiles(tile, player);
-			this.tempDisplayBoard(); //TODO remove later
 			return true;
 		}
-		this.tempDisplayBoard(); //TODO remove later
 		System.out.println("Move illegal");
 		return false;
 	}

@@ -29,8 +29,8 @@ public class TICTACTOE extends GameProperty {
 	}
 
 	@Override
-	public int playerStart() {
-		return 0; // X always starts
+	public String playerStart() {
+		return "p1"; // X always starts
 	}
 
 	@Override
