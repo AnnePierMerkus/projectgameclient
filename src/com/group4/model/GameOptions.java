@@ -125,11 +125,11 @@ public class GameOptions {
 	public String toggleTurn() {
 		PlayerList.players.values().forEach((p) -> p.setPlayerState(PlayerState.PLAYING_NO_TURN));
 		if(this.playerTurn.length() == 0) { // No player currently has the turn
-			String gameBasePlayerStart = "p" + (this.game.playerStart() + 1);
-			if(gameBasePlayerStart.length() == 1) { // Game says player start doesn't matter
+			String gameBasePlayerStart = this.game.playerStart();
+			if(gameBasePlayerStart.length() == 0) { // Game says player start doesn't matter
 				this.playerTurn = "p" + ThreadLocalRandom.current().nextInt(0, 2); // Pick random player to start
 			}else {
-				this.playerTurn = "p" + gameBasePlayerStart; // Set the games starting player to start
+				this.playerTurn = gameBasePlayerStart; // Set the games starting player to start
 			}
 		}else {
 			this.playerTurn = (this.playerTurn.equals("p1")) ? "p2" : "p1"; // Toggle turn to other player

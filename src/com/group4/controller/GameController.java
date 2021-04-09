@@ -2,7 +2,6 @@ package com.group4.controller;
 
 import com.group4.model.GameOptions;
 import com.group4.util.PlayerObserver;
-import com.group4.util.Tile;
 
 public abstract class GameController extends Controller {
 	
@@ -47,11 +46,11 @@ public abstract class GameController extends Controller {
 	 * @return int - Which player has the turn
 	 * @author mobieljoy12
 	 */
-	public int toggleTurn() {
+	public String toggleTurn() {
 		if(this.game != null) { // No player currently has the turn
 			return this.game.toggleTurn();
 		}
-		return -1;
+		return "";
 	}
 	
 	/***
