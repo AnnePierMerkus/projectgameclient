@@ -92,7 +92,7 @@ public class Player implements Observable {
 	public void makeMove(Tile tile) {
 		// Don't allow moves if player does not have the turn
 		if(this.playerState != PlayerState.PLAYING_HAS_TURN) return;
-		System.out.println("noai" + this.getId());
+		System.out.println("n" + tile.getWeight());
 		if (ai_interface != null)
 		{
 			try {

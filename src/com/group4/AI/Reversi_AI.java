@@ -11,6 +11,7 @@ public class Reversi_AI implements AI_Interface {
     public Tile makeMove(List<Tile> availableOptions)
     {
         availableOptions.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
+        System.out.println(availableOptions.get(0).getWeight());
         return availableOptions.get(0);
     }
 }

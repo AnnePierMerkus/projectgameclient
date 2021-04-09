@@ -30,14 +30,14 @@ public class Tile extends StackPane implements Observable {
 	 */
 	public Tile(int index, int weight) {
 		this.index = index;
-		if (weight == 0)
+		if (this.weight == 0)
 			this.weight = weight;
 		Rectangle border = new Rectangle(100, 100);
 		border.setFill(null);
 		border.setStroke(Color.BLACK);
 		setAlignment(Pos.CENTER);
 		getChildren().addAll(border);
-
+		System.out.println(weight);
 		setOnMouseClicked(mouseEvent ->
 		{
 			/*PlayerList.players.values().forEach((p) -> {
@@ -60,7 +60,7 @@ public class Tile extends StackPane implements Observable {
 
 	public Tile(int index) {
 		this.index = index;
-		this.weight = weight;
+		this.weight = 1;
 		Rectangle border = new Rectangle(100, 100);
 		border.setFill(null);
 		border.setStroke(Color.BLACK);
