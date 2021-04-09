@@ -126,15 +126,15 @@ public class GameOptions {
 		PlayerList.players.values().forEach((p) -> p.setPlayerState(PlayerState.PLAYING_NO_TURN));
 		if(this.playerTurn.length() == 0) { // No player currently has the turn
 			String gameBasePlayerStart = "p" + (this.game.playerStart() + 1);
-			if(gameBasePlayerStart.length() == 0) { // Game says player start doesn't matter
-				this.playerTurn = "p" + ThreadLocalRandom.current().nextInt(0, 2);
+			if(gameBasePlayerStart.length() == 1) { // Game says player start doesn't matter
+				this.playerTurn = "p" + ThreadLocalRandom.current().nextInt(0, 2); // Pick random player to start
 			}else {
-				this.playerTurn = "p" + gameBasePlayerStart;
+				this.playerTurn = "p" + gameBasePlayerStart; // Set the games starting player to start
 			}
 		}else {
-			this.playerTurn = (this.playerTurn.equals("p1")) ? "p2" : "p1";
+			this.playerTurn = (this.playerTurn.equals("p1")) ? "p2" : "p1"; // Toggle turn to other player
 		}
-		PlayerList.getPlayer(this.playerTurn).setPlayerState(PlayerState.PLAYING_HAS_TURN);
+		PlayerList.getPlayer(this.playerTurn).setPlayerState(PlayerState.PLAYING_HAS_TURN); // Set player with turn to allow move
 		return this.playerTurn;
 	}
 	

@@ -102,14 +102,13 @@ public abstract class GameProperty {
 	
 	/***
 	 * The player that should start the game
-	 * Set to -1 if player should be chosen at random
-	 * Use 0 if first listed player should start, 1 if the second etc.
-	 * So 0 would mean p1 starts the game
+	 * Set to empty string if player should be chosen at random
+	 * Use p1 if first listed player should start, p2 if the second etc.
 	 * 
-	 * @return Player index that should start
+	 * @return String - Player that should start
 	 * @author GRTerpstra & mobieljoy12
 	 */
-	public abstract int playerStart();
+	public abstract String playerStart();
 	
 	/***
 	 * Get available options for a given player
