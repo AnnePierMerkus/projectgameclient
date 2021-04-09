@@ -3,6 +3,8 @@ package com.group4.util;
 import java.util.HashMap;
 import java.util.List;
 
+import com.group4.controller.GameController.GameType;
+import com.group4.model.Board;
 import com.group4.model.GameOptions;
 
 /***
@@ -34,8 +36,17 @@ public abstract class GameProperty {
 	 * @param matchpoint
 	 * @author mobieljoy12
 	 */
-	protected void setMatchPoint(boolean matchpoint) {
+	public void setMatchPoint(boolean matchpoint) {
 		this.matchPoint = matchpoint;
+	}
+	
+	/***
+	 * Check whether it's currently a matchpoint
+	 * 
+	 * @return boolean - Matchpoint
+	 */
+	public boolean isMatchPoint() {
+		return this.matchPoint;
 	}
 	
 	/***
@@ -44,6 +55,8 @@ public abstract class GameProperty {
 	 * @author mobieljoy12
 	 */
 	public void endGame() {
+		//TODO remove later
+		System.out.println("Game has ended");
 		this.gameEnded = true;
 	}
 	
@@ -79,6 +92,13 @@ public abstract class GameProperty {
 	}
 	
 	/***
+	 * Get the GameType that is currently running
+	 * 
+	 * @return GameType - The GameType that is running
+	 */
+	public abstract GameType getGameType();
+	
+	/***
 	 * The width of the board in number of columns
 	 * 
 	 * @return Number of columns
@@ -97,8 +117,10 @@ public abstract class GameProperty {
 	/***
 	 * Method will be called before the match starts and after the board is made
 	 * E.g. for setting tiles
+	 * 
+	 * @param String - The player who gets first turn
 	 */
-	public abstract void doSetup();
+	public abstract void doSetup(String currentPlayerTurn);
 	
 	/***
 	 * The player that should start the game
@@ -118,6 +140,16 @@ public abstract class GameProperty {
 	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract List<Tile> getAvailableOptions(Player player);
+	
+	/***
+	 * Get available options for a given player and a given board
+	 * This method can be used for the AI to think ahead
+	 * 
+	 * @param player - The player to give options for
+	 * @return List<Tile> - List of Tile options player could play
+	 * @author GRTerpstra & mobieljoy12
+	 */
+	public abstract List<Tile> getAvailableOptions(Player player, Board board);
 	
 	/***
 	 * Make a move on a given Tile for a given Player

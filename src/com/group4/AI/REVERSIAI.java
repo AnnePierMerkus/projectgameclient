@@ -1,12 +1,14 @@
 package com.group4.AI;
 
-import com.group4.util.Player;
 import com.group4.util.Tile;
 
-import java.util.Comparator;
 import java.util.List;
 
-public class Reversi_AI implements AI_Interface {
+/***
+ * @author AnnePierMerkus
+ */
+public class REVERSIAI extends AI {
+	
     @Override
     public Tile makeMove(List<Tile> availableOptions)
     {
@@ -14,4 +16,5 @@ public class Reversi_AI implements AI_Interface {
         System.out.println(availableOptions.get(0).getWeight());
         return availableOptions.get(0);
     }
+    
 }

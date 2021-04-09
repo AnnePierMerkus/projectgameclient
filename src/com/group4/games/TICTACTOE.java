@@ -2,6 +2,8 @@ package com.group4.games;
 
 import java.util.List;
 
+import com.group4.controller.GameController.GameType;
+import com.group4.model.Board;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.Tile;
@@ -14,6 +16,11 @@ public class TICTACTOE extends GameProperty {
 	}
 
 	@Override
+	public GameType getGameType() {
+		return GameType.TICTACTOE;
+	}
+	
+	@Override
 	public int getBoardWidth() {
 		return 3;
 	}
@@ -24,7 +31,7 @@ public class TICTACTOE extends GameProperty {
 	}
 	
 	@Override
-	public void doSetup() {
+	public void doSetup(String currentPlayerSetup) {
 		// No setup needed
 	}
 
@@ -35,6 +42,12 @@ public class TICTACTOE extends GameProperty {
 
 	@Override
 	public List<Tile> getAvailableOptions(Player player) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<Tile> getAvailableOptions(Player player, Board board) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,7 +1,7 @@
 package com.group4.controller;
 
 import com.group4.model.GameOptions;
-import com.group4.util.PlayerObserver;
+import com.group4.util.observers.PlayerObserver;
 
 public abstract class GameController extends Controller {
 	
