@@ -43,8 +43,10 @@ public class LoginState implements NetworkPlayerState {
     }
 
     @Override
-    public void makeMove(NetworkPlayer player, int zet) {
+    public boolean makeMove(NetworkPlayer player, int zet) {
         System.out.println("Player is currently not in a match. Cannot make a move.");
+
+        return false;
     }
 
     @Override

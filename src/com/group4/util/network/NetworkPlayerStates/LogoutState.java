@@ -57,8 +57,10 @@ public class LogoutState implements NetworkPlayerState{
     }
 
     @Override
-    public void makeMove(NetworkPlayer player, int zet) {
+    public boolean makeMove(NetworkPlayer player, int zet) {
         System.out.println("Player is not logged in. Cannot make a move.");
+
+        return false;
     }
 
     @Override

@@ -24,7 +24,7 @@ public interface NetworkPlayerState{
     void subscribePlayerToGame(NetworkPlayer player, String game);
 
     //make a move in connected match
-    void makeMove(NetworkPlayer player, int zet);
+    boolean makeMove(NetworkPlayer player, int zet);
 
     //challenge online player on certain game
     void challengePlayer(NetworkPlayer player, String online_player, String game);

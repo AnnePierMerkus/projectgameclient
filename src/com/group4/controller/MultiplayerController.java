@@ -45,8 +45,6 @@ public class MultiplayerController extends GameController {
 
     protected Thread client_thread;
 
-    protected HashMap<String, Player> players;
-
     public NetworkPlayer networkPlayer;
 
     @FXML
@@ -134,7 +132,9 @@ public class MultiplayerController extends GameController {
 
                 //a match has been started by the server
                 if (message.contains("MATCH")){
-                    if (client2.messageToMap().get("GAMETYPE").equals("Tic-tac-toe")){
+                    HashMap<String, String> messageToMap = client2.messageToMap();
+
+                    if (messageToMap.get("GAMETYPE").equals("Tic-tac-toe")){
                         this.createGame(GameType.TICTACTOE);
                     }else {
                         this.createGame(GameType.REVERSI);
