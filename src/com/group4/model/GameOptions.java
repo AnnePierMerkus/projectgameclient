@@ -4,9 +4,9 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.group4.controller.GameController.Difficulty;
 import com.group4.controller.GameController.GameState;
 import com.group4.controller.GameController.GameType;
-import com.group4.util.BoardObserver;
 import com.group4.util.GameProperty;
 import com.group4.util.Player.PlayerState;
+import com.group4.util.observers.BoardObserver;
 import com.group4.util.PlayerList;
 
 public class GameOptions {
@@ -33,7 +33,7 @@ public class GameOptions {
 	private GameState gameState = GameState.PREPARING;
 	
 	/**
-     * Instanciate GameProperty class for the gametype
+     * Instantiate GameProperty class for the GameType
      *
      * @param className
      * @param type
@@ -76,11 +76,11 @@ public class GameOptions {
 		// Create board
 		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
 		
-		// Setup the board if needed - TODO ~ Test the setup
-		this.game.doSetup();
-		
 		// Give the first player the turn
-		this.toggleTurn();
+		String currentPlayerTurn = this.toggleTurn();
+		
+		// Setup the board if needed - TODO ~ Test the setup
+		this.game.doSetup(currentPlayerTurn);
 
 	}
 	
@@ -107,10 +107,10 @@ public class GameOptions {
 		// Create board
 		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
 		
-		// Setup the board if needed - TODO ~ Test the setup
-		this.game.doSetup();
-		
 		this.playerTurn = playerStart;
+		
+		// Setup the board if needed - TODO ~ Test the setup
+		this.game.doSetup(playerStart);
 
 	}
 	

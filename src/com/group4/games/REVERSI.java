@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.group4.controller.GameController.GameType;
+import com.group4.model.Board;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
@@ -17,6 +19,11 @@ public class REVERSI extends GameProperty {
 	}
 	
 	@Override
+	public GameType getGameType() {
+		return GameType.REVERSI;
+	}
+	
+	@Override
 	public int getBoardWidth() {
 		return 8;
 	}
@@ -27,14 +34,14 @@ public class REVERSI extends GameProperty {
 	}
 	
 	@Override
-	public void doSetup() {
+	public void doSetup(String currentPlayerSetup) {
 		// Set the default values on the board
-		this.game.getBoard().getTile(27).setOccupant(PlayerList.getPlayer("p1"));
-		this.game.getBoard().getTile(36).setOccupant(PlayerList.getPlayer("p1"));
-		this.game.getBoard().getTile(28).setOccupant(PlayerList.getPlayer("p2"));
-		this.game.getBoard().getTile(35).setOccupant(PlayerList.getPlayer("p2"));
+		this.game.getBoard().getTile(28).setOccupant(PlayerList.getPlayer(currentPlayerSetup));
+		this.game.getBoard().getTile(35).setOccupant(PlayerList.getPlayer(currentPlayerSetup));
+		this.game.getBoard().getTile(27).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup));
+		this.game.getBoard().getTile(36).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup));
 	}
-
+	
 	@Override
 	public String playerStart() {
 		// Black always starts
@@ -65,6 +72,47 @@ public class REVERSI extends GameProperty {
 							break;
 						}
 						currentTile = board.get(currentTile.getIndex() + directionOffset);
+						if((currentTile.getOccupant() == player) || (currentTile.getOccupant() == null && !(foundOpponentTile))) {
+							break;
+						}
+						else if(currentTile.getOccupant() != player && currentTile.getOccupant() != null) {
+							foundOpponentTile = true;
+							continue;
+						}
+						else if(currentTile.getOccupant() == null && foundOpponentTile) {
+							availableOptions.add(currentTile);
+							break;
+						}						
+					}
+				}
+			}
+		}
+		return availableOptions;
+	}
+	
+	@Override
+	public List<Tile> getAvailableOptions(Player player, Board board){
+		ArrayList<Tile> availableOptions = new ArrayList<Tile>();
+		for(Tile tile : board.getGameBoard().values()) {
+			if(tile.getOccupant() == player) {
+				for(int i = 0; i < 8; i++) {
+					Tile currentTile = tile;
+					int directionOffset = getDirectionOffset(i);					
+					boolean foundOpponentTile = false;
+					while(currentTile.getIndex() + directionOffset >= 0 && currentTile.getIndex() + directionOffset <= 63) {	
+						if(		(i == 0 && (currentTile.getIndex() < 8)) 												|| 
+								(i == 1 && ((currentTile.getIndex() < 8) || (currentTile.getIndex() + 1) % 8 == 0)) 	||
+								(i == 2 && ((currentTile.getIndex() + 1) % 8 == 0)) 									||
+								(i == 3 && ((((currentTile.getIndex() + 1) % 8 == 0)) || (currentTile.getIndex() > 55)))||
+								(i == 4 && (currentTile.getIndex() > 55)) 												||
+								(i == 5 && ((currentTile.getIndex() > 55) || currentTile.getIndex() % 8 == 0)) 			||
+								(i == 6 && (currentTile.getIndex() % 8 == 0)) 											||
+								(i == 7 && ((currentTile.getIndex() % 8 == 0) || currentTile.getIndex() < 8))
+						  ) 
+							{
+							break;
+						}
+						currentTile = board.getGameBoard().get(currentTile.getIndex() + directionOffset);
 						if((currentTile.getOccupant() == player) || (currentTile.getOccupant() == null && !(foundOpponentTile))) {
 							break;
 						}
@@ -146,9 +194,7 @@ public class REVERSI extends GameProperty {
 		else if(availableOptions.contains(tile)) {
 			return true;
 		}
-		else {
-			return false;
-		}
+		return false;
 	}
 
 	@Override

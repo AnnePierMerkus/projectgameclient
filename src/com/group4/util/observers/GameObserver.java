@@ -1,6 +1,4 @@
-package com.group4.util;
-
-import com.group4.util.observers.Observer;
+package com.group4.util.observers;
 
 public class GameObserver implements Observer {
 

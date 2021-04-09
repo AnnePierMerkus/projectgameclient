@@ -3,8 +3,6 @@ package com.group4.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.group4.AI.AI_Interface;
-import com.group4.AI.Reversi_AI;
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
 
@@ -19,14 +17,12 @@ public class Player implements Observable {
 	private String id;
 	
 	// Gameproperty instance so player can reach the game object
-	private GameProperty gameProperty = null;
+	protected GameProperty gameProperty = null;
 	
 	// Holding the state the player is currently in
-	private PlayerState playerState;
+	protected PlayerState playerState;
 	
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
-
-	private AI_Interface ai_interface;
 	
 	/***
 	 * Create a new Player
@@ -35,18 +31,6 @@ public class Player implements Observable {
 	 * @author mobieljoy12
 	 */
 	public Player(String id) {
-		this.id = id;
-		this.playerState = PlayerState.WAITING;
-	}
-
-	/***
-	 * Create a new Player
-	 *
-	 * @param id
-	 * @author mobieljoy12
-	 */
-	public Player(String id, AI_Interface ai_interface) {
-		this.ai_interface = ai_interface;
 		this.id = id;
 		this.playerState = PlayerState.WAITING;
 	}
@@ -79,6 +63,14 @@ public class Player implements Observable {
 	 */
 	public void setPlayerState(PlayerState state) {
 		this.playerState = state;
+		// Check if player has moves left
+		if(state.equals(PlayerState.PLAYING_HAS_TURN)) {
+			if(this.getAvailableOptions().isEmpty()) {
+				if(this.gameProperty.isMatchPoint()) this.gameProperty.endGame(); else this.gameProperty.setMatchPoint(true);
+			}else {
+				this.gameProperty.setMatchPoint(false);
+			}
+		}
 	}
 	
 	/***
@@ -93,21 +85,10 @@ public class Player implements Observable {
 		//TODO check matchpoint & end game
 		// Don't allow moves if player does not have the turn
 		if(this.playerState != PlayerState.PLAYING_HAS_TURN) return;
-		System.out.println("n" + tile.getWeight());
-		if (ai_interface != null)
-		{
-			try {
-				System.out.println("sleep" + this.getId());
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			this.gameProperty.makeMove(ai_interface.makeMove(getAvailableOptions()), this);
+		if(this.gameProperty.gameHasEnded()) return;
+		
+		if(this.gameProperty.makeMove(tile, this)){
 			this.notifyObservers();
-		} // If move is legal, notify observers to toggle turn
-		else if(this.gameProperty.makeMove(tile, this)){
-			this.notifyObservers();
-
 		}
 	}
 	

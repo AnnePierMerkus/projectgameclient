@@ -3,9 +3,9 @@ package com.group4.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.group4.util.Tile;
-import com.group4.util.TileObserver;
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
+import com.group4.util.observers.TileObserver;
 
 /**
  * Class that creates and defines the game board.

@@ -1,7 +1,6 @@
-package com.group4.util;
+package com.group4.util.observers;
 
 import com.group4.model.GameOptions;
-import com.group4.util.observers.Observer;
 
 public class BoardObserver implements Observer {
 	

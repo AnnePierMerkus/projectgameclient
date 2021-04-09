@@ -64,10 +64,7 @@ public class NetworkPlayer extends Player {
      */
     @Override
     public void makeMove(Tile tile) {
-
-        if (this.state.makeMove(this, tile.getIndex())){
-            super.makeMove(tile);
-        }
+    	this.gameProperty.makeMove(tile, this);
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.group4.controller;
 
-import com.group4.AI.Reversi_AI;
+import com.group4.AI.AIPlayer;
 import com.group4.model.GameOptions;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
@@ -15,7 +15,7 @@ public class SingleplayerGameController extends GameController {
 	public SingleplayerGameController() {
 		super();
 		PlayerList.addPlayer(new Player("p1"));
-		PlayerList.addPlayer(new Player("p2", new Reversi_AI()));
+		PlayerList.addPlayer(new AIPlayer("p2"));
 		PlayerList.players.values().forEach((p) -> p.registerObserver(this.playerObserver));
 	}
 	
