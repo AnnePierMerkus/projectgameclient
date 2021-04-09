@@ -90,6 +90,7 @@ public class Player implements Observable {
 	 * @author mobieljoy12
 	 */
 	public void makeMove(Tile tile) {
+		//TODO check matchpoint & end game
 		// Don't allow moves if player does not have the turn
 		if(this.playerState != PlayerState.PLAYING_HAS_TURN) return;
 		System.out.println("n" + tile.getWeight());

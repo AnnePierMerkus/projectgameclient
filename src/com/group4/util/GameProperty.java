@@ -16,20 +16,45 @@ import com.group4.model.GameOptions;
  */
 public abstract class GameProperty {
 
+	// Hold the display names for the players
 	protected HashMap<String, String> displayNames = new HashMap<String, String>();
+	
+	// Hold the connection to the gameoptions
 	protected GameOptions game = null;
-
-	//TODO remove later
-	public void tempDisplayBoard() {
-		for(int row = 0; row < this.game.getBoard().getHeight(); row++) {
-			for(int col = 0; col < this.game.getBoard().getWidth(); col++) {
-				// ((row * getRowWidth()) + column)
-				int tileIndex = (row * this.game.getBoard().getWidth()) + col;
-				String id = (this.game.getBoard().getTile(tileIndex).getOccupant() == null) ? "" : this.game.getBoard().getTile((row * this.game.getBoard().getWidth()) + col).getOccupant().getId();
-				//System.out.print(" [" + id + "] ");
-			}
-		}
-
+	
+	// Whether the game is on matchpoint
+	private boolean matchPoint = false;
+	
+	// Whether the game has ended
+	private boolean gameEnded = false;
+	
+	/***
+	 * Set the matchpoint variable
+	 * 
+	 * @param matchpoint
+	 * @author mobieljoy12
+	 */
+	protected void setMatchPoint(boolean matchpoint) {
+		this.matchPoint = matchpoint;
+	}
+	
+	/***
+	 * End the game
+	 * 
+	 * @author mobieljoy12
+	 */
+	public void endGame() {
+		this.gameEnded = true;
+	}
+	
+	/***
+	 * Whether the game has ended or should continue
+	 * 
+	 * @return boolean - Whether the game has ended
+	 * @author GRTerpstra & mobieljoy12
+	 */
+	public boolean gameHasEnded() {
+		return this.gameEnded;
 	}
 	
 	/***
@@ -114,13 +139,5 @@ public abstract class GameProperty {
 	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract boolean isLegalMove(Tile tile, Player player);
-	
-	/***
-	 * Whether the game has ended or should continue
-	 * 
-	 * @return boolean - Whether the game has ended
-	 * @author GRTerpstra & mobieljoy12
-	 */
-	public abstract boolean gameHasEnded();
 	
 }
