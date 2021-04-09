@@ -93,15 +93,13 @@ public class REVERSI extends GameProperty {
 				if(		(i == 0 && (currentTile.getIndex() < 8)) 												|| 
 						(i == 1 && ((currentTile.getIndex() < 8) || (currentTile.getIndex() + 1) % 8 == 0)) 	||
 						(i == 2 && ((currentTile.getIndex() + 1) % 8 == 0)) 									||
-						(i == 3 && ((currentTile.getIndex() + 1) % 8 == 0) || (currentTile.getIndex() > 55)) 	||
+						(i == 3 && ((((currentTile.getIndex() + 1) % 8 == 0)) || (currentTile.getIndex() > 55)))||
 						(i == 4 && (currentTile.getIndex() > 55)) 												||
 						(i == 5 && ((currentTile.getIndex() > 55) || currentTile.getIndex() % 8 == 0)) 			||
 						(i == 6 && (currentTile.getIndex() % 8 == 0)) 											||
 						(i == 7 && ((currentTile.getIndex() % 8 == 0) || currentTile.getIndex() < 8))
 				  ) 
-					{
-					System.out.println("current tile " + currentTile.getIndex());
-					System.out.println("bij " + i + "gaat het mis.");
+					{					
 					break;
 				}
 				currentTile = board.get(currentTile.getIndex() + directionOffset);
