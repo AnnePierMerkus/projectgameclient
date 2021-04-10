@@ -177,6 +177,7 @@ public class MultiplayerController extends GameController {
         if (selected_game_btn != null){
             if (selected_player_btn != null){
                 //challenge player with selected player and selected game
+                this.notificationController.revealNotification("Challenge for " + selected_game_btn.getText() + " has been send to " + selected_player_btn.getText());
                 this.networkPlayer.challenge(selected_player_btn.getText(), selected_game_btn.getText());
             }else{
                 System.out.println("Please select a valid game");
@@ -247,6 +248,7 @@ public class MultiplayerController extends GameController {
         ToggleButton selected_game_btn = (ToggleButton) this.GameGroup.getSelectedToggle();
 
         if (selected_game_btn != null){
+            this.notificationController.revealNotification("Joining " + selected_game_btn.getText());
             this.networkPlayer.subscribe(selected_game_btn.getText());// game name from view form field here
         }else{
             System.out.println("please select a game to join");

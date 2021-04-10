@@ -70,6 +70,8 @@ public class NotificationController {
         if (this.acceptObserver != null) {
             this.acceptObserver.update(this);
         }
+
+        this.notificationAcceptBtn.setSelected(false);
     }
 
     public void notificationDecline(){
@@ -79,5 +81,7 @@ public class NotificationController {
         if (this.declineObserver != null){
             this.declineObserver.update(this);
         }
+
+        this.notificationDeclineBtn.setSelected(false);
     }
 }
