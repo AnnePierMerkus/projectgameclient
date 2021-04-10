@@ -506,14 +506,13 @@ public class MultiplayerController extends GameController {
         if (message.contains("WIN") || message.contains("LOSS") || message.contains("DRAW")){
             ButtonType continueButton = new ButtonType("Continue", ButtonBar.ButtonData.LEFT);
             Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You won the game!\n\n\n\n", continueButton);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You ! " + message.replace("SVR GAME", "").substring(0, message.lastIndexOf("{")) + this.networkPlayer.getName(), continueButton);
                 alert.setTitle("Game Ended");
                 alert.setHeaderText(null);
                 alert.setGraphic(null);
                 alert.showAndWait();
-                    stage.setScene(this.thisScene);
+                stage.setScene(this.thisScene);
             });
-
 
             System.out.println("players: " + PlayerList.players.values());
 
