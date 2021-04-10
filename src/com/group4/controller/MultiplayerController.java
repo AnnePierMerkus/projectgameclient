@@ -1,5 +1,6 @@
 package com.group4.controller;
 
+import com.group4.AI.AI;
 import com.group4.model.Challenge;
 import com.group4.model.GameOptions;
 import com.group4.util.Player;
@@ -14,6 +15,7 @@ import com.group4.util.network.NetworkPlayerStates.LoginState;
 import com.group4.view.MyToggleButton;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -86,6 +88,11 @@ public class MultiplayerController extends GameController {
     @FXML
     NotificationController notificationController;
 
+    //--------------AI-------------------------
+    @FXML
+    ToggleButton AIBtn;
+
+    AI AI;
 
     String startingPlayer;
 
@@ -148,12 +155,14 @@ public class MultiplayerController extends GameController {
     protected void tic_tac_toe(ActionEvent event)
     {
         showPlayers(false);
+        this.AIBtn.setVisible(true);
     }
 
     @FXML
     protected void reversi(ActionEvent event)
     {
         showPlayers(false);
+        this.AIBtn.setVisible(true);
     }
 
     @FXML
@@ -243,6 +252,32 @@ public class MultiplayerController extends GameController {
         }
 
         joinLobby.setSelected(false);
+    }
+
+    /**
+     * Create a new AI instance to be used by networkplayer
+     *
+     * @param event action event
+     */
+    public void setAI(Event event){
+        //when true create AI instance to be used by networkplayer
+        if (this.AIBtn.isSelected()){
+            ToggleButton selected_game_btn =  (ToggleButton) this.GameGroup.getSelectedToggle();
+
+            if (selected_game_btn != null){
+                try{
+                    //make a new ai instance
+                    this.AI = (AI) Class.forName("com.group4.AI." + selected_game_btn.getText().replace("-", "").toUpperCase() + "AI").newInstance();
+                    this.AIBtn.setText("Disable AI");
+                }catch (Exception e){
+                    System.out.println("AI could not be Created: " + e);
+                    this.AIBtn.setSelected(false);
+                }
+            }
+        }else{
+            this.AIBtn.setText("Enable AI");
+            this.AI = null; //remove any previous set ai instances
+        }
     }
 
     @Override
@@ -414,6 +449,12 @@ public class MultiplayerController extends GameController {
         //its network players turn to make a move set state
         if (message.contains("YOURTURN")){
             this.networkPlayer.setState(new InMatchPlayerTurnState());
+
+            //when true let AI play instead of player
+            if (this.AI != null){
+                //Networkplayer makes a move with the best tile chosen by the AI.
+                this.networkPlayer.makeMove(this.AI.makeMove(this.networkPlayer.getAvailableOptions()));
+            }
         }
     }
 

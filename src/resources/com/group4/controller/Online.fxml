@@ -159,6 +159,16 @@
                     top="10"/>
             </GridPane.margin>
 
+            <ToggleButton
+                    fx:id="AIBtn"
+                    visible="false"
+                    text="Enable AI"
+                    HBox.hgrow="ALWAYS"
+                    maxWidth="100"
+                    maxHeight="300"
+                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                    onAction="#setAI"
+            />
 
             <MyToggleButton
                 fx:id="joinLobby"
