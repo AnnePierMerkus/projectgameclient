@@ -10,6 +10,8 @@ import com.group4.util.observers.Observer;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class Tile extends StackPane implements Observable {
@@ -21,6 +23,8 @@ public class Tile extends StackPane implements Observable {
 	private Player playerOnTile = null;
 	
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
+
+	Circle circle;
 	
 	/***
 	 * Make a new Tile
@@ -34,6 +38,12 @@ public class Tile extends StackPane implements Observable {
 			this.weight = weight;
 
 		Rectangle border = new Rectangle(100, 100);
+
+		circle = new Circle(0, 0, 40);
+		circle.setFill(Color.web("#009067"));
+		setStyle("-fx-background-color: #009067");
+
+		getChildren().add(circle);
 		border.setFill(null);
 		border.setStroke(Color.BLACK);
 		setAlignment(Pos.CENTER);
@@ -113,7 +123,7 @@ public class Tile extends StackPane implements Observable {
 	public void setOccupant(Player occupant) {
 		this.playerOnTile = occupant;
 		if(occupant != null) {
-			String color = (this.playerOnTile.getId().equals("p1")) ? "blue" : "red";
+			circle.setFill(this.playerOnTile.getId().equals("p1") ? Color.WHITE : Color.BLACK);
 			//setStyle("-fx-background-color: " + color);
 		}
 		this.notifyObservers();
