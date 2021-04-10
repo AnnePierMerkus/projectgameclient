@@ -35,11 +35,15 @@ public class Board implements Observable {
 				if ((row == 0 || row == height - 1) && (col == 0 || col == width - 1)) {
 					weight = 20;
 				}
+				else if ((row == 0 || row == 1 || row == height - 1 || row == height - 2) && (col == 0 || col == 1 || col == width - 1 || col == width - 2))
+				{
+					weight = 1;
+				}
 				else if (row == 0 || row == height - 1 || col == 0 || col == width - 1) {
 					weight = 10;
 				}
 				else if (row == 1 || row == height - 2 || col == 1 || col == width - 2) {
-					weight = 1;
+					weight = 2;
 				}
 				else {
 					weight = 5;

@@ -32,12 +32,12 @@ public class Tile extends StackPane implements Observable {
 		this.index = index;
 		if (this.weight == 0)
 			this.weight = weight;
+
 		Rectangle border = new Rectangle(100, 100);
 		border.setFill(null);
 		border.setStroke(Color.BLACK);
 		setAlignment(Pos.CENTER);
 		getChildren().addAll(border);
-		System.out.println(weight);
 		setOnMouseClicked(mouseEvent ->
 		{
 			/*PlayerList.players.values().forEach((p) -> {
@@ -114,7 +114,7 @@ public class Tile extends StackPane implements Observable {
 		this.playerOnTile = occupant;
 		if(occupant != null) {
 			String color = (this.playerOnTile.getId().equals("p1")) ? "blue" : "red";
-			setStyle("-fx-background-color: " + color);
+			//setStyle("-fx-background-color: " + color);
 		}
 		this.notifyObservers();
 	}
