@@ -114,7 +114,7 @@ public class Tile extends StackPane implements Observable {
 		this.playerOnTile = occupant;
 		if(occupant != null) {
 			String color = (this.playerOnTile.getId().equals("p1")) ? "blue" : "red";
-			//setStyle("-fx-background-color: " + color);
+			setStyle("-fx-background-color: " + color);
 		}
 		this.notifyObservers();
 	}

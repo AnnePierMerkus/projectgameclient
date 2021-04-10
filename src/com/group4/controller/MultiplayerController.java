@@ -113,6 +113,14 @@ public class MultiplayerController extends GameController {
             //register new observer to client for starting a match when server starts a match
             this.client.registerObserver(this::startMatch);
 
+            //register turn method to determin players turn
+            this.client.registerObserver((this::setTurn));
+
+            //register end match method
+            this.client.registerObserver(this::endMatch);
+
+            //--------------Observers-for-changing-view-----------------------------
+
             //register observer for adding players
             this.client.registerObserver((object -> {
                 Platform.runLater(() -> {
@@ -130,12 +138,6 @@ public class MultiplayerController extends GameController {
                     this.receiveChallenge(object);
                 });
             }));
-
-            //register turn method to determin players turn
-            this.client.registerObserver((this::setTurn));
-
-            //register end match method
-            this.client.registerObserver(this::endMatch);
 
         }catch (Exception e){
             System.out.println("Could not connect to server: " + e);
@@ -404,7 +406,8 @@ public class MultiplayerController extends GameController {
                 this.networkPlayer.setState(new InMatchNoTurnState());
 
                 //let the server make a move on the board
-                PlayerList.getPlayer("p2").makeMove(new Tile(Integer.parseInt(hashmap_msg.get("MOVE"))));
+                //IMPORTANT! get the tile from the board not new otherwise tile wil not be recognised
+                PlayerList.getPlayer("p2").makeMove(this.game.getBoard().getTile(Integer.parseInt(hashmap_msg.get("MOVE"))));
             }
         }
 
