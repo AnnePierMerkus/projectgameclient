@@ -19,9 +19,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -41,6 +39,9 @@ import java.util.Map;
  * @author Gemar Koning
  */
 public class MultiplayerController extends GameController {
+    // Main Window
+    Stage stage;
+    Scene thisScene;
 
     protected Client client;
 
@@ -296,8 +297,10 @@ public class MultiplayerController extends GameController {
         //set player state
         this.networkPlayer.setState(new InMatchNoTurnState());
 
-        Stage stage = (Stage) findPlayers.getScene().getWindow();
+        thisScene = findPlayers.getScene();
+        stage = (Stage) findPlayers.getScene().getWindow();
 
+        System.out.println("players: " + PlayerList.players.values());
         Platform.runLater(() -> {
             Scene scene = new Scene(fillInBoard());
             stage.setScene(scene);
@@ -495,11 +498,24 @@ public class MultiplayerController extends GameController {
      */
     public void endMatch(Object object){
         Client client = (Client) object;
-
         String message = client.getMessage();
 
         //match is over set networkplayer state and end the game
         if (message.contains("WIN") || message.contains("LOSS") || message.contains("DRAW")){
+            ButtonType continueButton = new ButtonType("Continue", ButtonBar.ButtonData.LEFT);
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You won the game!\n\n\n\n", continueButton);
+                alert.setTitle("Game Ended");
+                alert.setHeaderText(null);
+                alert.setGraphic(null);
+                alert.showAndWait();
+                    stage.setScene(this.thisScene);
+            });
+
+
+            System.out.println("players: " + PlayerList.players.values());
+
+            //change scene back
             this.networkPlayer.setState(new LoginState());
             this.endGame(); //match has ended so end the game
         }

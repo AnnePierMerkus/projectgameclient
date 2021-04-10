@@ -6,6 +6,9 @@ import com.group4.util.Tile;
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
 import com.group4.util.observers.TileObserver;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 
 /**
  * Class that creates and defines the game board.
@@ -28,6 +31,7 @@ public class Board implements Observable {
 		this.boardObservers = new ArrayList<Observer>();
 		this.height = height;
 		this.width = width;
+
 		for(int row = 0; row < height; row++) {
 			for(int col = 0; col < width; col++) {
 				// ((row * getRowWidth()) + column)

@@ -8,6 +8,8 @@ import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
