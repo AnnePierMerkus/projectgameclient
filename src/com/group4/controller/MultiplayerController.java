@@ -271,6 +271,7 @@ public class MultiplayerController extends GameController {
                 try{
                     //make a new ai instance
                     this.AI = (AI) Class.forName("com.group4.AI." + selected_game_btn.getText().replace("-", "").toUpperCase() + "AI").newInstance();
+                    this.AI.setAIType(this.game, this.game.getGameType());
                     this.AIBtn.setText("Disable AI");
                 }catch (Exception e){
                     System.out.println("AI could not be Created: " + e);

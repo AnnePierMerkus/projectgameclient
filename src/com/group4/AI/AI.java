@@ -1,6 +1,7 @@
 package com.group4.AI;
 
-import com.group4.model.Board;
+import com.group4.controller.GameController.GameType;
+import com.group4.model.GameOptions;
 import com.group4.util.Tile;
 
 import java.util.List;
@@ -8,12 +9,17 @@ import java.util.List;
 
 public abstract class AI {
 	
-	// The board the AI can work with
-	Board AIBoard;
+	// The Game the AI can work with
+	GameAI gameai;
 	
 	public void updateBoardFromGame() {
 		
 	}
+	
+	public void setAIType(GameOptions gameOptions, GameType gameType) {
+		this.gameai = new GameAI(gameType);
+		this.gameai.setGameOptions(gameOptions);
+    }
 	
     public abstract Tile makeMove(List<Tile> availableOptions);
     
