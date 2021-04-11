@@ -36,7 +36,7 @@ public class GameAI extends GameOptions {
 	public void setGameOptions(GameOptions gameOptions) {
 		this.gameOptions = gameOptions;
 	}
-	
+
 	/***
 	 * Get the GameProperty
 	 * 
@@ -54,6 +54,7 @@ public class GameAI extends GameOptions {
 	 * @author mobieljoy12
 	 */
 	public void makePredictionMove(int tileIndex, Player player) {
+
 		this.board.getTile(tileIndex).setOccupant(player);
 	}
 	

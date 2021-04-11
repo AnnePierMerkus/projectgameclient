@@ -138,6 +138,7 @@ public class GameOptions {
 	 * @author mobieljoy12
 	 */
 	public String toggleTurn() {
+		if(this.gameState.equals(GameState.ENDED)) return "";
 		PlayerList.players.values().forEach((p) -> p.setPlayerState(PlayerState.PLAYING_NO_TURN));
 		if(this.playerTurn.length() == 0) { // No player currently has the turn
 			String gameBasePlayerStart = this.game.playerStart();

@@ -1,7 +1,11 @@
 package com.group4.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map.Entry;
+
+import com.group4.util.observers.Observable;
+import com.group4.util.observers.Observer;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
@@ -9,13 +13,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class Tile extends StackPane {
+public class Tile extends StackPane implements Observable {
 	
 	private int index;
 
 	private int weight = 0;
 
 	private Player playerOnTile = null;
+	
+	private ArrayList<Observer> observers = new ArrayList<Observer>();
 
 	Circle circle;
 	
@@ -43,36 +49,16 @@ public class Tile extends StackPane {
 		getChildren().addAll(border);
 		setOnMouseClicked(mouseEvent ->
 		{
-			/*PlayerList.players.values().forEach((p) -> {
-				if (p.getPlayerState() == Player.PlayerState.PLAYING_HAS_TURN) {
-					p.makeMove(this);
-				}
-			});*/
 			Iterator<Entry<String, Player>> it = PlayerList.players.entrySet().iterator();
 			while (it.hasNext())
 			{
 				Entry<String, Player> pair = it.next();
-				if (((Player)pair.getValue()).getPlayerState() == Player.PlayerState.PLAYING_HAS_TURN)
+				if (pair.getValue().getPlayerState() == Player.PlayerState.PLAYING_HAS_TURN)
 				{
-					((Player) pair.getValue()).makeMove(this);
+					pair.getValue().makeMove(this);
 					break;
 				}
 			}
-		});
-	}
-
-	public Tile(int index) {
-		this.index = index;
-		this.weight = 1;
-		Rectangle border = new Rectangle(100, 100);
-		border.setFill(null);
-		border.setStroke(Color.BLACK);
-		setAlignment(Pos.CENTER);
-		getChildren().addAll(border);
-
-		setOnMouseClicked(mouseEvent ->
-		{
-			PlayerList.players.values().forEach((p) -> p.makeMove(this));
 		});
 	}
 	
@@ -117,8 +103,8 @@ public class Tile extends StackPane {
 		this.playerOnTile = occupant;
 		if(occupant != null) {
 			circle.setFill(this.playerOnTile.getId().equals("p1") ? Color.WHITE : Color.BLACK);
-			//setStyle("-fx-background-color: " + color);
 		}
+		this.notifyObservers();
 	}
 	
 	/***
@@ -138,6 +124,21 @@ public class Tile extends StackPane {
 	 */
 	public boolean isOccupied() {
 		return (this.playerOnTile != null);
+	}
+
+	@Override
+	public void registerObserver(Observer observer) {
+		this.observers.add(observer);
+	}
+
+	@Override
+	public void removeObserver(Observer observer) {
+		this.observers.remove(observer);
+	}
+
+	@Override
+	public void notifyObservers() {
+		this.observers.forEach((o) -> o.update(this));
 	}
 	
 }
