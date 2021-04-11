@@ -13,9 +13,47 @@ import com.group4.util.Tile;
 
 public class REVERSI extends GameProperty {
 
+	/***
+	 * Get the direction offset for a given direction
+	 * 
+	 * @param direction
+	 * @return int
+	 * @author GRTerpstra
+	 */
+	private int getDirectionOffset(int direction) {
+		int offset = 0;
+		switch(direction) {
+			case 0:
+				offset = -8;
+				break;
+			case 1:
+				offset =  -7;
+				break;
+			case 2:
+				offset =  +1;
+				break;
+			case 3:
+				offset =  +9;
+				break;
+			case 4:
+				offset =  +8;
+				break;
+			case 5:
+				offset =  +7;
+				break;
+			case 6:
+				offset =  -1;
+				break;
+			case 7:
+				offset =  -9;
+				break;
+		}
+		return offset;
+	}
+	
 	public REVERSI() {
-		this.displayNames.put("p1", "1");
-		this.displayNames.put("p2", "2");
+		this.displayNames.put("p1", "Wit");
+		this.displayNames.put("p2", "Zwart");
 	}
 	
 	@Override
@@ -44,7 +82,7 @@ public class REVERSI extends GameProperty {
 	
 	@Override
 	public String playerStart() {
-		// Black always starts
+		// Wit always starts
 		return "p1";
 	}
 
@@ -178,7 +216,6 @@ public class REVERSI extends GameProperty {
 		if(this.isLegalMove(tile, player)) {
 			System.out.println("Move legal");
 			tile.setOccupant(player);
-			// TODO update change in board
 			swapTiles(tile, player);
 			return true;
 		}
@@ -188,8 +225,6 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean isLegalMove(Tile tile, Player player) {
-		// TODO make it so that the getAvailableOptions method only gets called once every turn. 
-		// this method should have access to the array of available moves without calling the getAvailableOption method.
 		List<Tile> availableOptions = this.getAvailableOptions(player);
 		if(availableOptions.isEmpty()) {
 			return false;
@@ -200,45 +235,4 @@ public class REVERSI extends GameProperty {
 		return false;
 	}
 
-	@Override
-	public boolean gameHasEnded() {
-		// TODO if both players have no legal moves to do: true.
-		return false;
-	}
-	
-	private int getDirectionOffset(int direction) {
-		int offset = 0;
-		switch(direction) {
-			case 0:
-				offset = -8;
-				break;
-			case 1:
-				offset =  -7;
-				break;
-			case 2:
-				offset =  +1;
-				break;
-			case 3:
-				offset =  +9;
-				break;
-			case 4:
-				offset =  +8;
-				break;
-			case 5:
-				offset =  +7;
-				break;
-			case 6:
-				offset =  -1;
-				break;
-			case 7:
-				offset =  -9;
-				break;
-		}
-		return offset;
-	}
-
-	@Override
-	public boolean winCondition(Player player) {
-		return false;
-	}
 }

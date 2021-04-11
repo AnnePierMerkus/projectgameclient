@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Multiplayer Controller for controlling multiplayer view and network player
@@ -329,11 +329,11 @@ public class MultiplayerController extends GameController {
         GridPane root = new GridPane();
         root.setPrefSize(600, 600);
 
-        Iterator it = getOptions().getBoard().getGameBoard().entrySet().iterator();
+        Iterator<Entry<Integer, Tile>> it = getOptions().getBoard().getGameBoard().entrySet().iterator();
         int row = 0;
         int column = 0;
         while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
+            Entry<Integer, Tile> pair = it.next();
             root.add((Tile)pair.getValue(), column, row);
             column++;
 

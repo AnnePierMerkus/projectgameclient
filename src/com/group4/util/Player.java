@@ -66,7 +66,7 @@ public class Player implements Observable {
 		// Check if player has moves left
 		if(state.equals(PlayerState.PLAYING_HAS_TURN) && this.gameProperty != null) {
 			if(this.getAvailableOptions().isEmpty()) {
-				if(this.gameProperty.isMatchPoint()) this.gameProperty.endGame(); else this.gameProperty.setMatchPoint(true);
+				if(this.gameProperty.isMatchPoint()) this.gameProperty.endGame(this); else this.gameProperty.setMatchPoint(true);
 			}else {
 				this.gameProperty.setMatchPoint(false);
 			}

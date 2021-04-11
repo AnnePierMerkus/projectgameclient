@@ -12,6 +12,35 @@ import com.group4.util.Tile;
 
 public class TICTACTOE extends GameProperty {
 
+	/***
+	 * Check if this player won the game
+	 * 
+	 * @param player - The player to check
+	 * @return boolean
+	 */
+	private boolean winCondition(Player player) {
+		ArrayList<Integer> playerTiles = new ArrayList<Integer>();
+		for(Tile tile : this.game.getBoard().getGameBoard().values()) {
+			if(tile.getOccupant() == player) {
+				playerTiles.add(tile.getIndex());
+			}
+		}
+		if((playerTiles.contains(0) && playerTiles.contains(1) && playerTiles.contains(2)) ||
+		   (playerTiles.contains(3) && playerTiles.contains(4) && playerTiles.contains(5)) ||
+		   (playerTiles.contains(6) && playerTiles.contains(7) && playerTiles.contains(8)) ||
+		   (playerTiles.contains(0) && playerTiles.contains(3) && playerTiles.contains(6)) ||
+		   (playerTiles.contains(1) && playerTiles.contains(4) && playerTiles.contains(7)) ||
+		   (playerTiles.contains(2) && playerTiles.contains(5) && playerTiles.contains(8)) ||
+		   (playerTiles.contains(0) && playerTiles.contains(4) && playerTiles.contains(8)) ||
+		   (playerTiles.contains(2) && playerTiles.contains(4) && playerTiles.contains(6))
+		  ) {
+			this.endGame(player);
+			System.out.println("Player " + player.getId() + " has won!");
+			return true;
+		}		
+		return false;
+	}
+	
 	public TICTACTOE() {
 		this.displayNames.put("p1", "X");
 		this.displayNames.put("p2", "O");
@@ -79,10 +108,7 @@ public class TICTACTOE extends GameProperty {
 		if(this.isLegalMove(tile, player)) {
 			System.out.println("Move legal");
 			tile.setOccupant(player);
-			// TODO update change in board
-			if(winCondition(player)) {
-				this.endGame();
-			}
+			winCondition(player);
 			return true;
 		}
 		System.out.println("Move illegal");
@@ -100,33 +126,5 @@ public class TICTACTOE extends GameProperty {
 		}
 		return false;
 	}
-
-//	@Override
-//	public boolean gameHasEnded() {
-//		return false;
-//	}
-
-	@Override
-	public boolean winCondition(Player player) {
-		ArrayList<Integer> playerTiles = new ArrayList<Integer>();
-		for(Tile tile : this.game.getBoard().getGameBoard().values()) {
-			if(tile.getOccupant() == player) {
-				playerTiles.add(tile.getIndex());
-			}
-		}
-		if((playerTiles.contains(0) && playerTiles.contains(1) && playerTiles.contains(2)) ||
-		   (playerTiles.contains(3) && playerTiles.contains(4) && playerTiles.contains(5)) ||
-		   (playerTiles.contains(6) && playerTiles.contains(7) && playerTiles.contains(8)) ||
-		   (playerTiles.contains(0) && playerTiles.contains(3) && playerTiles.contains(6)) ||
-		   (playerTiles.contains(1) && playerTiles.contains(4) && playerTiles.contains(7)) ||
-		   (playerTiles.contains(2) && playerTiles.contains(5) && playerTiles.contains(8)) ||
-		   (playerTiles.contains(0) && playerTiles.contains(4) && playerTiles.contains(8)) ||
-		   (playerTiles.contains(2) && playerTiles.contains(4) && playerTiles.contains(6))
-		  ) {
-			this.setPlayerWon(player);
-			System.out.println("Player " + player.getId() + " has won!");
-			return true;
-		}		
-	return false;
-	}	
+	
 }
