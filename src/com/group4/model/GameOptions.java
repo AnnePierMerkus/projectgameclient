@@ -6,28 +6,24 @@ import com.group4.controller.GameController.GameState;
 import com.group4.controller.GameController.GameType;
 import com.group4.util.GameProperty;
 import com.group4.util.Player.PlayerState;
-import com.group4.util.observers.BoardObserver;
 import com.group4.util.PlayerList;
 
 public class GameOptions {
 	
 	// Difficulty holding enum value
-	private Difficulty difficulty;
+	protected Difficulty difficulty = Difficulty.MEDIUM;
 	
 	// GameType holding enum value
-	private GameType gameType;
+	protected GameType gameType;
 	
 	// GameProperty instance holding the game logic
-	private GameProperty game;
+	protected GameProperty game;
 	
 	// Board instance, holds the board with tiles
-	private Board board;
-	
-	// The boardobserver
-	private BoardObserver boardObserver = new BoardObserver(this);
+	protected Board board;
 	
 	// Which player has the turn, negative if no game is going on
-	private String playerTurn = "";
+	protected String playerTurn = "";
 	
 	// Set the default gameState to preparing
 	private GameState gameState = GameState.PREPARING;
@@ -111,6 +107,25 @@ public class GameOptions {
 		
 		// Setup the board if needed - TODO ~ Test the setup
 		this.game.doSetup(playerStart);
+
+	}
+	
+	/***
+     * Create a new AI game with given gameType
+     * 
+     * @param difficulty
+     * @param gameType
+     * @author mobieljoy12
+     */
+	public GameOptions(GameType gameType) {
+		
+		this.gameType = gameType;
+		
+		// Create the game
+		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
+
+		// Create board
+		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
 
 	}
 	

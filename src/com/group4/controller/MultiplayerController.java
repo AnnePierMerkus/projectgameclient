@@ -177,6 +177,7 @@ public class MultiplayerController extends GameController {
         if (selected_game_btn != null){
             if (selected_player_btn != null){
                 //challenge player with selected player and selected game
+                this.notificationController.revealNotification("Challenge for " + selected_game_btn.getText() + " has been send to " + selected_player_btn.getText());
                 this.networkPlayer.challenge(selected_player_btn.getText(), selected_game_btn.getText());
             }else{
                 System.out.println("Please select a valid game");
@@ -247,6 +248,7 @@ public class MultiplayerController extends GameController {
         ToggleButton selected_game_btn = (ToggleButton) this.GameGroup.getSelectedToggle();
 
         if (selected_game_btn != null){
+            this.notificationController.revealNotification("Joining " + selected_game_btn.getText());
             this.networkPlayer.subscribe(selected_game_btn.getText());// game name from view form field here
         }else{
             System.out.println("please select a game to join");
@@ -269,6 +271,7 @@ public class MultiplayerController extends GameController {
                 try{
                     //make a new ai instance
                     this.AI = (AI) Class.forName("com.group4.AI." + selected_game_btn.getText().replace("-", "").toUpperCase() + "AI").newInstance();
+                    this.AI.setAIType(this.game, this.game.getGameType());
                     this.AIBtn.setText("Disable AI");
                 }catch (Exception e){
                     System.out.println("AI could not be Created: " + e);
@@ -309,19 +312,7 @@ public class MultiplayerController extends GameController {
 
     @Override
     public void createGame(Difficulty difficulty, GameType gameType) {
-    	
-    	this.game = new GameOptions(difficulty, gameType, this.startingPlayer);
-    	
-    	// Set PlayerState to has turn, turns will be monitored by server instead
-    	for(Player p : PlayerList.players.values()) {
-    		p.setPlayerState(PlayerState.PLAYING_HAS_TURN);
-    		p.setGameProperty(this.game.getGameProperty());
-    	}
-        
-        this.game.setGameState(GameState.PLAYING);
-
-        //set player state
-        this.networkPlayer.setState(new InMatchNoTurnState());
+        this.createGame(gameType);
     }
 
     @Override
@@ -504,14 +495,13 @@ public class MultiplayerController extends GameController {
         if (message.contains("WIN") || message.contains("LOSS") || message.contains("DRAW")){
             ButtonType continueButton = new ButtonType("Continue", ButtonBar.ButtonData.LEFT);
             Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You won the game!\n\n\n\n", continueButton);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You ! " + message.replace("SVR GAME", "").substring(0, message.lastIndexOf("{")) + this.networkPlayer.getName(), continueButton);
                 alert.setTitle("Game Ended");
                 alert.setHeaderText(null);
                 alert.setGraphic(null);
                 alert.showAndWait();
                 stage.setScene(this.thisScene);
             });
-
 
             System.out.println("players: " + PlayerList.players.values());
 

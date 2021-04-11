@@ -1,5 +1,7 @@
 package com.group4.AI;
 
+import com.group4.controller.GameController.GameType;
+import com.group4.model.GameOptions;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.Tile;
@@ -7,6 +9,7 @@ import com.group4.util.Tile;
 public class AIPlayer extends Player {
 
 	private AI ai = null;
+	private GameOptions gameOptions = null;
 	
 	/**
      * Instantiate AI property for given GameType
@@ -17,9 +20,10 @@ public class AIPlayer extends Player {
      * @author mobieljoy12
      */
     @SuppressWarnings("deprecation")
-    private void instantiate(final String className, @SuppressWarnings("rawtypes") final Class type) {
+    private void instantiate(final String className, @SuppressWarnings("rawtypes") final Class type, GameType gameType) {
     	try {
     		this.ai = (AI) type.cast(Class.forName(className).newInstance());
+    		this.ai.setAIType(this.gameOptions, gameType);
         } catch (InstantiationException
                 | IllegalAccessException
                 | ClassNotFoundException e) {
@@ -34,6 +38,10 @@ public class AIPlayer extends Player {
      */
 	public AIPlayer(String id) {
 		super(id);
+	}
+	
+	public void setGameOptions(GameOptions gameOptions) {
+		this.gameOptions = gameOptions;
 	}
 	
 	@Override
@@ -55,7 +63,7 @@ public class AIPlayer extends Player {
 	@Override
 	public void setGameProperty(GameProperty game) {
 		this.gameProperty = game;
-		this.instantiate("com.group4.AI." + this.gameProperty.getGameType().toString().toUpperCase() + "AI", AI.class);
+		this.instantiate("com.group4.AI." + this.gameProperty.getGameType().toString().toUpperCase() + "AI", AI.class, game.getGameType());
 	}
 
 }
