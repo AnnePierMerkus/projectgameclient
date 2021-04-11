@@ -7,17 +7,17 @@ import com.group4.util.network.NetworkPlayer;
 import com.group4.util.network.NetworkPlayerStates.InMatchNoTurnState;
 
 /**
- * Multiplayer game controller for creating mutiplayer game
+ * Multiplayer game controller for creating multiplayer game
  *
  * @author Gemar Koning
  */
 public class MultiplayerGameController extends GameController{
 
-    private String startingPlayer;
+    private Player startingPlayer;
 
     @Override
     void createGame(GameType gameType) {
-        this.game = new GameOptions(Difficulty.MEDIUM, gameType, this.startingPlayer);
+        this.game = new GameOptions(Difficulty.MEDIUM, gameType, (this.startingPlayer != null) ? this.startingPlayer.getId() : PlayerList.getPlayer("p1").getId());
 
         // Set PlayerState to has turn, turns will be monitored by server instead
         for(Player p : PlayerList.players.values()) {
@@ -40,4 +40,9 @@ public class MultiplayerGameController extends GameController{
     void endGame() {
         PlayerList.cleanUp();
     }
+
+    public void setStartingPlayer(Player player){
+        this.startingPlayer = player;
+    }
+
 }
