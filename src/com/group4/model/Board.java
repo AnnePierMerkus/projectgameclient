@@ -1,25 +1,19 @@
 package com.group4.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.group4.util.Player;
+import com.group4.util.PlayerList;
 import com.group4.util.Tile;
-import com.group4.util.observers.Observable;
-import com.group4.util.observers.Observer;
-import com.group4.util.observers.TileObserver;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 
 /**
  * Class that creates and defines the game board.
  */
-public class Board implements Observable {
+public class Board {
 	
 	private HashMap<Integer, Tile> gameBoard = new HashMap<Integer, Tile>();
 	private int height;
 	private int width;
-	private ArrayList<Observer> boardObservers;
-	private TileObserver tileObserver = new TileObserver(this);
 
 	/**
 	 * Method that creates a new board which size is defined by the given height and width.
@@ -28,7 +22,6 @@ public class Board implements Observable {
 	 * @author GRTerpstra
 	 */
 	public Board(int height, int width) {
-		this.boardObservers = new ArrayList<Observer>();
 		this.height = height;
 		this.width = width;
 
@@ -54,7 +47,6 @@ public class Board implements Observable {
 				}
 
 				Tile tile = new Tile((row * this.width) + col, weight);
-				tile.registerObserver(this.tileObserver);
 				this.gameBoard.put(tile.getIndex(), tile);
 			}
 		}
@@ -96,6 +88,38 @@ public class Board implements Observable {
 	}
 	
 	/***
+	 * Get scores of all players
+	 * 
+	 * @return HashMap<Player, Integer> - Hashmap holding scores per player
+	 */
+	public HashMap<Player, Integer> getScores(){
+		HashMap<Player, Integer> tempScores = new HashMap<Player, Integer>(); // New HashMap
+		PlayerList.players.values().forEach((p) -> tempScores.put(p, 0)); // Set all player scores to 0
+		for(Tile tile : this.gameBoard.values()) {
+			if(tile.isOccupied()) {
+				tempScores.put(tile.getOccupant(), tempScores.get(tile.getOccupant()) + 1);
+			}
+		}
+		return tempScores;
+	}
+	
+	/***
+	 * Get the score for a specific Player
+	 * 
+	 * @param player - The player for which you want the score
+	 * @return int - Score in tiles
+	 */
+	public int getScore(Player player) {
+		int score = 0;
+		for(Tile tile : this.gameBoard.values()) {
+			if(tile.getOccupant().equals(player)) {
+				score++;
+			}
+		}
+		return score;
+	}
+	
+	/***
 	 * Get a Tile from the gameboard
 	 * Returns null if index is out of bounds
 	 * 
@@ -121,20 +145,5 @@ public class Board implements Observable {
 		return (this.gameBoard.containsKey(index)) ? this.gameBoard.get(index) : null;
 	}
 
-	@Override
-	public void registerObserver(Observer observer) {
-		this.boardObservers.add(observer);
-		
-	}
-
-	@Override
-	public void removeObserver(Observer observer) {
-		this.boardObservers.remove(observer);		
-	}
-
-	@Override
-	public void notifyObservers() {
-		this.boardObservers.forEach((o) -> o.update(this));	
-	}
 }
 

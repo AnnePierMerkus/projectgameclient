@@ -1,0 +1,51 @@
+package com.group4.AI;
+
+import com.group4.controller.GameController.GameType;
+import com.group4.model.GameOptions;
+import com.group4.util.Player;
+import com.group4.util.Tile;
+
+public class GameAI extends GameOptions {
+	
+	// Holds the GameOptions value
+	private GameOptions gameOptions;
+	
+	public GameAI(GameType gameType) {
+		super(gameType);
+	}
+	
+	/***
+	 * Update this game from the actual game that is going on
+	 */
+	public void updateFromGame() {
+		for(Tile tile : this.gameOptions.getBoard().getGameBoard().values()) {
+			this.board.getTile(tile.getIndex()).setOccupant(tile.getOccupant());
+		}
+		this.playerTurn = this.gameOptions.getPlayerTurn();
+	}
+	
+	/***
+	 * Set the GameOptions
+	 * 
+	 * @param gameOptions
+	 */
+	public void setGameOptions(GameOptions gameOptions) {
+		this.gameOptions = gameOptions;
+	}
+	
+	/***
+	 * Add a move to the prediction board
+	 * 
+	 * @param tileIndex - The index of the Tile to put the move on
+	 * @param player - The Player to set to the tile
+	 */
+	public void makePredictionMove(int tileIndex, Player player) {
+		this.board.getTile(tileIndex).setOccupant(player);
+	}
+	
+	@Override
+	public String toggleTurn() {
+		return (this.playerTurn.equals("p1")) ? "p2" : "p1";
+	}
+	
+}

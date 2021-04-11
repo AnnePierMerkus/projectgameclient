@@ -1,30 +1,21 @@
 package com.group4.util;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
-
-import com.group4.util.observers.Observable;
-import com.group4.util.observers.Observer;
+import java.util.Map.Entry;
 
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class Tile extends StackPane implements Observable {
+public class Tile extends StackPane {
 	
 	private int index;
 
 	private int weight = 0;
 
 	private Player playerOnTile = null;
-	
-	private ArrayList<Observer> observers = new ArrayList<Observer>();
 
 	Circle circle;
 	
@@ -57,10 +48,10 @@ public class Tile extends StackPane implements Observable {
 					p.makeMove(this);
 				}
 			});*/
-			Iterator it = PlayerList.players.entrySet().iterator();
+			Iterator<Entry<String, Player>> it = PlayerList.players.entrySet().iterator();
 			while (it.hasNext())
 			{
-				Map.Entry pair = (Map.Entry)it.next();
+				Entry<String, Player> pair = it.next();
 				if (((Player)pair.getValue()).getPlayerState() == Player.PlayerState.PLAYING_HAS_TURN)
 				{
 					((Player) pair.getValue()).makeMove(this);
@@ -128,7 +119,6 @@ public class Tile extends StackPane implements Observable {
 			circle.setFill(this.playerOnTile.getId().equals("p1") ? Color.WHITE : Color.BLACK);
 			//setStyle("-fx-background-color: " + color);
 		}
-		this.notifyObservers();
 	}
 	
 	/***
@@ -138,7 +128,6 @@ public class Tile extends StackPane implements Observable {
 	 */
 	public void reset() {
 		this.playerOnTile = null;
-		this.notifyObservers();
 	}
 	
 	/***
@@ -149,21 +138,6 @@ public class Tile extends StackPane implements Observable {
 	 */
 	public boolean isOccupied() {
 		return (this.playerOnTile != null);
-	}
-
-	@Override
-	public void registerObserver(Observer observer) {
-		this.observers.add(observer);
-	}
-
-	@Override
-	public void removeObserver(Observer observer) {
-		this.observers.remove(observer);
-	}
-
-	@Override
-	public void notifyObservers() {
-		this.observers.forEach((o) -> o.update(this));
 	}
 	
 }
