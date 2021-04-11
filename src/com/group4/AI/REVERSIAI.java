@@ -4,6 +4,9 @@ import com.group4.model.Board;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
+import org.w3c.dom.ls.LSOutput;
+
+import java.util.HashMap;
 import java.util.List;
 
 /***
@@ -31,19 +34,21 @@ public class REVERSIAI extends AI {
         int bestScore = Integer.MIN_VALUE;
         Tile move = null;
         //this.gameai.makePredictionMove(this.gameai.getGameProperty().getAvailableOptions(player).get(0).getIndex(), player);
-        System.out.println(this.gameai.getBoard().getScores());
+        //System.out.println(this.gameai.getGameProperty().getAvailableOptions(otherPlayer).size());
         //int score = minimax(this.gameai.getBoard(), false, 2);
 
+
         for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(player)) {
-            System.out.println(tile.getIndex());
             this.gameai.makePredictionMove(tile.getIndex(), player);
             System.out.println(this.gameai.getBoard().getScores());
+            this.gameai.getBoard().revert();
+            System.out.println(tile.getIndex());
+            System.out.println(tile.getOccupant());
             //int score = minimax(this.gameai.getBoard(), false, 2);
-            tile.reset();
 
             //if (score > bestScore) {
-             //   bestScore = score;
-              //  move = tile;
+            //   bestScore = score;
+            //  move = tile;
             //}
         }
         System.out.println(f);
@@ -91,5 +96,5 @@ public class REVERSIAI extends AI {
             return bestScore;
         }
     }
-    
+
 }
