@@ -88,6 +88,21 @@ public class Board {
 	}
 	
 	/***
+	 * Check whether the board is completely full
+	 * 
+	 * @return boolean - Full
+	 * @author mobieljoy12
+	 */
+	public boolean isFull() {
+		for(Tile tile : this.gameBoard.values()) {
+			if(!tile.isOccupied()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/***
 	 * Get scores of all players
 	 * 
 	 * @return HashMap<Player, Integer> - Hashmap holding scores per player
