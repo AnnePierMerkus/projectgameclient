@@ -115,7 +115,6 @@ public class Board {
 	 * @param tile - The Tile to add
 	 */
 	public void addFilledTile(Player player, Tile tile) {
-		System.out.println("Adding tile " + tile.getIndex() + " to " + player.getId());
 		String otherPlayerId = PlayerList.getOtherPlayer(player.getId()).getId();
 		if(this.filledTiles.get(otherPlayerId).containsKey(tile.getIndex())) {
 			this.filledTiles.get(otherPlayerId).remove(tile.getIndex());
