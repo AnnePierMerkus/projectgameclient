@@ -39,9 +39,9 @@ public class Tile extends StackPane implements Observable {
 		if (this.weight == 0)
 			this.weight = weight;
 
-		Rectangle border = new Rectangle(100, 100);
+		Rectangle border = new Rectangle(75, 75);
 
-		circle = new Circle(0, 0, 40);
+		circle = new Circle(0, 0, 30);
 		circle.setFill(Color.web("#009067"));
 		setStyle("-fx-background-color: #009067");
 
