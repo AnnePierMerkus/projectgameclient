@@ -97,6 +97,8 @@ public class Board {
 			this.gameBoard.get(tile.getIndex()).setOccupant(tile.getOccupant());
 			if(tile.isOccupied()) {
 				this.addFilledTile(tile.getOccupant(), this.gameBoard.get(tile.getIndex()));
+			}else {
+				this.filledTiles.get(tile.getOccupant().getId()).remove(tile.getIndex());
 			}
 		}
 	}

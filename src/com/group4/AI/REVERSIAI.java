@@ -4,9 +4,6 @@ import com.group4.model.Board;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
-import org.w3c.dom.ls.LSOutput;
-
-import java.util.HashMap;
 import java.util.List;
 
 /***

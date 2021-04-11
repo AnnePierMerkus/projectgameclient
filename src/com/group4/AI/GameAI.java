@@ -2,7 +2,6 @@ package com.group4.AI;
 
 import com.group4.controller.GameController.GameType;
 import com.group4.model.GameOptions;
-import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.Tile;
 
