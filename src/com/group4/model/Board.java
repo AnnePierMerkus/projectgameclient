@@ -14,6 +14,7 @@ public class Board {
 
 	private HashMap<Integer, Tile> gameBoard = new HashMap<Integer, Tile>();
 	private HashMap<String, HashMap<Integer, Tile>> filledTiles = new HashMap<String, HashMap<Integer, Tile>>();
+	private HashMap<Integer, Tile> previousBoard = new HashMap<Integer, Tile>();
 	private int height;
 	private int width;
 
@@ -56,6 +57,7 @@ public class Board {
 				Tile tile = new Tile((row * this.width) + col, weight);
 				tile.registerObserver(tileObserver);
 				this.gameBoard.put(tile.getIndex(), tile);
+				this.previousBoard.put(tile.getIndex(), new Tile((row * this.width) + col, weight));
 			}
 		}
 	}
@@ -66,6 +68,17 @@ public class Board {
 	 */
 	public void reset() {
 		this.gameBoard = new HashMap<Integer, Tile>();
+	}
+	
+	/***
+	 * Save the current board before making a move so it can be reverted back to
+	 * 
+	 * @author mobieljoy12
+	 */
+	public void savePreviousBoard() {
+		for(Tile tile : this.previousBoard.values()) {
+			tile.setOccupant(this.gameBoard.get(tile.getIndex()).getOccupant());
+		}
 	}
 
 	/**
