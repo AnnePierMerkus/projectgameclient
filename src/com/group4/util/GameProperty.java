@@ -30,8 +30,8 @@ public abstract class GameProperty {
 	// Whether the game has ended
 	private boolean gameEnded = false;
 	
-	// The player that has won the game
-	private Player playerWon = null;
+	// The player that has won the game, null for when it is a tie
+	protected Player playerWon = null;
 	
 	/***
 	 * Set the matchpoint variable
@@ -52,10 +52,6 @@ public abstract class GameProperty {
 		return this.matchPoint;
 	}
 	
-	public void setPlayerWon(Player player) {
-		playerWon = player;
-	}
-	
 	/***
 	 * End the game
 	 * 
@@ -64,7 +60,20 @@ public abstract class GameProperty {
 	public void endGame() {
 		//TODO remove later
 		System.out.println("Game has ended");
+		if(this.playerWon == null) {
+			
+		}
 		this.gameEnded = true;
+	}
+	
+	/***
+	 * Get the player that won the game
+	 * Null if player no player has won (yet)
+	 * 
+	 * @return Player - The player that won
+	 */
+	public Player getPlayerWon() {
+		return this.playerWon;
 	}
 	
 	/***
@@ -149,16 +158,6 @@ public abstract class GameProperty {
 	public abstract List<Tile> getAvailableOptions(Player player);
 	
 	/***
-	 * Get available options for a given player and a given board
-	 * This method can be used for the AI to think ahead
-	 * 
-	 * @param player - The player to give options for
-	 * @return List<Tile> - List of Tile options player could play
-	 * @author GRTerpstra & mobieljoy12
-	 */
-	public abstract List<Tile> getAvailableOptions(Player player, Board board);
-	
-	/***
 	 * Make a move on a given Tile for a given Player
 	 * 
 	 * @param tile - The tile to make a move on
@@ -177,5 +176,21 @@ public abstract class GameProperty {
 	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract boolean isLegalMove(Tile tile, Player player);
+	
+	/***
+	 * Check if the player has met the criteria to end the game
+	 * 
+	 * @param player - The player to check for
+	 * @return boolean - Met criteria
+	 * @author GRTerpstra
+	 */
+	public abstract boolean endGameFlagMet(Player player);
+	
+	/***
+	 * Decide which player wins the game, null if it is a tie
+	 * 
+	 * @author GRTerpstra & mobieljoy12
+	 */
+	public abstract void decidePlayerWin();
 		
 }
