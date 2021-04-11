@@ -123,7 +123,7 @@ public class REVERSI extends GameProperty {
 				}
 			}
 		}
-		return (List<Tile>) availableOptions.values();
+		return new ArrayList<Tile>(availableOptions.values());
 	}
 	
 	public void swapTiles(Tile tile, Player player) {
