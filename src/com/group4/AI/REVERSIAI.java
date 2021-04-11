@@ -4,6 +4,7 @@ import com.group4.model.Board;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,7 @@ public class REVERSIAI extends AI {
         int move = 0;
         for (int i = 0; i < availableOptions.size(); i++) {
             // board = Do move availableOptions.get(i);
-            int score = minimax(board, true, 10);
+            int score = minimax(board, true, 1);
 
             if (score > bestScore) {
                 bestScore = score;
@@ -41,15 +42,19 @@ public class REVERSIAI extends AI {
         return availableOptions.get(move);
     }
 
+    int f = 0;
     public int minimax(Board board, boolean maximizing, int depth)
     {
-        // TODO check if board is full
-        if ( depth == 0) {
-            // TODO return amount of tiles
+        System.out.println(board);
+        System.out.println(this.gameai.getBoard());
+        Player player = PlayerList.getOtherPlayer(gameai.getPlayerTurn());
+        Player otherPlayer = PlayerList.getOtherPlayer(gameai.getPlayerTurn());
+
+        if ( depth == 0 || board.isFull()) {
+            return board.getScore(player);
         }
 
         if (maximizing) {
-            Player player = PlayerList.getOtherPlayer(gameai.getPlayerTurn());
             int bestScore = Integer.MIN_VALUE;
 
             for (Tile tile : this.gameai.getGame().getAvailableOptions(player)) {
@@ -61,7 +66,6 @@ public class REVERSIAI extends AI {
             return bestScore;
         }
         else {
-            Player otherPlayer = PlayerList.getOtherPlayer(gameai.getPlayerTurn());
             int bestScore = Integer.MAX_VALUE;
 
             for (Tile tile : this.gameai.getGame().getAvailableOptions(otherPlayer)) {

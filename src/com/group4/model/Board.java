@@ -127,7 +127,7 @@ public class Board {
 	public int getScore(Player player) {
 		int score = 0;
 		for(Tile tile : this.gameBoard.values()) {
-			if(tile.getOccupant().equals(player)) {
+			if(tile.getOccupant() != null && tile.getOccupant().equals(player)) {
 				score++;
 			}
 		}
