@@ -16,6 +16,8 @@ public class GameAI extends GameOptions {
 	
 	/***
 	 * Update this game from the actual game that is going on
+	 * 
+	 * @author mobieljoy12
 	 */
 	public void updateFromGame() {
 		for(Tile tile : this.gameOptions.getBoard().getGameBoard().values()) {
@@ -28,6 +30,7 @@ public class GameAI extends GameOptions {
 	 * Set the GameOptions
 	 * 
 	 * @param gameOptions
+	 * @author mobieljoy12
 	 */
 	public void setGameOptions(GameOptions gameOptions) {
 		this.gameOptions = gameOptions;
@@ -38,6 +41,7 @@ public class GameAI extends GameOptions {
 	 * 
 	 * @param tileIndex - The index of the Tile to put the move on
 	 * @param player - The Player to set to the tile
+	 * @author mobieljoy12
 	 */
 	public void makePredictionMove(int tileIndex, Player player) {
 		this.board.getTile(tileIndex).setOccupant(player);
