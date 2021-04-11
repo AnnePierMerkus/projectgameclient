@@ -172,6 +172,9 @@ public class REVERSI extends GameProperty {
 	public boolean makeMove(Tile tile, Player player) {
 		System.out.println(player.getId());
 		System.out.println("Making move...");
+		if(tile != null) {
+			System.out.println("Selected tile: " + tile.getIndex());
+		}
 		if(this.isLegalMove(tile, player)) {
 			System.out.println("Move legal");
 			tile.setOccupant(player);
@@ -232,5 +235,10 @@ public class REVERSI extends GameProperty {
 				break;
 		}
 		return offset;
+	}
+
+	@Override
+	public boolean winCondition(Player player) {
+		return false;
 	}
 }

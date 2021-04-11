@@ -35,11 +35,18 @@ public class AIPlayer extends Player {
      * AIPlayer instantiates a specific AI class when a GameType is set
      * 
      * @param id - Player id
+     * @author mobieljoy12
      */
 	public AIPlayer(String id) {
 		super(id);
 	}
 	
+	/***
+	 * Set GameOptions pointer
+	 * 
+	 * @param gameOptions
+	 * @author mobieljoy12
+	 */
 	public void setGameOptions(GameOptions gameOptions) {
 		this.gameOptions = gameOptions;
 	}

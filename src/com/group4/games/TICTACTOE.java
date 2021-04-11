@@ -1,5 +1,7 @@
 package com.group4.games;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.group4.controller.GameController.GameType;
@@ -42,32 +44,89 @@ public class TICTACTOE extends GameProperty {
 
 	@Override
 	public List<Tile> getAvailableOptions(Player player) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Tile> availableOptions = new ArrayList<Tile>();
+		HashMap<Integer, Tile> board = this.game.getBoard().getGameBoard();
+		for(Tile tile : board.values()) {
+			if(tile.getOccupant() == null) {
+				availableOptions.add(tile);
+			}
+		}
+		return availableOptions;
 	}
 	
 	@Override
 	public List<Tile> getAvailableOptions(Player player, Board board) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Tile> availableOptions = new ArrayList<Tile>();
+		for(Tile tile : board.getGameBoard().values()) {
+			if(tile.getOccupant() == null) {
+				availableOptions.add(tile);
+			}
+		}
+		return availableOptions;
 	}
 
 	@Override
 	public boolean makeMove(Tile tile, Player player) {
-		// TODO Auto-generated method stub
+		if(this.gameHasEnded()) {
+			System.out.println("Game has ended.");
+			return false;
+		}
+		System.out.println(player.getId());
+		System.out.println("Making move...");
+		if(tile != null) {
+			System.out.println("Selected tile: " + tile.getIndex());
+		}		
+		if(this.isLegalMove(tile, player)) {
+			System.out.println("Move legal");
+			tile.setOccupant(player);
+			// TODO update change in board
+			if(winCondition(player)) {
+				this.endGame();
+			}
+			return true;
+		}
+		System.out.println("Move illegal");
 		return false;
 	}
 
 	@Override
 	public boolean isLegalMove(Tile tile, Player player) {
-		// TODO Auto-generated method stub
+		List<Tile> availableOptions = this.getAvailableOptions(player);
+		if(availableOptions.isEmpty()) {
+			return false;
+		}
+		else if(availableOptions.contains(tile)) {
+			return true;
+		}
 		return false;
 	}
+
+//	@Override
+//	public boolean gameHasEnded() {
+//		return false;
+//	}
 
 	@Override
-	public boolean gameHasEnded() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	public boolean winCondition(Player player) {
+		ArrayList<Integer> playerTiles = new ArrayList<Integer>();
+		for(Tile tile : this.game.getBoard().getGameBoard().values()) {
+			if(tile.getOccupant() == player) {
+				playerTiles.add(tile.getIndex());
+			}
+		}
+		if((playerTiles.contains(0) && playerTiles.contains(1) && playerTiles.contains(2)) ||
+		   (playerTiles.contains(3) && playerTiles.contains(4) && playerTiles.contains(5)) ||
+		   (playerTiles.contains(6) && playerTiles.contains(7) && playerTiles.contains(8)) ||
+		   (playerTiles.contains(0) && playerTiles.contains(3) && playerTiles.contains(6)) ||
+		   (playerTiles.contains(1) && playerTiles.contains(4) && playerTiles.contains(7)) ||
+		   (playerTiles.contains(2) && playerTiles.contains(5) && playerTiles.contains(8)) ||
+		   (playerTiles.contains(0) && playerTiles.contains(4) && playerTiles.contains(8)) ||
+		   (playerTiles.contains(2) && playerTiles.contains(4) && playerTiles.contains(6))
+		  ) {
+			this.setPlayerWon(player);
+			System.out.println("Player " + player.getId() + " has won!");
+			return true;
+		}		
+	return false;
+	}	
 }
