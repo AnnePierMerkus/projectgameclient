@@ -165,9 +165,7 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean makeMove(Tile tile, Player player) {
-		if(tile != null) {
-			//
-		}
+		this.game.getBoard().savePrevious();
 		if(this.isLegalMove(tile, player) && !this.gameHasEnded()) {
 			tile.setOccupant(player);
 			swapTiles(tile, player);

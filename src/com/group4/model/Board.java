@@ -75,9 +75,20 @@ public class Board {
 	 * 
 	 * @author mobieljoy12
 	 */
-	public void savePreviousBoard() {
+	public void savePrevious() {
 		for(Tile tile : this.previousBoard.values()) {
 			tile.setOccupant(this.gameBoard.get(tile.getIndex()).getOccupant());
+		}
+	}
+	
+	/***
+	 * Revert the board back to the previous move
+	 * 
+	 * @author mobieljoy12
+	 */
+	public void revert() {
+		for(Tile tile : this.gameBoard.values()) {
+			tile.setOccupant(this.previousBoard.get(tile.getIndex()).getOccupant());
 		}
 	}
 
