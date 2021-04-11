@@ -38,7 +38,7 @@ import java.util.Map.Entry;
  *
  * @author Gemar Koning
  */
-public class MultiplayerController extends GameController {
+public class MultiplayerController {
     // Main Window
     Stage stage;
     Scene thisScene;
@@ -100,7 +100,11 @@ public class MultiplayerController extends GameController {
     //variable to store received challenges
     private Challenge current_challenge;
 
+    private MultiplayerGameController multiplayerGameController;
+
     public MultiplayerController(){
+        this.multiplayerGameController = new MultiplayerGameController();
+
         try{
             //create client for communication with server
             this.client = new Client("localhost", 7789);
@@ -271,10 +275,10 @@ public class MultiplayerController extends GameController {
                 try{
                     //make a new ai instance
                     this.AI = (AI) Class.forName("com.group4.AI." + selected_game_btn.getText().replace("-", "").toUpperCase() + "AI").newInstance();
-                    this.AI.setAIType(this.game, this.game.getGameType());
                     this.AIBtn.setText("Disable AI");
                 }catch (Exception e){
                     System.out.println("AI could not be Created: " + e);
+                    e.printStackTrace();
                     this.AIBtn.setSelected(false);
                 }
             }
@@ -284,52 +288,16 @@ public class MultiplayerController extends GameController {
         }
     }
 
-    @Override
-    public void createGame(GameType gameType) {
-    	
-    	this.game = new GameOptions(Difficulty.MEDIUM, gameType, this.startingPlayer);
-    	
-    	// Set PlayerState to has turn, turns will be monitored by server instead
-    	for(Player p : PlayerList.players.values()) {
-    		p.setPlayerState(PlayerState.PLAYING_HAS_TURN);
-    		p.setGameProperty(this.game.getGameProperty());
-    	}
-    	
-    	this.game.setGameState(GameState.PLAYING);
-
-        //set player state
-        this.networkPlayer.setState(new InMatchNoTurnState());
-
-        thisScene = findPlayers.getScene();
-        stage = (Stage) findPlayers.getScene().getWindow();
-
-        System.out.println("players: " + PlayerList.players.values());
-        Platform.runLater(() -> {
-            Scene scene = new Scene(fillInBoard());
-            stage.setScene(scene);
-        });
-    }
-
-    @Override
-    public void createGame(Difficulty difficulty, GameType gameType) {
-        this.createGame(gameType);
-    }
-
-    @Override
-    public void endGame() {
-        PlayerList.cleanUp(); //set players back to no game state
-    }
-
     public void giveUp(){
         this.networkPlayer.forfeit(); //give up on current game this wil end the game
-        this.endGame();
+        this.multiplayerGameController.endGame();
     }
 
     public GridPane fillInBoard() {
         GridPane root = new GridPane();
         root.setPrefSize(600, 600);
 
-        Iterator<Entry<Integer, Tile>> it = getOptions().getBoard().getGameBoard().entrySet().iterator();
+        Iterator<Entry<Integer, Tile>> it = this.multiplayerGameController.getOptions().getBoard().getGameBoard().entrySet().iterator();
         int row = 0;
         int column = 0;
         while (it.hasNext()) {
@@ -337,7 +305,7 @@ public class MultiplayerController extends GameController {
             root.add((Tile)pair.getValue(), column, row);
             column++;
 
-            if (((int)pair.getKey() + 1) % getOptions().getBoard().getWidth() == 0)
+            if (((int)pair.getKey() + 1) % this.multiplayerGameController.getOptions().getBoard().getWidth() == 0)
             {
                 column = 0;
                 row++;
@@ -436,7 +404,7 @@ public class MultiplayerController extends GameController {
 
                 //let the server make a move on the board
                 //IMPORTANT! get the tile from the board not new otherwise tile wil not be recognised
-                PlayerList.getPlayer("p2").makeMove(this.game.getBoard().getTile(Integer.parseInt(hashmap_msg.get("MOVE"))));
+                PlayerList.getPlayer("p2").makeMove(this.multiplayerGameController.game.getBoard().getTile(Integer.parseInt(hashmap_msg.get("MOVE"))));
             }
         }
 
@@ -469,16 +437,30 @@ public class MultiplayerController extends GameController {
             HashMap<String, String> messageToMap = client.messageToMap();
 
             if (messageToMap.get("PLAYERTOMOVE").equals(this.networkPlayer.getName())){
-                this.startingPlayer = "p1";
+                //this.startingPlayer = "p1";
+                this.multiplayerGameController.setStartingPlayer(this.networkPlayer);
             }else{
-                this.startingPlayer = "p2";
+                //this.startingPlayer = "p2";
+                this.multiplayerGameController.setStartingPlayer(PlayerList.getPlayer("p2"));
             }
 
             if (messageToMap.get("GAMETYPE").equals("Tic-tac-toe")){
-                this.createGame(GameType.TICTACTOE);
+                this.multiplayerGameController.createGame(GameController.GameType.TICTACTOE);
             }else {
-                this.createGame(GameType.REVERSI);
+                this.multiplayerGameController.createGame(GameController.GameType.REVERSI);
             }
+
+            //set ai type
+            this.AI.setAIType(this.multiplayerGameController.game, this.multiplayerGameController.game.getGameType());
+
+            thisScene = findPlayers.getScene();
+            stage = (Stage) findPlayers.getScene().getWindow();
+
+            System.out.println("players: " + PlayerList.players.values());
+            Platform.runLater(() -> {
+                Scene scene = new Scene(fillInBoard());
+                stage.setScene(scene);
+            });
         }
     }
 
@@ -503,11 +485,12 @@ public class MultiplayerController extends GameController {
                 stage.setScene(this.thisScene);
             });
 
+            System.out.println("SERVER COMMENT: " + client.messageToMap().get("COMMENT"));
             System.out.println("players: " + PlayerList.players.values());
 
             //change scene back
             this.networkPlayer.setState(new LoginState());
-            this.endGame(); //match has ended so end the game
+            this.multiplayerGameController.endGame(); //match has ended so end the game
         }
     }
 }

@@ -5,13 +5,15 @@ import java.util.HashMap;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
+import com.group4.util.observers.TileObserver;
 
 /**
  * Class that creates and defines the game board.
  */
 public class Board {
-	
+
 	private HashMap<Integer, Tile> gameBoard = new HashMap<Integer, Tile>();
+	private HashMap<String, HashMap<Integer, Tile>> filledTiles = new HashMap<String, HashMap<Integer, Tile>>();
 	private int height;
 	private int width;
 
@@ -24,6 +26,11 @@ public class Board {
 	public Board(int height, int width) {
 		this.height = height;
 		this.width = width;
+
+		this.filledTiles.put("p1", new HashMap<Integer, Tile>());
+		this.filledTiles.put("p2", new HashMap<Integer, Tile>());
+
+		TileObserver tileObserver = new TileObserver(this);
 
 		for(int row = 0; row < height; row++) {
 			for(int col = 0; col < width; col++) {
@@ -47,11 +54,12 @@ public class Board {
 				}
 
 				Tile tile = new Tile((row * this.width) + col, weight);
+				tile.registerObserver(tileObserver);
 				this.gameBoard.put(tile.getIndex(), tile);
 			}
 		}
 	}
-	
+
 	/**
 	 * Method that clears all settings of the board.
 	 * @author GRTerpstra
@@ -59,16 +67,16 @@ public class Board {
 	public void reset() {
 		this.gameBoard = new HashMap<Integer, Tile>();
 	}
-	
+
 	/**
-	 * Method that returns the gameboard which consists of an ArrayList of tiles. 
+	 * Method that returns the gameboard which consists of an ArrayList of tiles.
 	 * @return ArrayList<Tile> t the gameboard.
 	 * @author GRTerpstra
 	 */
 	public HashMap<Integer, Tile> getGameBoard(){
 		return this.gameBoard;
 	}
-	
+
 	/**
 	 * Method that returns the height aka number of rows of the board.
 	 * @return int - the height of the board.
@@ -77,7 +85,7 @@ public class Board {
 	public int getHeight() {
 		return this.height;
 	}
-	
+
 	/**
 	 * Method that returns the width aka number of columns of the board.
 	 * @return int - the width of the board.
@@ -86,52 +94,58 @@ public class Board {
 	public int getWidth() {
 		return this.width;
 	}
-	
+
+	/***
+	 * Add a Tile to a Player
+	 *
+	 * @param player - The Player to add it to
+	 * @param tile - The Tile to add
+	 */
+	public void addFilledTile(Player player, Tile tile) {
+		System.out.println("Adding tile " + tile.getIndex() + " to " + player.getId());
+		String otherPlayerId = PlayerList.getOtherPlayer(player.getId()).getId();
+		if(this.filledTiles.get(otherPlayerId).containsKey(tile.getIndex())) {
+			this.filledTiles.get(otherPlayerId).remove(tile.getIndex());
+		}
+		this.filledTiles.get(player.getId()).put(tile.getIndex(), tile);
+	}
+
 	/***
 	 * Check whether the board is completely full
-	 * 
+	 *
 	 * @return boolean - Full
 	 * @author mobieljoy12
 	 */
 	public boolean isFull() {
-		for(Tile tile : this.gameBoard.values()) {
-			if(!tile.isOccupied()) {
-				return false;
-			}
+		int filledTileCount = 0;
+		for(String pId : this.filledTiles.keySet()) {
+			filledTileCount += this.filledTiles.get(pId).size();
 		}
-		return true;
+		System.out.println("Full board is: " + (this.getWidth() * this.getHeight()) + " tiles, " + filledTileCount + " are filled");
+		return ((this.getWidth() * this.getHeight()) == filledTileCount);
 	}
-	
+
 	/***
 	 * Get scores of all players
-	 * 
+	 *
 	 * @return HashMap<Player, Integer> - Hashmap holding scores per player
 	 */
 	public HashMap<Player, Integer> getScores(){
 		HashMap<Player, Integer> tempScores = new HashMap<Player, Integer>(); // New HashMap
-		PlayerList.players.values().forEach((p) -> tempScores.put(p, 0)); // Set all player scores to 0
-		for(Tile tile : this.gameBoard.values()) {
-			if(tile.isOccupied()) {
-				tempScores.put(tile.getOccupant(), tempScores.get(tile.getOccupant()) + 1);
-			}
+		for(String pId : this.filledTiles.keySet()) {
+			tempScores.put(PlayerList.getPlayer(pId), this.filledTiles.get(pId).size());
 		}
 		return tempScores;
 	}
-	
+
 	/***
 	 * Get the score for a specific Player
-	 * 
+	 *
 	 * @param player - The player for which you want the score
 	 * @return int - Score in tiles
 	 */
 	public int getScore(Player player) {
-		int score = 0;
-		for(Tile tile : this.gameBoard.values()) {
-			if(tile.getOccupant() != null && tile.getOccupant().equals(player)) {
-				score++;
-			}
-		}
-		return score;
+		return this.filledTiles.get(player.getId()).size();
 	}
 	
 	/***

@@ -1,6 +1,8 @@
 package com.group4.controller;
 
 import com.group4.model.GameOptions;
+import com.group4.util.Player.PlayerState;
+import com.group4.util.PlayerList;
 import com.group4.util.observers.PlayerObserver;
 
 public abstract class GameController extends Controller {
@@ -48,7 +50,12 @@ public abstract class GameController extends Controller {
 	 */
 	public String toggleTurn() {
 		if(this.game != null) { // No player currently has the turn
-			return this.game.toggleTurn();
+			if(this.game.getGameState().equals(GameState.PLAYING)) {
+				return this.game.toggleTurn();
+			}else if(this.game.getGameState().equals(GameState.ENDED)) {
+				PlayerList.players.values().forEach((p) -> p.setPlayerState(PlayerState.WAITING));
+			}
+			return "";
 		}
 		return "";
 	}
