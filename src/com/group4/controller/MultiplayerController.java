@@ -38,7 +38,7 @@ import java.util.Map.Entry;
  *
  * @author Gemar Koning
  */
-public class MultiplayerController {
+public class MultiplayerController extends Controller{
     // Main Window
     Stage stage;
     Scene thisScene;
@@ -84,7 +84,6 @@ public class MultiplayerController {
     @FXML
     MyToggleButton connect;
 
-
     //--------------Notification---------------
     @FXML
     NotificationController notificationController;
@@ -94,8 +93,6 @@ public class MultiplayerController {
     ToggleButton AIBtn;
 
     AI AI;
-
-    String startingPlayer;
 
     //variable to store received challenges
     private Challenge current_challenge;
@@ -107,7 +104,7 @@ public class MultiplayerController {
 
         try{
             //create client for communication with server
-            this.client = new Client("localhost", 7789);
+            this.client = new Client("145.33.225.170", 7789);
 
             //start client on new thread for responsiveness
             this.client_thread = new Thread(client);
@@ -450,9 +447,10 @@ public class MultiplayerController {
                 this.multiplayerGameController.createGame(GameController.GameType.REVERSI);
             }
 
-            //set ai type
-            this.AI.setAIType(this.multiplayerGameController.game, this.multiplayerGameController.game.getGameType());
-
+            if (this.AI != null){
+                //set ai type
+                this.AI.setAIType(this.multiplayerGameController.game, this.multiplayerGameController.game.getGameType());
+            }
             thisScene = findPlayers.getScene();
             stage = (Stage) findPlayers.getScene().getWindow();
 
@@ -472,17 +470,39 @@ public class MultiplayerController {
     public void endMatch(Object object){
         Client client = (Client) object;
         String message = client.getMessage();
+        HashMap<String, String> messageToMap = client.messageToMap();
 
         //match is over set networkplayer state and end the game
         if (message.contains("WIN") || message.contains("LOSS") || message.contains("DRAW")){
             ButtonType continueButton = new ButtonType("Continue", ButtonBar.ButtonData.LEFT);
             Platform.runLater(() -> {
+                //go to GameOverScreen
+                this.swap(stage, "EndGame.fxml");
+                GameOverController gameOverController = (GameOverController) this.getCurrentController();
+
+                if (message.contains("WIN")){
+                    gameOverController.getResultText().setText("Je Hebt Gewonnen!");
+                }else if (message.contains("LOSS")){
+                    gameOverController.getResultText().setText("Je Hebt verloren :(");
+                }else {
+                    gameOverController.getResultText().setText("Gelijk Spel!");
+                }
+
+                gameOverController.getScorePlayer1Text().setText("Score Speler 1: " + messageToMap.get("PLAYERONESCORE"));
+                gameOverController.getScorePlayer2Text().setText("Score Speler 2: " + messageToMap.get("PLAYERTWOSCORE"));
+
+                gameOverController.getQuitBtn().setOnAction((event) -> {
+                    stage.setScene(this.thisScene);
+                });
+
+                /**
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You ! " + message.replace("SVR GAME", "").substring(0, message.lastIndexOf("{")) + this.networkPlayer.getName(), continueButton);
                 alert.setTitle("Game Ended");
                 alert.setHeaderText(null);
                 alert.setGraphic(null);
                 alert.showAndWait();
                 stage.setScene(this.thisScene);
+                 **/
             });
 
             System.out.println("SERVER COMMENT: " + client.messageToMap().get("COMMENT"));

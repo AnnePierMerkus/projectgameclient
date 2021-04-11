@@ -59,7 +59,7 @@ public class Client implements Runnable, Observable {
 
         try{
             while ((line = this.input.readLine()) != null){
-                //System.out.println("Output: " + line);
+                System.out.println("Output: " + line);
 
                 synchronized (this.messages){
                     this.messages.add(line); //store message in arraylist
