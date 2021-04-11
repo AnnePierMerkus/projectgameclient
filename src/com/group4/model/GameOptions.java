@@ -4,7 +4,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.group4.controller.GameController.Difficulty;
 import com.group4.controller.GameController.GameState;
 import com.group4.controller.GameController.GameType;
-import com.group4.util.BoardObserver;
 import com.group4.util.GameProperty;
 import com.group4.util.Player.PlayerState;
 import com.group4.util.PlayerList;
@@ -12,28 +11,25 @@ import com.group4.util.PlayerList;
 public class GameOptions {
 	
 	// Difficulty holding enum value
-	private Difficulty difficulty;
+	protected Difficulty difficulty = Difficulty.MEDIUM;
 	
 	// GameType holding enum value
-	private GameType gameType;
+	protected GameType gameType;
 	
 	// GameProperty instance holding the game logic
-	private GameProperty game;
+	protected GameProperty game;
 	
 	// Board instance, holds the board with tiles
-	private Board board;
-	
-	// The boardobserver
-	private BoardObserver boardObserver = new BoardObserver(this);
+	protected Board board;
 	
 	// Which player has the turn, negative if no game is going on
-	private int playerTurn = -1;
+	protected String playerTurn = "";
 	
 	// Set the default gameState to preparing
 	private GameState gameState = GameState.PREPARING;
 	
 	/**
-     * Instanciate GameProperty class for the gametype
+     * Instantiate GameProperty class for the GameType
      *
      * @param className
      * @param type
@@ -54,7 +50,7 @@ public class GameOptions {
     }
 	
     /***
-     * Create a new game with given difficulty + gametype
+     * Create a new singleplayer game with given difficulty + gametype
      * 
      * @param difficulty
      * @param gameType
@@ -76,11 +72,60 @@ public class GameOptions {
 		// Create board
 		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
 		
-		// Setup the board if needed - TODO ~ Test the setup
-		this.game.doSetup();
-		
 		// Give the first player the turn
-		this.toggleTurn();
+		String currentPlayerTurn = this.toggleTurn();
+		
+		// Setup the board if needed - TODO ~ Test the setup
+		this.game.doSetup(currentPlayerTurn);
+
+	}
+	
+	/***
+     * Create a new multiplayer game with given difficulty + gametype
+     * 
+     * @param difficulty
+     * @param gameType
+     * @author mobieljoy12
+     */
+	public GameOptions(Difficulty difficulty, GameType gameType, String playerStart) {
+		
+		this.difficulty = difficulty;
+		this.gameType = gameType;
+		
+		if(PlayerList.size() < 2) {
+			System.out.println("Need at least two players to play the game");
+			//TODO - Throw exception, need at least two players to play the game
+		}
+		
+		// Create the game
+		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
+
+		// Create board
+		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
+		
+		this.playerTurn = playerStart;
+		
+		// Setup the board if needed - TODO ~ Test the setup
+		this.game.doSetup(playerStart);
+
+	}
+	
+	/***
+     * Create a new AI game with given gameType
+     * 
+     * @param difficulty
+     * @param gameType
+     * @author mobieljoy12
+     */
+	public GameOptions(GameType gameType) {
+		
+		this.gameType = gameType;
+		
+		// Create the game
+		this.game = this.instantiate("com.group4.games." + gameType.toString().toUpperCase(), GameProperty.class);
+
+		// Create board
+		this.board = new Board(this.game.getBoardHeight(), this.game.getBoardWidth());
 
 	}
 	
@@ -90,20 +135,22 @@ public class GameOptions {
 	 * Returns negative when no player has the turn
 	 * 
 	 * @return int - Which player has the turn
+	 * @author mobieljoy12
 	 */
-	public int toggleTurn() {
+	public String toggleTurn() {
+		if(this.gameState.equals(GameState.ENDED)) return "";
 		PlayerList.players.values().forEach((p) -> p.setPlayerState(PlayerState.PLAYING_NO_TURN));
-		if(this.playerTurn < 0) { // No player currently has the turn
-			int gameBasePlayerStart = this.game.playerStart();
-			if(gameBasePlayerStart < 0) { // Game says player start doesn't matter
-				this.playerTurn = ThreadLocalRandom.current().nextInt(0, 2);
+		if(this.playerTurn.length() == 0) { // No player currently has the turn
+			String gameBasePlayerStart = this.game.playerStart();
+			if(gameBasePlayerStart.length() == 0) { // Game says player start doesn't matter
+				this.playerTurn = "p" + ThreadLocalRandom.current().nextInt(0, 2); // Pick random player to start
 			}else {
-				this.playerTurn = gameBasePlayerStart;
+				this.playerTurn = gameBasePlayerStart; // Set the games starting player to start
 			}
 		}else {
-			this.playerTurn = (this.playerTurn == 0) ? 1 : 0;
+			this.playerTurn = (this.playerTurn.equals("p1")) ? "p2" : "p1"; // Toggle turn to other player
 		}
-		PlayerList.getPlayer("p"+(this.playerTurn+1)).setPlayerState(PlayerState.PLAYING_HAS_TURN);
+		PlayerList.getPlayer(this.playerTurn).setPlayerState(PlayerState.PLAYING_HAS_TURN); // Set player with turn to allow move
 		return this.playerTurn;
 	}
 	
@@ -111,8 +158,9 @@ public class GameOptions {
 	 * Get the current player turn
 	 * 
 	 * @return int - The player index that currently has the turn
+	 * @author mobieljoy12
 	 */
-	public int getPlayerTurn() {
+	public String getPlayerTurn() {
 		return this.playerTurn;
 	}
 	
@@ -120,6 +168,7 @@ public class GameOptions {
 	 * Get the game logic for the current game
 	 * 
 	 * @return GameProperty - the game logic
+	 * @author mobieljoy12
 	 */
 	public GameProperty getGameProperty() {
 		return this.game;

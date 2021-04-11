@@ -34,8 +34,10 @@ public class InMatchNoTurnState implements NetworkPlayerState {
     }
 
     @Override
-    public void makeMove(NetworkPlayer player, int zet) {
+    public boolean makeMove(NetworkPlayer player, int zet) {
         System.out.println("It is not the players turn. Cannot make a move");
+
+        return false;
     }
 
     @Override

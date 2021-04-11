@@ -1,7 +1,7 @@
-package com.group4.util;
+package com.group4.util.observers;
 
 import com.group4.model.Board;
-import com.group4.util.observers.Observer;
+import com.group4.util.Tile;
 
 public class TileObserver implements Observer {
 
@@ -13,7 +13,8 @@ public class TileObserver implements Observer {
 	
 	@Override
 	public void update(Object object) {
-		this.board.notifyObservers();
+		Tile tile = (Tile) object;
+		this.board.addFilledTile(tile.getOccupant(), tile);
 	}
 
 }

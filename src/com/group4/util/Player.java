@@ -17,9 +17,10 @@ public class Player implements Observable {
 	private String id;
 	
 	// Gameproperty instance so player can reach the game object
-	private GameProperty gameProperty = null;
+	protected GameProperty gameProperty = null;
 	
-	private PlayerState playerState;
+	// Holding the state the player is currently in
+	protected PlayerState playerState;
 	
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
 	
@@ -33,7 +34,7 @@ public class Player implements Observable {
 		this.id = id;
 		this.playerState = PlayerState.WAITING;
 	}
-	
+
 	/***
 	 * Get player id
 	 * 
@@ -48,6 +49,7 @@ public class Player implements Observable {
 	 * Get the PlayerState
 	 * 
 	 * @return PlayerState - The state the player is currently in
+	 * @author mobieljoy12
 	 */
 	public PlayerState getPlayerState() {
 		return this.playerState;
@@ -57,6 +59,7 @@ public class Player implements Observable {
 	 * Set the player state
 	 * 
 	 * @param state - The state to set the player to
+	 * @author mobieljoy12
 	 */
 	public void setPlayerState(PlayerState state) {
 		this.playerState = state;
@@ -71,11 +74,14 @@ public class Player implements Observable {
 	 * @author mobieljoy12
 	 */
 	public void makeMove(Tile tile) {
+		//TODO check matchpoint & end game
 		// Don't allow moves if player does not have the turn
 		if(this.playerState != PlayerState.PLAYING_HAS_TURN) return;
+		if(this.gameProperty.gameHasEnded()) return;
 		
-		// If move is legal, notify observers to toggle turn
-		if(this.gameProperty.makeMove(tile, this)) this.notifyObservers();
+		if(this.gameProperty.makeMove(tile, this)){
+			this.notifyObservers();
+		}
 	}
 	
 	/***
@@ -98,6 +104,7 @@ public class Player implements Observable {
 	 * Set a GameProperty to a player when he joins a game
 	 * 
 	 * @param game - GameProperty instance
+	 * @author mobieljoy12
 	 */
 	public void setGameProperty(GameProperty game) {
 		this.gameProperty = game;

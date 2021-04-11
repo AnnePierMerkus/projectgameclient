@@ -2,6 +2,7 @@ package com.group4.util.network;
 
 import com.group4.util.Player;
 import com.group4.util.Tile;
+import com.group4.util.network.NetworkPlayerStates.InMatchPlayerTurnState;
 import com.group4.util.network.NetworkPlayerStates.LogoutState;
 import com.group4.util.network.NetworkPlayerStates.NetworkPlayerState;
 
@@ -64,8 +65,11 @@ public class NetworkPlayer extends Player {
      */
     @Override
     public void makeMove(Tile tile) {
-        this.state.makeMove(this, tile.getIndex());
-        super.makeMove(tile);
+        if (this.state instanceof InMatchPlayerTurnState){
+            if (this.gameProperty.makeMove(tile, this)){
+                this.state.makeMove(this, tile.getIndex());
+            }
+        }
     }
 
     /**

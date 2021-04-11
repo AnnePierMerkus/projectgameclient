@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  *  Client for connection to the server
@@ -60,7 +59,7 @@ public class Client implements Runnable, Observable {
 
         try{
             while ((line = this.input.readLine()) != null){
-                //System.out.println("Output: " + line);
+                System.out.println("Output: " + line);
 
                 synchronized (this.messages){
                     this.messages.add(line); //store message in arraylist
@@ -172,7 +171,7 @@ public class Client implements Runnable, Observable {
      */
     public HashMap<String, String> messageToMap(){
         String src = new String(this.getMessage()); //make a new pointer so that we dont have to claim the lock to messages multiple times and deal with synchronization issues
-        HashMap result = new HashMap();
+        HashMap<String, String> result = new HashMap<String, String>();
 
         if (src.contains("{")){ //check if string contains map
             String map_string_only = src.substring(src.lastIndexOf('{') + 1, src.lastIndexOf('}'));//get only the part of the string with the map
@@ -194,7 +193,7 @@ public class Client implements Runnable, Observable {
     public ArrayList<String> messageToArrayList(){
         String src = new String(this.getMessage()); //make a new pointer so that we dont have to claim the lock to messages multiple times and deal with synchronization issues
 
-        ArrayList result = new ArrayList();
+        ArrayList<String> result = new ArrayList<String>();
         if (src.contains("[")){//check if message contains list
             src.replace(" ", "");
             String map_string_only = src.substring(src.lastIndexOf('[') + 1, src.lastIndexOf(']'));//get only the part of the string with the list

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.group4.view.MyToggleButton?>
+
+<StackPane
+        fx:controller="com.group4.controller.NotificationController"
+        fx:id="root"
+        xmlns:fx="http://javafx.com/fxml"
+        alignment="CENTER">
+
+    <GridPane
+            style="-fx-border-color: black"
+            fx:id="Notification"
+            alignment="TOP_RIGHT"
+            visible="true"
+            hgap="10"
+            vgap="2" >
+        <padding>
+            <Insets
+                    left="10"
+                    top="10"
+                    bottom="10"
+                    right="4"/>
+        </padding>
+
+        <Text fx:id="notification_text"
+              text="You have been challenged by: placeholder"
+              GridPane.columnIndex="0"
+              GridPane.rowIndex="0" />
+        <HBox
+                spacing="10"
+                GridPane.hgrow="ALWAYS"
+                maxWidth="500"
+                maxHeight="500"
+                GridPane.columnIndex="1"
+                GridPane.rowIndex="0">
+
+            <MyToggleButton
+                    fx:id="notificationAcceptBtn"
+                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                    text="Accept"
+                    HBox.hgrow="ALWAYS"
+                    maxWidth="500"
+                    maxHeight="300"
+                    onAction="#notificationAccept"/>
+        </HBox>
+
+        <HBox
+                spacing="10"
+                alignment="CENTER_RIGHT"
+                maxWidth="500"
+                maxHeight="500"
+                GridPane.columnIndex="2"
+                GridPane.rowIndex="0">
+
+            <MyToggleButton fx:id="notificationDeclineBtn"
+                            style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                            text="Decline"
+                            HBox.hgrow="ALWAYS"
+                            maxWidth="500"
+                            maxHeight="300"
+                            onAction="#notificationDecline"/>
+        </HBox>
+
+        <columnConstraints>
+            <ColumnConstraints minWidth="225" maxWidth="225" />
+            <ColumnConstraints minWidth="60" maxWidth="60" />
+            <ColumnConstraints minWidth="60" maxWidth="60" />
+        </columnConstraints>
+    </GridPane>
+
+</StackPane>

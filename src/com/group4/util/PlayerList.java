@@ -36,6 +36,12 @@ public class PlayerList {
 		return null;
 	}
 	
+	/***
+	 * Get the size of the PlayerList
+	 * 
+	 * @return int - Size
+	 * @author mobieljoy12
+	 */
 	public static int size() {
 		return players.size();
 	}
@@ -51,7 +57,20 @@ public class PlayerList {
 	}
 	
 	/***
+	 * Get the other player than the player passed in
+	 * 
+	 * @param id - String id of the player you have
+	 * @return Player - Player that is not with the id passed in
+	 * @author mobieljoy12
+	 */
+	public static Player getOtherPlayer(String id) {
+		return (id.equals("p1")) ? PlayerList.getPlayer("p2") : PlayerList.getPlayer("p1");
+	}
+	
+	/***
 	 * Make sure all players are no longer in game
+	 * 
+	 * @author mobieljoy12
 	 */
 	public static void cleanUp() {
 		players.values().forEach((p) -> p.setGameProperty(null));

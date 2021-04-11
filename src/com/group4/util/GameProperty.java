@@ -3,6 +3,7 @@ package com.group4.util;
 import java.util.HashMap;
 import java.util.List;
 
+import com.group4.controller.GameController.GameType;
 import com.group4.model.GameOptions;
 
 /***
@@ -11,32 +12,85 @@ import com.group4.model.GameOptions;
  * Holds all methods every game class should have
  * TODO - Add exceptions for when gameoptions not set
  * 
- * @author Gerwin Terpstra & Jasper van der Kooi
+ * @author GRTerpstra & mobieljoy12
  *
  */
 public abstract class GameProperty {
 
+	// Hold the display names for the players
 	protected HashMap<String, String> displayNames = new HashMap<String, String>();
+	
+	// Hold the connection to the gameoptions
 	protected GameOptions game = null;
-
-	//TODO remove later
-	public void tempDisplayBoard() {
-		for(int row = 0; row < this.game.getBoard().getHeight(); row++) {
-			for(int col = 0; col < this.game.getBoard().getWidth(); col++) {
-				// ((row * getRowWidth()) + column)
-				int tileIndex = (row * this.game.getBoard().getWidth()) + col;
-				String id = (this.game.getBoard().getTile(tileIndex).getOccupant() == null) ? "" : this.game.getBoard().getTile((row * this.game.getBoard().getWidth()) + col).getOccupant().getId();
-				System.out.print(" [" + id + "] ");
-			}
-			System.out.println();
+	
+	// Whether the game is on matchpoint
+	private boolean matchPoint = false;
+	
+	// Whether the game has ended
+	private boolean gameEnded = false;
+	
+	// The player that has won the game, null for when it is a tie
+	protected Player playerWon = null;
+	
+	/***
+	 * Set the matchpoint variable
+	 * 
+	 * @param matchpoint
+	 * @author mobieljoy12
+	 */
+	public void setMatchPoint(boolean matchpoint) {
+		this.matchPoint = matchpoint;
+	}
+	
+	/***
+	 * Check whether it's currently a matchpoint
+	 * 
+	 * @return boolean - Matchpoint
+	 */
+	public boolean isMatchPoint() {
+		return this.matchPoint;
+	}
+	
+	/***
+	 * End the game
+	 * 
+	 * @author mobieljoy12
+	 */
+	public void endGame() {
+		//TODO remove later
+		System.out.println("Game has ended");
+		if(this.playerWon == null) {
+			this.decidePlayerWin();
 		}
-
+		if(this.playerWon != null) System.out.println(this.displayNames.get(this.playerWon.getId()) + " wins!");
+		this.gameEnded = true;
+	}
+	
+	/***
+	 * Get the player that won the game
+	 * Null if player no player has won (yet)
+	 * 
+	 * @return Player - The player that won
+	 */
+	public Player getPlayerWon() {
+		return this.playerWon;
+	}
+	
+	/***
+	 * Whether the game has ended or should continue
+	 * 
+	 * @return boolean - Whether the game has ended
+	 * @author GRTerpstra & mobieljoy12
+	 */
+	public boolean gameHasEnded() {
+		return this.gameEnded;
 	}
 	
 	/***
 	 * Set the Gameoptions
 	 * 
 	 * @param gameOptions
+	 * @author mobieljoy12
 	 */
 	public void setGameOptions(GameOptions gameOptions) {
 		this.game = gameOptions;
@@ -52,6 +106,13 @@ public abstract class GameProperty {
 	public String getDiplayName(String playerId) {
 		return (this.displayNames.containsKey(playerId)) ? this.displayNames.get(playerId) : "";
 	}
+	
+	/***
+	 * Get the GameType that is currently running
+	 * 
+	 * @return GameType - The GameType that is running
+	 */
+	public abstract GameType getGameType();
 	
 	/***
 	 * The width of the board in number of columns
@@ -72,19 +133,20 @@ public abstract class GameProperty {
 	/***
 	 * Method will be called before the match starts and after the board is made
 	 * E.g. for setting tiles
+	 * 
+	 * @param String - The player who gets first turn
 	 */
-	public abstract void doSetup();
+	public abstract void doSetup(String currentPlayerTurn);
 	
 	/***
 	 * The player that should start the game
-	 * Set to -1 if player should be chosen at random
-	 * Use 0 if first listed player should start, 1 if the second etc.
-	 * So 0 would mean p1 starts the game
+	 * Set to empty string if player should be chosen at random
+	 * Use p1 if first listed player should start, p2 if the second etc.
 	 * 
-	 * @return Player index that should start
+	 * @return String - Player that should start
 	 * @author GRTerpstra & mobieljoy12
 	 */
-	public abstract int playerStart();
+	public abstract String playerStart();
 	
 	/***
 	 * Get available options for a given player
@@ -116,11 +178,19 @@ public abstract class GameProperty {
 	public abstract boolean isLegalMove(Tile tile, Player player);
 	
 	/***
-	 * Whether the game has ended or should continue
+	 * Check if the player has met the criteria to end the game
 	 * 
-	 * @return boolean - Whether the game has ended
+	 * @param player - The player to check for
+	 * @return boolean - Met criteria
+	 * @author GRTerpstra
+	 */
+	public abstract boolean endGameFlagMet(Player player);
+	
+	/***
+	 * Decide which player wins the game, null if it is a tie
+	 * 
 	 * @author GRTerpstra & mobieljoy12
 	 */
-	public abstract boolean gameHasEnded();
-	
+	public abstract void decidePlayerWin();
+		
 }

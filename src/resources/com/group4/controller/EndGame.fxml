@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:controller="com.group4.controller.GameOverController"
+    fx:id="root"
+    xmlns:fx="http://javafx.com/fxml"
+    alignment="CENTER">
+
+    <StackPane
+        fx:id="loginScreen"
+        alignment="CENTER">
+        <ImageView fitWidth="${root.width}" fitHeight="${root.height}" >
+            <!--  ^^  bind to size of node with fx:id="root" ^^  -->
+            <image>
+                <Image url="@purplefade.png"/>
+            </image>
+        </ImageView>
+
+
+        <GridPane
+            vgap="10"
+            alignment="CENTER">
+
+            <Text
+                fx:id="result"
+                id="result"
+                text="You have PLACEHOLDER."
+                textAlignment="CENTER"
+                style="-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);"
+                GridPane.rowIndex="0">
+                <font>
+                    <Font size="30.0"/>
+                </font>
+            </Text>
+
+            <Text fx:id="scorePlayer1"
+                    id="score1"
+                    text="Score player 1: PLACEHOLDER"
+                    textAlignment="CENTER"
+                    style="-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);"
+                    GridPane.rowIndex="1">
+                <font>
+                    <Font size="20.0"/>
+                </font>
+            </Text>
+
+            <Text fx:id="scorePlayer2"
+                  id="score2"
+                  text="Score player 2: PLACEHOLDER"
+                  textAlignment="CENTER"
+                  style="-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);"
+                  GridPane.rowIndex="2">
+                <font>
+                    <Font size="20.0"/>
+                </font>
+            </Text>
+
+            <Button
+                fx:id="quitBtn"
+                style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: ef8d40"
+                text="Ga verder"
+                HBox.hgrow="ALWAYS"
+                maxWidth="200"
+                minWidth="200"
+                minHeight="35"
+                maxHeight="35"
+                GridPane.rowIndex="3"
+            />
+        </GridPane>
+
+    </StackPane>
+</StackPane>
