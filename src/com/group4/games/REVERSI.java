@@ -87,7 +87,7 @@ public class REVERSI extends GameProperty {
 	
 	@Override
 	public List<Tile> getAvailableOptions(Player player) {
-		ArrayList<Tile> availableOptions = new ArrayList<Tile>();
+		HashMap<Integer, Tile> availableOptions = new HashMap<Integer, Tile>();
 		for(Tile tile : this.game.getBoard().getGameBoard().values()) {
 			if(tile.getOccupant() == player) {
 				for(int i = 0; i < 8; i++) {
@@ -116,14 +116,14 @@ public class REVERSI extends GameProperty {
 							continue;
 						}
 						else if(currentTile.getOccupant() == null && foundOpponentTile) {
-							availableOptions.add(currentTile);
+							availableOptions.put(currentTile.getIndex(), currentTile);
 							break;
 						}						
 					}
 				}
 			}
 		}
-		return availableOptions;
+		return (List<Tile>) availableOptions.values();
 	}
 	
 	public void swapTiles(Tile tile, Player player) {
