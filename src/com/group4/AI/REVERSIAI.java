@@ -53,7 +53,7 @@ public class REVERSIAI extends AI {
         System.out.println(loop1);
         System.out.println(loop2);
 
-        return this.gameai.getGame().getAvailableOptions(player).get(0);
+        return this.gameai.getGameProperty().getAvailableOptions(player).get(0);
     }
 
     int f = 0;

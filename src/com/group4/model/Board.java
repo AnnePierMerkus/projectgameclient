@@ -57,7 +57,6 @@ public class Board {
 				Tile tile = new Tile((row * this.width) + col, weight);
 				tile.registerObserver(tileObserver);
 				this.gameBoard.put(tile.getIndex(), tile);
-				this.previousBoard.put(tile.getIndex(), new Tile((row * this.width) + col, weight));
 			}
 		}
 	}
@@ -71,14 +70,21 @@ public class Board {
 	}
 	
 	/***
+	 * Empty the previous board values
+	 */
+	public void emptyPrevious() {
+		this.previousBoard = new HashMap<Integer, Tile>();
+	}
+	
+	/***
 	 * Save the current board before making a move so it can be reverted back to
 	 * 
 	 * @author mobieljoy12
 	 */
-	public void savePrevious() {
-		for(Tile tile : this.previousBoard.values()) {
-			tile.setOccupant(this.gameBoard.get(tile.getIndex()).getOccupant());
-		}
+	public void savePrevious(Tile tile, Player player) {
+		Tile prevTile = new Tile(tile.getIndex(), tile.getWeight());
+		prevTile.setOccupant(player);
+		this.previousBoard.put(tile.getIndex(), prevTile);
 	}
 	
 	/***
@@ -87,8 +93,11 @@ public class Board {
 	 * @author mobieljoy12
 	 */
 	public void revert() {
-		for(Tile tile : this.gameBoard.values()) {
-			tile.setOccupant(this.previousBoard.get(tile.getIndex()).getOccupant());
+		for(Tile tile : this.previousBoard.values()) {
+			this.gameBoard.get(tile.getIndex()).setOccupant(tile.getOccupant());
+			if(tile.isOccupied()) {
+				this.addFilledTile(tile.getOccupant(), this.gameBoard.get(tile.getIndex()));
+			}
 		}
 	}
 

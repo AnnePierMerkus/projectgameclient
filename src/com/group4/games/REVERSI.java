@@ -155,6 +155,7 @@ public class REVERSI extends GameProperty {
 				}
 				else if(currentTile.getOccupant() == player && !(candidateTiles.isEmpty())) {
 					for(Tile candidateTile : candidateTiles) {
+						this.game.getBoard().savePrevious(candidateTile, candidateTile.getOccupant());
 						this.game.getBoard().getTile(candidateTile.getIndex()).setOccupant(player);
 					}	
 					break;
@@ -165,8 +166,9 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean makeMove(Tile tile, Player player) {
-		this.game.getBoard().savePrevious();
+		this.game.getBoard().emptyPrevious();
 		if(this.isLegalMove(tile, player) && !this.gameHasEnded()) {
+			this.game.getBoard().savePrevious(tile, tile.getOccupant());
 			tile.setOccupant(player);
 			swapTiles(tile, player);
 			this.endGameFlagMet(player);

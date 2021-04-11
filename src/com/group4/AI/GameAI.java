@@ -36,15 +36,6 @@ public class GameAI extends GameOptions {
 	public void setGameOptions(GameOptions gameOptions) {
 		this.gameOptions = gameOptions;
 	}
-
-	/***
-	 * Get the GameProperty
-	 * 
-	 * @return GameProperty
-	 */
-	public GameProperty getGame() {
-		return this.gameOptions.getGameProperty();
-	}
 	
 	/***
 	 * Add a move to the prediction board
