@@ -1,7 +1,11 @@
 package com.group4.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map.Entry;
+
+import com.group4.util.observers.Observable;
+import com.group4.util.observers.Observer;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
@@ -9,13 +13,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class Tile extends StackPane {
+public class Tile extends StackPane implements Observable {
 	
 	private int index;
 
 	private int weight = 0;
 
 	private Player playerOnTile = null;
+	
+	private ArrayList<Observer> observers = new ArrayList<Observer>();
 
 	Circle circle;
 	
@@ -138,6 +144,21 @@ public class Tile extends StackPane {
 	 */
 	public boolean isOccupied() {
 		return (this.playerOnTile != null);
+	}
+
+	@Override
+	public void registerObserver(Observer observer) {
+		this.observers.add(observer);
+	}
+
+	@Override
+	public void removeObserver(Observer observer) {
+		this.observers.remove(observer);
+	}
+
+	@Override
+	public void notifyObservers() {
+		this.observers.forEach((o) -> o.update(this));
 	}
 	
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
+import com.group4.util.observers.TileObserver;
 
 /**
  * Class that creates and defines the game board.
@@ -12,6 +13,7 @@ import com.group4.util.Tile;
 public class Board {
 	
 	private HashMap<Integer, Tile> gameBoard = new HashMap<Integer, Tile>();
+	private HashMap<String, HashMap<Integer, Tile>> filledTiles = new HashMap<String, HashMap<Integer, Tile>>();
 	private int height;
 	private int width;
 
@@ -24,7 +26,12 @@ public class Board {
 	public Board(int height, int width) {
 		this.height = height;
 		this.width = width;
+		
+		this.filledTiles.put("p1", new HashMap<Integer, Tile>());
+		this.filledTiles.put("p2", new HashMap<Integer, Tile>());
 
+		TileObserver tileObserver = new TileObserver(this);
+		
 		for(int row = 0; row < height; row++) {
 			for(int col = 0; col < width; col++) {
 				// ((row * getRowWidth()) + column)
@@ -47,6 +54,7 @@ public class Board {
 				}
 
 				Tile tile = new Tile((row * this.width) + col, weight);
+				tile.registerObserver(tileObserver);
 				this.gameBoard.put(tile.getIndex(), tile);
 			}
 		}
@@ -88,18 +96,31 @@ public class Board {
 	}
 	
 	/***
+	 * Add a Tile to a Player
+	 * 
+	 * @param player - The Player to add it to
+	 * @param tile - The Tile to add
+	 */
+	public void addFilledTile(Player player, Tile tile) {
+		String otherPlayerId = PlayerList.getOtherPlayer(player.getId()).getId();
+		if(this.filledTiles.get(otherPlayerId).containsKey(tile.getIndex())) {
+			this.filledTiles.get(otherPlayerId).remove(tile.getIndex());
+		}
+		this.filledTiles.get(player.getId()).put(tile.getIndex(), tile);
+	}
+	
+	/***
 	 * Check whether the board is completely full
 	 * 
 	 * @return boolean - Full
 	 * @author mobieljoy12
 	 */
 	public boolean isFull() {
-		for(Tile tile : this.gameBoard.values()) {
-			if(!tile.isOccupied()) {
-				return false;
-			}
+		int filledTileCount = 0;
+		for(String pId : this.filledTiles.keySet()) {
+			filledTileCount += this.filledTiles.get(pId).size();
 		}
-		return true;
+		return ((this.getWidth() * this.getHeight()) == filledTileCount);
 	}
 	
 	/***
@@ -109,11 +130,8 @@ public class Board {
 	 */
 	public HashMap<Player, Integer> getScores(){
 		HashMap<Player, Integer> tempScores = new HashMap<Player, Integer>(); // New HashMap
-		PlayerList.players.values().forEach((p) -> tempScores.put(p, 0)); // Set all player scores to 0
-		for(Tile tile : this.gameBoard.values()) {
-			if(tile.isOccupied()) {
-				tempScores.put(tile.getOccupant(), tempScores.get(tile.getOccupant()) + 1);
-			}
+		for(String pId : this.filledTiles.keySet()) {
+			tempScores.put(PlayerList.getPlayer(pId), this.filledTiles.get(pId).size());
 		}
 		return tempScores;
 	}
@@ -125,13 +143,7 @@ public class Board {
 	 * @return int - Score in tiles
 	 */
 	public int getScore(Player player) {
-		int score = 0;
-		for(Tile tile : this.gameBoard.values()) {
-			if(tile.getOccupant().equals(player)) {
-				score++;
-			}
-		}
-		return score;
+		return this.filledTiles.get(player.getId()).size();
 	}
 	
 	/***

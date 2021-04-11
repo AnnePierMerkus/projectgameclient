@@ -85,11 +85,16 @@ public class REVERSI extends GameProperty {
 		return "p1";
 	}
 
+	/**
+	 * Current working:
+	 * Elke tile kijken of die van de speler is
+	 * 		Voor elke 7 keer loopen -> Check andere kant
+	 */
+	
 	@Override
 	public List<Tile> getAvailableOptions(Player player) {
 		ArrayList<Tile> availableOptions = new ArrayList<Tile>();
-		HashMap<Integer, Tile> board = this.game.getBoard().getGameBoard();
-		for(Tile tile : board.values()) {
+		for(Tile tile : this.game.getBoard().getGameBoard().values()) {
 			if(tile.getOccupant() == player) {
 				for(int i = 0; i < 8; i++) {
 					Tile currentTile = tile;
@@ -108,7 +113,7 @@ public class REVERSI extends GameProperty {
 							{
 							break;
 						}
-						currentTile = board.get(currentTile.getIndex() + directionOffset);
+						currentTile = this.game.getBoard().getGameBoard().get(currentTile.getIndex() + directionOffset);
 						if((currentTile.getOccupant() == player) || (currentTile.getOccupant() == null && !(foundOpponentTile))) {
 							break;
 						}
