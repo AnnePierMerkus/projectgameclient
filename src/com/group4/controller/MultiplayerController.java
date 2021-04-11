@@ -1,6 +1,7 @@
 package com.group4.controller;
 
 import com.group4.AI.AI;
+import com.group4.games.REVERSI;
 import com.group4.model.Challenge;
 import com.group4.model.GameOptions;
 import com.group4.util.Player;
@@ -104,7 +105,7 @@ public class MultiplayerController extends Controller{
 
         try{
             //create client for communication with server
-            this.client = new Client("145.33.225.170", 7789);
+            this.client = new Client("localhost", 7789);
 
             //start client on new thread for responsiveness
             this.client_thread = new Thread(client);
@@ -434,10 +435,8 @@ public class MultiplayerController extends Controller{
             HashMap<String, String> messageToMap = client.messageToMap();
 
             if (messageToMap.get("PLAYERTOMOVE").equals(this.networkPlayer.getName())){
-                //this.startingPlayer = "p1";
                 this.multiplayerGameController.setStartingPlayer(this.networkPlayer);
             }else{
-                //this.startingPlayer = "p2";
                 this.multiplayerGameController.setStartingPlayer(PlayerList.getPlayer("p2"));
             }
 
@@ -474,7 +473,6 @@ public class MultiplayerController extends Controller{
 
         //match is over set networkplayer state and end the game
         if (message.contains("WIN") || message.contains("LOSS") || message.contains("DRAW")){
-            ButtonType continueButton = new ButtonType("Continue", ButtonBar.ButtonData.LEFT);
             Platform.runLater(() -> {
                 //go to GameOverScreen
                 this.swap(stage, "EndGame.fxml");
@@ -488,21 +486,17 @@ public class MultiplayerController extends Controller{
                     gameOverController.getResultText().setText("Gelijk Spel!");
                 }
 
-                gameOverController.getScorePlayer1Text().setText("Score Speler 1: " + messageToMap.get("PLAYERONESCORE"));
-                gameOverController.getScorePlayer2Text().setText("Score Speler 2: " + messageToMap.get("PLAYERTWOSCORE"));
+                if (this.multiplayerGameController.game.getGameProperty() instanceof REVERSI) {
+                    gameOverController.setScoreVisibility(true);
+                    gameOverController.getScorePlayer1Text().setText("Score Speler 1: " + messageToMap.get("PLAYERONESCORE"));
+                    gameOverController.getScorePlayer2Text().setText("Score Speler 2: " + messageToMap.get("PLAYERTWOSCORE"));
+                }else {
+                    gameOverController.setScoreVisibility(false);
+                }
 
                 gameOverController.getQuitBtn().setOnAction((event) -> {
                     stage.setScene(this.thisScene);
                 });
-
-                /**
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You ! " + message.replace("SVR GAME", "").substring(0, message.lastIndexOf("{")) + this.networkPlayer.getName(), continueButton);
-                alert.setTitle("Game Ended");
-                alert.setHeaderText(null);
-                alert.setGraphic(null);
-                alert.showAndWait();
-                stage.setScene(this.thisScene);
-                 **/
             });
 
             System.out.println("SERVER COMMENT: " + client.messageToMap().get("COMMENT"));
