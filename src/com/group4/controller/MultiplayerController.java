@@ -509,7 +509,7 @@ public class MultiplayerController extends GameController {
                 alert.setHeaderText(null);
                 alert.setGraphic(null);
                 alert.showAndWait();
-                    stage.setScene(this.thisScene);
+                stage.setScene(this.thisScene);
             });
 
 
