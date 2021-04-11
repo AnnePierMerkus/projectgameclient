@@ -1,5 +1,7 @@
 package com.group4.AI;
 
+import java.util.List;
+
 import com.group4.controller.GameController.GameType;
 import com.group4.model.GameOptions;
 import com.group4.util.GameProperty;
@@ -53,18 +55,21 @@ public class AIPlayer extends Player {
 	
 	@Override
 	public void makeMove(Tile tile) {
-		// Don't allow moves if player does not have the turn, only happens when gameproperty is already set
-		if(this.playerState != PlayerState.PLAYING_HAS_TURN) return;
-		if(this.gameProperty.gameHasEnded()) return;
-		try {
-			System.out.println("sleep" + this.getId());
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		// Empty
+	}
+	
+	@Override
+	public void setPlayerState(PlayerState state) {
+		this.playerState = state;
+		if(state.equals(PlayerState.PLAYING_HAS_TURN)) {
+			if(this.ai != null) {
+				List<Tile> options = getAvailableOptions();
+				if(!options.isEmpty()) {
+					this.gameProperty.makeMove(this.ai.makeMove(getAvailableOptions()), this);
+				}
+				this.notifyObservers();
+			}
 		}
-		this.gameProperty.makeMove(this.ai.makeMove(getAvailableOptions()), this);
-		System.out.println("n" + tile.getWeight()); // If move is legal, notify observers to toggle turn
-		this.notifyObservers();
 	}
 	
 	@Override

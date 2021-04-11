@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.group4.controller.GameController.GameType;
-import com.group4.model.Board;
 import com.group4.model.GameOptions;
 
 /***
@@ -61,8 +60,9 @@ public abstract class GameProperty {
 		//TODO remove later
 		System.out.println("Game has ended");
 		if(this.playerWon == null) {
-			
+			this.decidePlayerWin();
 		}
+		if(this.playerWon != null) System.out.println(this.displayNames.get(this.playerWon.getId()) + " wins!");
 		this.gameEnded = true;
 	}
 	

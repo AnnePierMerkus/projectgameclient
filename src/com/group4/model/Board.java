@@ -102,6 +102,7 @@ public class Board {
 	 * @param tile - The Tile to add
 	 */
 	public void addFilledTile(Player player, Tile tile) {
+		System.out.println("Adding tile " + tile.getIndex() + " to " + player.getId());
 		String otherPlayerId = PlayerList.getOtherPlayer(player.getId()).getId();
 		if(this.filledTiles.get(otherPlayerId).containsKey(tile.getIndex())) {
 			this.filledTiles.get(otherPlayerId).remove(tile.getIndex());
@@ -120,6 +121,7 @@ public class Board {
 		for(String pId : this.filledTiles.keySet()) {
 			filledTileCount += this.filledTiles.get(pId).size();
 		}
+		System.out.println("Full board is: " + (this.getWidth() * this.getHeight()) + " tiles, " + filledTileCount + " are filled");
 		return ((this.getWidth() * this.getHeight()) == filledTileCount);
 	}
 	

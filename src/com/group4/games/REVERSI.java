@@ -84,12 +84,6 @@ public class REVERSI extends GameProperty {
 		// Wit always starts
 		return "p1";
 	}
-
-	/**
-	 * Current working:
-	 * Elke tile kijken of die van de speler is
-	 * 		Voor elke 7 keer loopen -> Check andere kant
-	 */
 	
 	@Override
 	public List<Tile> getAvailableOptions(Player player) {
@@ -176,7 +170,7 @@ public class REVERSI extends GameProperty {
 		if(tile != null) {
 			System.out.println("Selected tile: " + tile.getIndex());
 		}
-		if(this.isLegalMove(tile, player)) {
+		if(this.isLegalMove(tile, player) && !this.gameHasEnded()) {
 			System.out.println("Move legal");
 			tile.setOccupant(player);
 			swapTiles(tile, player);
@@ -201,12 +195,19 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean endGameFlagMet(Player player) {
-		if(this.getAvailableOptions(player).isEmpty()) {
+		System.out.println("Checking endGameFlag");
+		if(this.game.getBoard().isFull()) {
+			System.out.println("endgame: true. Board full");
+			this.endGame();
+			return true;
+		}else if(this.getAvailableOptions(player).isEmpty()) {
+			System.out.println("endgame: true. Options empty");
 			if(this.isMatchPoint()) this.endGame(); else this.setMatchPoint(true);
 			return true;
 		}else {
 			this.setMatchPoint(false);
 		}
+		System.out.println("Endgame: false");
 		return false;
 	}
 

@@ -49,36 +49,16 @@ public class Tile extends StackPane implements Observable {
 		getChildren().addAll(border);
 		setOnMouseClicked(mouseEvent ->
 		{
-			/*PlayerList.players.values().forEach((p) -> {
-				if (p.getPlayerState() == Player.PlayerState.PLAYING_HAS_TURN) {
-					p.makeMove(this);
-				}
-			});*/
 			Iterator<Entry<String, Player>> it = PlayerList.players.entrySet().iterator();
 			while (it.hasNext())
 			{
 				Entry<String, Player> pair = it.next();
-				if (((Player)pair.getValue()).getPlayerState() == Player.PlayerState.PLAYING_HAS_TURN)
+				if (pair.getValue().getPlayerState() == Player.PlayerState.PLAYING_HAS_TURN)
 				{
-					((Player) pair.getValue()).makeMove(this);
+					pair.getValue().makeMove(this);
 					break;
 				}
 			}
-		});
-	}
-
-	public Tile(int index) {
-		this.index = index;
-		this.weight = 1;
-		Rectangle border = new Rectangle(100, 100);
-		border.setFill(null);
-		border.setStroke(Color.BLACK);
-		setAlignment(Pos.CENTER);
-		getChildren().addAll(border);
-
-		setOnMouseClicked(mouseEvent ->
-		{
-			PlayerList.players.values().forEach((p) -> p.makeMove(this));
 		});
 	}
 	
@@ -123,8 +103,8 @@ public class Tile extends StackPane implements Observable {
 		this.playerOnTile = occupant;
 		if(occupant != null) {
 			circle.setFill(this.playerOnTile.getId().equals("p1") ? Color.WHITE : Color.BLACK);
-			//setStyle("-fx-background-color: " + color);
 		}
+		this.notifyObservers();
 	}
 	
 	/***
