@@ -32,4 +32,9 @@ public class GameOverController extends Controller{
     public Text getScorePlayer2Text(){
         return this.scorePlayer2;
     }
+
+    public void setScoreVisibility(boolean value){
+        this.getScorePlayer1Text().setVisible(value);
+        this.getScorePlayer2Text().setVisible(value);
+    }
 }
