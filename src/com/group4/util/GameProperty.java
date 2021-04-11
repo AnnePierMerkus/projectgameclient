@@ -177,13 +177,5 @@ public abstract class GameProperty {
 	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract boolean isLegalMove(Tile tile, Player player);
-	
-	/***
-	 * Check if the win condition is met.
-	 * 
-	 * @return Player - the player that won the game
-	 * @author GRTerpstra
-	 */
-	public abstract boolean winCondition(Player player);
 		
 }
