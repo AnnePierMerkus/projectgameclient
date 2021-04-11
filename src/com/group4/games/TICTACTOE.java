@@ -16,7 +16,7 @@ public class TICTACTOE extends GameProperty {
 	 * Check if this player won the game
 	 * 
 	 * @param player - The player to check
-	 * @return boolean - Won
+	 * @return boolean
 	 */
 	private boolean winCondition(Player player) {
 		ArrayList<Integer> playerTiles = new ArrayList<Integer>();
@@ -34,7 +34,7 @@ public class TICTACTOE extends GameProperty {
 		   (playerTiles.contains(0) && playerTiles.contains(4) && playerTiles.contains(8)) ||
 		   (playerTiles.contains(2) && playerTiles.contains(4) && playerTiles.contains(6))
 		  ) {
-			this.setPlayerWon(player);
+			this.endGame(player);
 			System.out.println("Player " + player.getId() + " has won!");
 			return true;
 		}		
@@ -108,10 +108,7 @@ public class TICTACTOE extends GameProperty {
 		if(this.isLegalMove(tile, player)) {
 			System.out.println("Move legal");
 			tile.setOccupant(player);
-			// TODO update change in board
-			if(winCondition(player)) {
-				this.endGame();
-			}
+			winCondition(player);
 			return true;
 		}
 		System.out.println("Move illegal");

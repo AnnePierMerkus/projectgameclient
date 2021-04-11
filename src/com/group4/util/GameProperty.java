@@ -52,19 +52,27 @@ public abstract class GameProperty {
 		return this.matchPoint;
 	}
 	
-	public void setPlayerWon(Player player) {
-		playerWon = player;
-	}
-	
 	/***
 	 * End the game
 	 * 
+	 * @param playerWon - The Player that won the game
 	 * @author mobieljoy12
 	 */
-	public void endGame() {
+	public void endGame(Player playerWon) {
 		//TODO remove later
 		System.out.println("Game has ended");
+		this.playerWon = playerWon;
 		this.gameEnded = true;
+	}
+	
+	/***
+	 * Get the player that won the game
+	 * Null if player no player has won (yet)
+	 * 
+	 * @return Player - The player that won
+	 */
+	public Player getPlayerWon() {
+		return this.playerWon;
 	}
 	
 	/***
