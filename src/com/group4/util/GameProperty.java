@@ -30,6 +30,9 @@ public abstract class GameProperty {
 	// Whether the game has ended
 	private boolean gameEnded = false;
 	
+	// The player that has won the game
+	private Player playerWon = null;
+	
 	/***
 	 * Set the matchpoint variable
 	 * 
@@ -47,6 +50,10 @@ public abstract class GameProperty {
 	 */
 	public boolean isMatchPoint() {
 		return this.matchPoint;
+	}
+	
+	public void setPlayerWon(Player player) {
+		playerWon = player;
 	}
 	
 	/***
@@ -171,4 +178,12 @@ public abstract class GameProperty {
 	 */
 	public abstract boolean isLegalMove(Tile tile, Player player);
 	
+	/***
+	 * Check if the win condition is met.
+	 * 
+	 * @return Player - the player that won the game
+	 * @author GRTerpstra
+	 */
+	public abstract boolean winCondition(Player player);
+		
 }
