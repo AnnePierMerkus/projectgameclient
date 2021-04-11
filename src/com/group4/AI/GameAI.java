@@ -35,7 +35,7 @@ public class GameAI extends GameOptions {
 	public void setGameOptions(GameOptions gameOptions) {
 		this.gameOptions = gameOptions;
 	}
-	
+
 	/***
 	 * Add a move to the prediction board
 	 * 

@@ -23,10 +23,11 @@ public class SingleplayerGameController extends GameController {
 	void createGame(GameType gameType) { // We need this method for Multiplayer stuff, but it still needs to be implemented here
 		this.game = new GameOptions(Difficulty.MEDIUM, gameType);
 		for(Player p : PlayerList.players.values()) {
-			p.setGameProperty(this.game.getGameProperty());
 			if(p instanceof AIPlayer) {
 				((AIPlayer) p).setGameOptions(this.game);
 			}
+
+			p.setGameProperty(this.game.getGameProperty());
 		}
 		//TODO - Swap scene to new game using main Controller
 		this.game.setGameState(GameState.PLAYING);
@@ -37,10 +38,10 @@ public class SingleplayerGameController extends GameController {
 
 		this.game = new GameOptions(difficulty, gameType);
 		for(Player p : PlayerList.players.values()) {
-			p.setGameProperty(this.game.getGameProperty());
 			if(p instanceof AIPlayer) {
 				((AIPlayer) p).setGameOptions(this.game);
 			}
+			p.setGameProperty(this.game.getGameProperty());
 		}
 		//TODO - Swap scene to new game using main Controller
 		this.game.setGameState(GameState.PLAYING);

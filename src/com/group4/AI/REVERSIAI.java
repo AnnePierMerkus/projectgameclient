@@ -14,18 +14,18 @@ public class REVERSIAI extends AI {
     @Override
     public Tile makeMove(List<Tile> availableOptions)
     {
-        return bestMove(availableOptions);
+        gameai.updateFromGame();
+        return bestMove(availableOptions, gameai.getBoard());
         //availableOptions.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
         //System.out.println(availableOptions.get(0).getWeight());
         //return availableOptions.get(0);
     }
 
 
-    public Tile bestMove(List<Tile> availableOptions)
+    public Tile bestMove(List<Tile> availableOptions, Board board)
     {
         int bestScore = Integer.MIN_VALUE;
         int move = 0;
-        Board board = new Board(8, 8);
         for (int i = 0; i < availableOptions.size(); i++) {
             // board = Do move availableOptions.get(i);
             int score = minimax(board, true, 10);

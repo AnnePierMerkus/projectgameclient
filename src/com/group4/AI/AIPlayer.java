@@ -48,6 +48,7 @@ public class AIPlayer extends Player {
 	 * @author mobieljoy12
 	 */
 	public void setGameOptions(GameOptions gameOptions) {
+		System.out.println(gameOptions);
 		this.gameOptions = gameOptions;
 	}
 	
@@ -69,6 +70,7 @@ public class AIPlayer extends Player {
 	
 	@Override
 	public void setGameProperty(GameProperty game) {
+		System.out.println("1234");
 		this.gameProperty = game;
 		this.instantiate("com.group4.AI." + this.gameProperty.getGameType().toString().toUpperCase() + "AI", AI.class, game.getGameType());
 	}
