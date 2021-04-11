@@ -165,19 +165,15 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean makeMove(Tile tile, Player player) {
-		System.out.println(player.getId());
-		System.out.println("Making move...");
 		if(tile != null) {
-			System.out.println("Selected tile: " + tile.getIndex());
+			//
 		}
 		if(this.isLegalMove(tile, player) && !this.gameHasEnded()) {
-			System.out.println("Move legal");
 			tile.setOccupant(player);
 			swapTiles(tile, player);
 			this.endGameFlagMet(player);
 			return true;
 		}
-		System.out.println("Move illegal");
 		return false;
 	}
 

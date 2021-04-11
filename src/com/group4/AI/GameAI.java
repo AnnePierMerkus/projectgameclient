@@ -54,8 +54,9 @@ public class GameAI extends GameOptions {
 	 * @author mobieljoy12
 	 */
 	public void makePredictionMove(int tileIndex, Player player) {
-
-		this.board.getTile(tileIndex).setOccupant(player);
+		//this.board.getTile(tileIndex).setOccupant(player);
+		this.getGameProperty().makeMove(this.board.getTile(tileIndex), player);
+		//this.getGame().makeMove(this.board.getTile(tileIndex), player);
 	}
 	
 	@Override

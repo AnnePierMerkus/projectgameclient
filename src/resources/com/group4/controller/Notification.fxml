@@ -18,7 +18,7 @@
             style="-fx-border-color: black"
             fx:id="Notification"
             alignment="TOP_RIGHT"
-            visible="true"
+            visible="false"
             hgap="10"
             vgap="2" >
         <padding>
