@@ -49,7 +49,7 @@ public class REVERSIAI extends AI {
         }
 
         for (Tile tile : this.gameai.getGame().getGameProperty().getAvailableOptions(player)) {
-            if (tile.getWeight() == 20) {
+            if (tile.getWeight() == 1) {
                 return tile;
             }
            this.gameai.makePredictionMove(tile.getIndex(), player);
