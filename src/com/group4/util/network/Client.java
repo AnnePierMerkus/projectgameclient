@@ -66,7 +66,8 @@ public class Client implements Runnable, Observable {
 
                     //notify threads that are looking at the messages arraylist that a change has occurred
                     this.messages.notify();
-
+                }
+                synchronized (this.observers) {
                     //notify observers that a message has been received
                     this.notifyObservers();
                 }

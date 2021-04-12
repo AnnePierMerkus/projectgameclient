@@ -11,12 +11,14 @@ public abstract class AI {
 	
 	// The Game the AI can work with
 	GameAI gameai;
-	
+
+	int depth;
 	public void updateBoardFromGame() {
 		
 	}
 	
-	public void setAIType(GameOptions gameOptions, GameType gameType) {
+	public void setAIType(GameOptions gameOptions, GameType gameType, int depth) {
+		this.depth = depth;
 		this.gameai = new GameAI(gameType);
 		this.gameai.setGameOptions(gameOptions);
 		this.gameai.updateFromGame();
