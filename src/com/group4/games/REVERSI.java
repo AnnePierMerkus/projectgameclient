@@ -14,7 +14,7 @@ public class REVERSI extends GameProperty {
 
 	/***
 	 * Get the direction offset for a given direction
-	 * 
+	 *
 	 * @param direction
 	 * @return int
 	 * @author GRTerpstra
@@ -49,17 +49,17 @@ public class REVERSI extends GameProperty {
 		}
 		return offset;
 	}
-	
+
 	public REVERSI() {
 		this.displayNames.put("p1", "Wit");
 		this.displayNames.put("p2", "Zwart");
 	}
-	
+
 	@Override
 	public GameType getGameType() {
 		return GameType.REVERSI;
 	}
-	
+
 	@Override
 	public int getBoardWidth() {
 		return 8;
@@ -69,33 +69,39 @@ public class REVERSI extends GameProperty {
 	public int getBoardHeight() {
 		return 8;
 	}
-	
+
 	@Override
 	public void doSetup(String currentPlayerSetup) {
-		
+
 		// Set the default values on the board
 		this.game.getBoard().getTile(28).setOccupant(PlayerList.getPlayer(currentPlayerSetup));
 		this.game.getBoard().getTile(35).setOccupant(PlayerList.getPlayer(currentPlayerSetup));
 		this.game.getBoard().getTile(27).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup));
 		this.game.getBoard().getTile(36).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup));
-		
-		// Add these to the previousBoard so they can be reverted back to
+
+		// Add these to the filled Tiles
 		this.game.getBoard().addFilledTile(PlayerList.getPlayer(currentPlayerSetup), this.game.getBoard().getTile(28));
 		this.game.getBoard().addFilledTile(PlayerList.getPlayer(currentPlayerSetup), this.game.getBoard().getTile(35));
 		this.game.getBoard().addFilledTile(PlayerList.getOtherPlayer(currentPlayerSetup), this.game.getBoard().getTile(27));
 		this.game.getBoard().addFilledTile(PlayerList.getOtherPlayer(currentPlayerSetup), this.game.getBoard().getTile(36));
-		
+
+		// Save init state to previous board so it can be reverted back to
+		this.game.getBoard().savePrevious(this.game.getBoard().getTile(28), PlayerList.getPlayer(currentPlayerSetup));
+		this.game.getBoard().savePrevious(this.game.getBoard().getTile(35), PlayerList.getPlayer(currentPlayerSetup));
+		this.game.getBoard().savePrevious(this.game.getBoard().getTile(27), PlayerList.getOtherPlayer(currentPlayerSetup));
+		this.game.getBoard().savePrevious(this.game.getBoard().getTile(36), PlayerList.getOtherPlayer(currentPlayerSetup));
+
 		// Set move counter to 1 so the first move can be made
 		this.game.getBoard().incMoveCounter();
-		
+
 	}
-	
+
 	@Override
 	public String playerStart() {
 		// Wit always starts
 		return "p1";
 	}
-	
+
 	@Override
 	public List<Tile> getAvailableOptions(Player player) {
 		HashMap<Integer, Tile> availableOptions = new HashMap<Integer, Tile>();
@@ -103,10 +109,10 @@ public class REVERSI extends GameProperty {
 			if(tile.getOccupant() == player) {
 				for(int i = 0; i < 8; i++) {
 					Tile currentTile = tile;
-					int directionOffset = getDirectionOffset(i);					
+					int directionOffset = getDirectionOffset(i);
 					boolean foundOpponentTile = false;
-					while(currentTile.getIndex() + directionOffset >= 0 && currentTile.getIndex() + directionOffset <= 63) {	
-						if(		(i == 0 && (currentTile.getIndex() < 8)) 												|| 
+					while(currentTile.getIndex() + directionOffset >= 0 && currentTile.getIndex() + directionOffset <= 63) {
+						if(		(i == 0 && (currentTile.getIndex() < 8)) 												||
 								(i == 1 && ((currentTile.getIndex() < 8) || (currentTile.getIndex() + 1) % 8 == 0)) 	||
 								(i == 2 && ((currentTile.getIndex() + 1) % 8 == 0)) 									||
 								(i == 3 && ((((currentTile.getIndex() + 1) % 8 == 0)) || (currentTile.getIndex() > 55)))||
@@ -114,8 +120,8 @@ public class REVERSI extends GameProperty {
 								(i == 5 && ((currentTile.getIndex() > 55) || currentTile.getIndex() % 8 == 0)) 			||
 								(i == 6 && (currentTile.getIndex() % 8 == 0)) 											||
 								(i == 7 && ((currentTile.getIndex() % 8 == 0) || currentTile.getIndex() < 8))
-						  ) 
-							{
+						)
+						{
 							break;
 						}
 						currentTile = this.game.getBoard().getGameBoard().get(currentTile.getIndex() + directionOffset);
@@ -129,14 +135,14 @@ public class REVERSI extends GameProperty {
 						else if(currentTile.getOccupant() == null && foundOpponentTile) {
 							availableOptions.put(currentTile.getIndex(), currentTile);
 							break;
-						}						
+						}
 					}
 				}
 			}
 		}
 		return new ArrayList<Tile>(availableOptions.values());
 	}
-	
+
 	public void swapTiles(Tile tile, Player player) {
 		HashMap<Integer, Tile> board = this.game.getBoard().getGameBoard();
 		for(int i = 0; i < 8; i++) {
@@ -144,7 +150,7 @@ public class REVERSI extends GameProperty {
 			int directionOffset = getDirectionOffset(i);
 			ArrayList<Tile> candidateTiles = new ArrayList<Tile>();
 			while(currentTile.getIndex() + directionOffset >= 0 && currentTile.getIndex() + directionOffset <= 63) {
-				if(		(i == 0 && (currentTile.getIndex() < 8)) 												|| 
+				if(		(i == 0 && (currentTile.getIndex() < 8)) 												||
 						(i == 1 && ((currentTile.getIndex() < 8) || (currentTile.getIndex() + 1) % 8 == 0)) 	||
 						(i == 2 && ((currentTile.getIndex() + 1) % 8 == 0)) 									||
 						(i == 3 && ((((currentTile.getIndex() + 1) % 8 == 0)) || (currentTile.getIndex() > 55)))||
@@ -152,8 +158,8 @@ public class REVERSI extends GameProperty {
 						(i == 5 && ((currentTile.getIndex() > 55) || currentTile.getIndex() % 8 == 0)) 			||
 						(i == 6 && (currentTile.getIndex() % 8 == 0)) 											||
 						(i == 7 && ((currentTile.getIndex() % 8 == 0) || currentTile.getIndex() < 8))
-				  ) 
-					{					
+				)
+				{
 					break;
 				}
 				currentTile = board.get(currentTile.getIndex() + directionOffset);
@@ -168,21 +174,23 @@ public class REVERSI extends GameProperty {
 					for(Tile candidateTile : candidateTiles) {
 						this.game.getBoard().savePrevious(candidateTile, candidateTile.getOccupant());
 						this.game.getBoard().getTile(candidateTile.getIndex()).setOccupant(player);
-					}	
+					}
 					break;
-				}	
+				}
 			}
 		}
 	}
 
 	@Override
 	public boolean makeMove(Tile tile, Player player) {
-		if(this.isLegalMove(tile, player) && !this.gameHasEnded()) {
+		if(this.checkGameEnded()) return false;
+		if(this.isLegalMove(tile, player)) {
 			this.game.getBoard().savePrevious(tile, tile.getOccupant());
 			tile.setOccupant(player);
 			swapTiles(tile, player);
 			this.game.getBoard().incMoveCounter(); // Increment move counter, this move is done
-			this.endGameFlagMet(player);
+			System.out.println(this.game.getBoard());
+			this.gameHasEnded();
 			return true;
 		}
 		return false;
@@ -190,7 +198,7 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean isLegalMove(Tile tile, Player player) {
-		List<Tile> availableOptions = this.getAvailableOptions(player);
+		List<Tile> availableOptions = player.getAvailableOptions();
 		if(availableOptions.isEmpty()) {
 			return false;
 		}
@@ -201,34 +209,35 @@ public class REVERSI extends GameProperty {
 	}
 
 	@Override
-	public boolean endGameFlagMet(Player player) {
-		//System.out.println("Checking endGameFlag");
-		if(this.game.getBoard().isFull()) {
-			System.out.println("endgame: true. Board full");
-			this.endGame();
+	public boolean gameHasEnded() {
+		if(!PlayerList.getPlayer("p1").hasMovesLeft() && !PlayerList.getPlayer("p2").hasMovesLeft()) {
+			this.gameEnded = true;
 			return true;
-		}else if(this.getAvailableOptions(player).isEmpty()) {
-			System.out.println("endgame: true. Options empty");
-			if(this.isMatchPoint()) this.endGame(); else this.setMatchPoint(true);
-			return true;
+		}else if(!PlayerList.getPlayer("p1").hasMovesLeft() || !PlayerList.getPlayer("p2").hasMovesLeft()) {
+			if(this.game.getBoard().getGameBoard().size() < 5) {
+				this.matchPoint = true;
+			}
 		}else {
-			this.setMatchPoint(false);
+			this.matchPoint = false;
 		}
-		//System.out.println("Endgame: false");
 		return false;
 	}
 
 	@Override
-	public void decidePlayerWin() {
+	public Player getPlayerWon() {
 		HashMap<Player, Integer> scores = this.game.getBoard().getScores();
 		int currentHighest = 0;
 		Player currentWinner = null;
 		boolean tie = false;
-		for(Player p : scores.keySet()) {
-			if(scores.get(p) > currentHighest) currentWinner = p;
-			else if(scores.get(p) == currentHighest) tie = true;
+		if(!this.gameEnded) {
+			tie = true;
+		}else {
+			for(Player p : scores.keySet()) {
+				if(scores.get(p) > currentHighest) currentWinner = p;
+				else if(scores.get(p) == currentHighest) tie = true;
+			}
 		}
-		this.playerWon = (tie) ? null : currentWinner;
+		return (tie) ? null : currentWinner;
 	}
 
 }

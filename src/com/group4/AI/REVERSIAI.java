@@ -5,6 +5,7 @@ import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
 import java.util.List;
+import java.util.function.Consumer;
 
 /***
  * @author AnnePierMerkus
@@ -18,7 +19,8 @@ public class REVERSIAI extends AI {
     public Tile makeMove(List<Tile> availableOptions)
     {
         gameai.updateFromGame();
-
+        this.bestScore = Integer.MIN_VALUE;
+        this.move = null;
         player = PlayerList.getPlayer(gameai.getPlayerTurn());
         otherPlayer = PlayerList.getOtherPlayer(gameai.getPlayerTurn());
         //return availableOptions.get(0);
@@ -30,26 +32,28 @@ public class REVERSIAI extends AI {
         //return availableOptions.get(0);
     }
 
-
+    int bestScore = Integer.MIN_VALUE;
+    Tile move = null;
     public Tile bestMove()
     {
-        int bestScore = Integer.MIN_VALUE;
-        Tile move = null;
+
         //this.gameai.makePredictionMove(this.gameai.getGameProperty().getAvailableOptions(player).get(0).getIndex(), player);
         //System.out.println(this.gameai.getGameProperty().getAvailableOptions(otherPlayer).size());
         //int score = minimax(this.gameai.getBoard(), false, 2);
+       this.gameai.getGame().getGameProperty().getAvailableOptions(player).parallelStream().forEach(tile -> {
+           this.gameai.makePredictionMove(tile.getIndex(), player);
 
-        for (Tile tile : this.gameai.getGame().getGameProperty().getAvailableOptions(player)) {
-            this.gameai.makePredictionMove(tile.getIndex(), player);
+//           int score = minimax(this.gameai.getBoard(), false, 6, Integer.MIN_VALUE, Integer.MAX_VALUE);
+//           System.out.println("dddd" + score);
 
-            int score = minimax(this.gameai.getBoard(), false, 6, Integer.MIN_VALUE, Integer.MAX_VALUE);
-            System.out.println("dddd" + score);
-            this.gameai.getBoard().revert(1);
-            if (score > bestScore) {
-               bestScore = score;
-              move = tile;
-            }
-        }
+           //System.out.println(tile.getIndex());
+           //System.out.println(tile.getOccupant());
+           this.gameai.getBoard().revert(1);
+//           if (score > bestScore) {
+//               bestScore = score;
+               move = tile;
+//           }
+       });
 
         return move;
     }

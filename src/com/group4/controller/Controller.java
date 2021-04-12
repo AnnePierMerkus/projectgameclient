@@ -1,6 +1,8 @@
 package com.group4.controller;
 
 import com.group4.util.Tile;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -67,7 +69,7 @@ public class Controller {
 		ImageView imageView = new ImageView();
 		imageView.fitWidthProperty().bind(root.widthProperty());
 		imageView.fitHeightProperty().bind(root.heightProperty());
-		Image image = new Image(getClass().getResource("green.jpg").toExternalForm());
+		Image image = new Image(getClass().getResource("bluble.gif").toExternalForm());
 		imageView.setImage(image);
 
 		root.setAlignment(Pos.CENTER);

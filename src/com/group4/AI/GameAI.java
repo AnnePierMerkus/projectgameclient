@@ -3,6 +3,7 @@ package com.group4.AI;
 import com.group4.controller.GameController.GameType;
 import com.group4.model.GameOptions;
 import com.group4.util.Player;
+import com.group4.util.PlayerList;
 import com.group4.util.Tile;
 
 public class GameAI extends GameOptions {
@@ -20,9 +21,31 @@ public class GameAI extends GameOptions {
 	 * @author mobieljoy12
 	 */
 	public void updateFromGame() {
+		// Update the board
 		for(Tile tile : this.gameOptions.getBoard().getGameBoard().values()) {
 			this.board.getTile(tile.getIndex()).setOccupant(tile.getOccupant());
 		}
+		
+		// Update the previous board
+		this.board.emptyAllPrevious();
+		for(int moveCount : this.gameOptions.getBoard().getPreviousBoard().keySet()) {
+			for(Tile tile : this.gameOptions.getBoard().getPreviousBoard().get(moveCount).values()) {
+				this.board.savePrevious(moveCount, tile, tile.getOccupant());
+			}
+		}
+		
+		// Update the filled tiles
+		this.board.resetFilledTiles();
+		for(Player p : PlayerList.players.values()) {
+			for(Tile tile : this.gameOptions.getBoard().getFilledTiles().get(p.getId()).values()) {
+				this.board.addFilledTile(p, tile);
+			}
+		}
+		
+		// Update the moveCounter
+		this.board.setMoveCounter(this.gameOptions.getBoard().getMoveCounter());
+		
+		// Update the playerturn
 		this.playerTurn = this.gameOptions.getPlayerTurn();
 	}
 	
