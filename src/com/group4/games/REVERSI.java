@@ -189,7 +189,6 @@ public class REVERSI extends GameProperty {
 			tile.setOccupant(player);
 			swapTiles(tile, player);
 			this.game.getBoard().incMoveCounter(); // Increment move counter, this move is done
-			System.out.println(this.game.getBoard());
 			this.gameHasEnded();
 			return true;
 		}

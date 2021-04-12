@@ -185,7 +185,7 @@ public class Board {
 		}
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < getHeight(); i++) {
@@ -198,7 +198,7 @@ public class Board {
 		}
 		return builder.toString();
 	}
-
+*/
 	/**
 	 * Method that returns the gameboard which consists of an ArrayList of tiles.
 	 * @return ArrayList<Tile> t the gameboard.

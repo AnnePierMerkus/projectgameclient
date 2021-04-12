@@ -73,7 +73,7 @@ public class Controller {
 		ImageView imageView = new ImageView();
 		imageView.fitWidthProperty().bind(root.widthProperty());
 		imageView.fitHeightProperty().bind(root.heightProperty());
-		Image image = new Image(getClass().getResource("bluble.gif").toExternalForm());
+		Image image = new Image(getClass().getResource("green.jpg").toExternalForm());
 		imageView.setImage(image);
 
 		root.setAlignment(Pos.CENTER);
