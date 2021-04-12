@@ -57,6 +57,17 @@ public class PlayerList {
 	}
 	
 	/***
+	 * Get the other player id than the player id passed in
+	 * 
+	 * @param id - String id that you have
+	 * @return String - Player id that is not with the id passed in
+	 * @author mobieljoy12
+	 */
+	public static String getOtherPlayerId(String id) {
+		return (id.equals("p1")) ? "p2" : "p1";
+	}
+	
+	/***
 	 * Get the other player than the player passed in
 	 * 
 	 * @param id - String id of the player you have

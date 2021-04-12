@@ -198,7 +198,8 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean isLegalMove(Tile tile, Player player) {
-		List<Tile> availableOptions = player.getAvailableOptions();
+		List<Tile> availableOptions = this.getAvailableOptions(player);
+		player.setAvailableOptions(availableOptions);
 		if(availableOptions.isEmpty()) {
 			return false;
 		}
@@ -225,19 +226,17 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public Player getPlayerWon() {
-		HashMap<Player, Integer> scores = this.game.getBoard().getScores();
-		int currentHighest = 0;
-		Player currentWinner = null;
-		boolean tie = false;
+		HashMap<String, Integer> scores = this.game.getBoard().getScores();
 		if(!this.gameEnded) {
-			tie = true;
+			return null;
 		}else {
-			for(Player p : scores.keySet()) {
-				if(scores.get(p) > currentHighest) currentWinner = p;
-				else if(scores.get(p) == currentHighest) tie = true;
+			if(scores.get(this.game.getPlayerTurn()) > scores.get(PlayerList.getOtherPlayerId(this.game.getPlayerTurn()))) {
+				return PlayerList.getPlayer(this.game.getPlayerTurn());
+			}else if(scores.get(this.game.getPlayerTurn()) < scores.get(PlayerList.getOtherPlayerId(this.game.getPlayerTurn()))) {
+				return PlayerList.getOtherPlayer(this.game.getPlayerTurn());
 			}
+			return null;
 		}
-		return (tie) ? null : currentWinner;
 	}
 
 }

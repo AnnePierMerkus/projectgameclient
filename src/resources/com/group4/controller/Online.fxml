@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.*?>
 
 <?import com.group4.view.MyToggleButton?>
-
 <StackPane
     fx:controller="com.group4.controller.MultiplayerController"
     fx:id="root"
@@ -168,6 +167,14 @@
                     maxHeight="300"
                     style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
                     onAction="#setAI"
+            />
+
+            <TextField
+                    fx:id="AIDepth"
+                    promptText="AI Depth"
+                    visible="false"
+                    maxWidth="100"
+
             />
 
             <MyToggleButton

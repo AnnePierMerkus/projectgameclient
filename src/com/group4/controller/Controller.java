@@ -1,22 +1,25 @@
 package com.group4.controller;
 
+import com.group4.util.Player;
 import com.group4.util.Tile;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -29,8 +32,9 @@ public class Controller {
 
 	private Controller CurrentController;
 
-	GridPane gameInfoPlayerOne = null;
-	GridPane gameInfoPlayerTwo = null;
+	GridPane gameInfoPlayerOne;
+	GridPane gameInfoPlayerTwo;
+
 
 	public Controller() {
 		// TODO - Initialize
@@ -87,6 +91,21 @@ public class Controller {
 		if (!multiplayer)
 			gameController.createGame(GameController.Difficulty.EASY, gameType);
 
+		//set first turn
+		if (gameInfoPlayerOne != null && gameInfoPlayerTwo != null){
+			if (gameController.game.getPlayerTurn().equals("p1")){
+				Circle playerCircle = ((Circle)gameInfoPlayerOne.getChildren().get(0));
+				playerCircle.setFill(Paint.valueOf("WHITE"));
+
+				//get child 1 get childen(0) fill color
+
+				gameInfoPlayerTwo.getChildren().get(3).setVisible(true);
+			}else{
+				((Circle)gameInfoPlayerOne.getChildren().get(0)).setFill(Paint.valueOf("WHITE"));
+				gameInfoPlayerOne.getChildren().get(3).setVisible(true);
+			}
+		}
+
 		Iterator<Map.Entry<Integer, Tile>> it = gameController.getOptions().getBoard().getGameBoard().entrySet().iterator();
 		int row = 0;
 		int column = 0;
@@ -101,10 +120,22 @@ public class Controller {
 				row++;
 			}
 		}
+		this.toggleTurnImage();
 		return root;
 	}
 
 	public Controller getCurrentController(){
 		return this.CurrentController;
+	}
+
+	public void toggleTurnImage(){
+		if (gameInfoPlayerOne != null && gameInfoPlayerTwo != null){
+			ImageView turnImagePlayerOne = (ImageView) gameInfoPlayerOne.getChildren().get(3);
+			ImageView turnImagePlayerTwo = (ImageView) gameInfoPlayerTwo.getChildren().get(3);
+
+			//set the player turn image to the opposite of current image
+			turnImagePlayerOne.setVisible(!turnImagePlayerOne.isVisible());
+			turnImagePlayerTwo.setVisible(!turnImagePlayerTwo.isVisible());
+		}
 	}
 }

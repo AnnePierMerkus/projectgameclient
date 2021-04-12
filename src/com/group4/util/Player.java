@@ -106,6 +106,15 @@ public class Player implements Observable {
 	}
 	
 	/***
+	 * Set the last available options so the player is up-to-date
+	 * 
+	 * @param options - Options
+	 */
+	public void setAvailableOptions(List<Tile> options) {
+		this.lastAvailableOptions = new ArrayList<Tile>(options);
+	}
+	
+	/***
 	 * Get available Tiles to make a move on
 	 * Returns null if player is not in a game
 	 * 

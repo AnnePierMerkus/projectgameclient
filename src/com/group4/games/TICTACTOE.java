@@ -9,7 +9,6 @@ import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
-import com.group4.util.Player.PlayerState;
 
 public class TICTACTOE extends GameProperty {
 	

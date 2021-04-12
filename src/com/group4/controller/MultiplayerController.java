@@ -93,6 +93,9 @@ public class MultiplayerController extends Controller{
     @FXML
     ToggleButton AIBtn;
 
+    @FXML
+    TextField AIDepth;
+
     AI AI;
 
     //variable to store received challenges
@@ -100,12 +103,13 @@ public class MultiplayerController extends Controller{
 
     private MultiplayerGameController multiplayerGameController;
 
-    public MultiplayerController(){
+    public void start(Client client){
         this.multiplayerGameController = new MultiplayerGameController();
 
         try{
             //create client for communication with server
-            this.client = new Client("localhost", 7789);
+            //this.client = new Client("localhost", 7789);
+            this.client = client;
 
             //start client on new thread for responsiveness
             this.client_thread = new Thread(client);
@@ -158,14 +162,14 @@ public class MultiplayerController extends Controller{
     protected void tic_tac_toe(ActionEvent event)
     {
         showPlayers(false);
-        this.AIBtn.setVisible(true);
+        showAI(true);
     }
 
     @FXML
     protected void reversi(ActionEvent event)
     {
         showPlayers(false);
-        this.AIBtn.setVisible(true);
+        showAI(true);
     }
 
     @FXML
@@ -206,6 +210,11 @@ public class MultiplayerController extends Controller{
         playersGrid.setVisible(show);
         challenge.setVisible(show);
         onlinePlayers.setVisible(show);
+    }
+
+    private void showAI(boolean show){
+        this.AIBtn.setVisible(show);
+        this.AIDepth.setVisible(show);
     }
 
     //clear all players from screen
@@ -266,7 +275,7 @@ public class MultiplayerController extends Controller{
      */
     public void setAI(Event event){
         //when true create AI instance to be used by networkplayer
-        if (this.AIBtn.isSelected()){
+        if (this.AIBtn.isSelected() && this.AIDepth.getText().replaceAll("\\D", "").length() > 0){
             ToggleButton selected_game_btn =  (ToggleButton) this.GameGroup.getSelectedToggle();
 
             if (selected_game_btn != null){
@@ -282,6 +291,7 @@ public class MultiplayerController extends Controller{
             }
         }else{
             this.AIBtn.setText("Enable AI");
+            this.AIBtn.setSelected(false);
             this.AI = null; //remove any previous set ai instances
         }
     }
@@ -392,8 +402,10 @@ public class MultiplayerController extends Controller{
             //when true let AI play instead of player
             if (this.AI != null){
                 //Networkplayer makes a move with the best tile chosen by the AI.
-                this.networkPlayer.makeMove(this.AI.makeMove(this.networkPlayer.getAvailableOptions()));
+                this.networkPlayer.makeMove(this.AI.makeMove(this.networkPlayer.getAvailableOptions()));//TODO depth meegeven
             }
+
+            this.toggleTurnImage();
         }
     }
 
