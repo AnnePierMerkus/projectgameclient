@@ -20,16 +20,20 @@ public class REVERSIAI extends AI {
     public Tile makeMove(List<Tile> availableOptions)
     {
         gameai.updateFromGame();
+
         player = PlayerList.getPlayer(gameai.getPlayerTurn());
         otherPlayer = PlayerList.getOtherPlayer(gameai.getPlayerTurn());
-        return bestMove();
+        //return availableOptions.get(0);
+        return bestMove(availableOptions);
+
+        // random AI
         //availableOptions.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
         //System.out.println(availableOptions.get(0).getWeight());
         //return availableOptions.get(0);
     }
 
 
-    public Tile bestMove()
+    public Tile bestMove(List<Tile> availableOptions)
     {
         int bestScore = Integer.MIN_VALUE;
         Tile move = null;
@@ -38,24 +42,21 @@ public class REVERSIAI extends AI {
         //int score = minimax(this.gameai.getBoard(), false, 2);
 
 
-        for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(player)) {
+        for (Tile tile : this.gameai.getGame().getGameProperty().getAvailableOptions(player)) {
             this.gameai.makePredictionMove(tile.getIndex(), player);
-            System.out.println(this.gameai.getBoard().getScores());
+            //System.out.println(this.gameai.getBoard().getScores());
             this.gameai.getBoard().revert();
-            System.out.println(tile.getIndex());
-            System.out.println(tile.getOccupant());
-            //int score = minimax(this.gameai.getBoard(), false, 2);
+            //System.out.println(tile.getIndex());
+            //System.out.println(tile.getOccupant());
+            int score = minimax(this.gameai.getBoard(), false, 2);
 
-            //if (score > bestScore) {
-            //   bestScore = score;
-            //  move = tile;
-            //}
+            if (score > bestScore) {
+               bestScore = score;
+              move = tile;
+            }
         }
-        System.out.println(f);
-        System.out.println(loop1);
-        System.out.println(loop2);
 
-        return this.gameai.getGameProperty().getAvailableOptions(player).get(0);
+        return move;
     }
 
     int f = 0;

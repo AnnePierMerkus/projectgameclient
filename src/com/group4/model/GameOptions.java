@@ -163,7 +163,7 @@ public class GameOptions {
 	public String getPlayerTurn() {
 		return this.playerTurn;
 	}
-	
+
 	/***
 	 * Get the game logic for the current game
 	 * 

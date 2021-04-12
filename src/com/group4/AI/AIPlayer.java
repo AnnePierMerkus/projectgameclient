@@ -12,7 +12,7 @@ public class AIPlayer extends Player {
 
 	private AI ai = null;
 	private GameOptions gameOptions = null;
-	
+
 	/**
      * Instantiate AI property for given GameType
      *
@@ -32,20 +32,20 @@ public class AIPlayer extends Player {
             throw new IllegalStateException(e);
         }
     }
-	
+
     /***
      * AIPlayer instantiates a specific AI class when a GameType is set
-     * 
+     *
      * @param id - Player id
      * @author mobieljoy12
      */
 	public AIPlayer(String id) {
 		super(id);
 	}
-	
+
 	/***
 	 * Set GameOptions pointer
-	 * 
+	 *
 	 * @param gameOptions
 	 * @author mobieljoy12
 	 */
@@ -53,12 +53,12 @@ public class AIPlayer extends Player {
 		System.out.println(gameOptions);
 		this.gameOptions = gameOptions;
 	}
-	
+
 	@Override
 	public void makeMove(Tile tile) {
 		// Empty
 	}
-	
+
 	@Override
 	public void setPlayerState(PlayerState state) {
 		this.playerState = state;

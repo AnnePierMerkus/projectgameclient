@@ -94,12 +94,12 @@ public class Board {
 	 */
 	public void revert() {
 		for(Tile tile : this.previousBoard.values()) {
-			this.gameBoard.get(tile.getIndex()).setOccupant(tile.getOccupant());
 			if(tile.isOccupied()) {
 				this.addFilledTile(tile.getOccupant(), this.gameBoard.get(tile.getIndex()));
 			}else {
 				this.filledTiles.get(this.gameBoard.get(tile.getIndex()).getOccupant().getId()).remove(tile.getIndex());
 			}
+			this.gameBoard.get(tile.getIndex()).setOccupant(tile.getOccupant());
 		}
 	}
 
