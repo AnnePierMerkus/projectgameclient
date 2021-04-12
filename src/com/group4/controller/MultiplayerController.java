@@ -291,27 +291,6 @@ public class MultiplayerController extends Controller{
         this.multiplayerGameController.endGame();
     }
 
-    public GridPane fillInBoard() {
-        GridPane root = new GridPane();
-        root.setPrefSize(600, 600);
-
-        Iterator<Entry<Integer, Tile>> it = this.multiplayerGameController.getOptions().getBoard().getGameBoard().entrySet().iterator();
-        int row = 0;
-        int column = 0;
-        while (it.hasNext()) {
-            Entry<Integer, Tile> pair = it.next();
-            root.add((Tile)pair.getValue(), column, row);
-            column++;
-
-            if (((int)pair.getKey() + 1) % this.multiplayerGameController.getOptions().getBoard().getWidth() == 0)
-            {
-                column = 0;
-                row++;
-            }
-        }
-        return root;
-    }
-
     //The methods underneath this section are ALL executed by the server with a observer --------------------------
 
     /**
@@ -455,7 +434,7 @@ public class MultiplayerController extends Controller{
 
             System.out.println("players: " + PlayerList.players.values());
             Platform.runLater(() -> {
-                Scene scene = new Scene(fillInBoard());
+                Scene scene = new Scene(fillInBoard(this.multiplayerGameController.game.getGameType(), this.multiplayerGameController, true));
                 stage.setScene(scene);
             });
         }

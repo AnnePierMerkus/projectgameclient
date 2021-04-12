@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 
-public class ViewController {
+public class ViewController extends Controller {
     boolean online = false;
 
     GameController.Difficulty gameDifficulty;
@@ -146,31 +146,8 @@ public class ViewController {
         }
         else
         {
-            Scene scene = new Scene(fillInBoard());
+            Scene scene = new Scene(fillInBoard(gameType, new SingleplayerGameController(), false));
             stage.setScene(scene);
         }
-    }
-
-    public GridPane fillInBoard() {
-        GridPane root = new GridPane();
-        GameController gameController = new SingleplayerGameController();
-        gameController.createGame(GameController.Difficulty.EASY, gameType);
-        root.setPrefSize(600, 600);
-
-        Iterator it = gameController.getOptions().getBoard().getGameBoard().entrySet().iterator();
-        int row = 0;
-        int column = 0;
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            root.add((Tile)pair.getValue(), column, row);
-            column++;
-
-            if (((int)pair.getKey() + 1) % gameController.getOptions().getBoard().getWidth() == 0)
-            {
-                column = 0;
-                row++;
-            }
-        }
-        return root;
     }
 }

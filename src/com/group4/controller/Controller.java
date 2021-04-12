@@ -1,9 +1,22 @@
 package com.group4.controller;
 
+import com.group4.util.Tile;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 
 /***
  * Default Controller
@@ -13,6 +26,9 @@ public class Controller {
 	private Stage stage;
 
 	private Controller CurrentController;
+
+	GridPane gameInfoPlayerOne = null;
+	GridPane gameInfoPlayerTwo = null;
 
 	public Controller() {
 		// TODO - Initialize
@@ -34,6 +50,56 @@ public class Controller {
 			System.out.println("New scene could not be loaded: " + e);
 			e.printStackTrace();
 		}
+	}
+
+	public StackPane fillInBoard(GameController.GameType gameType, GameController gameController, boolean multiplayer) {
+		StackPane root = new StackPane();
+		GridPane parent = new GridPane();
+		GridPane gameView = new GridPane();
+
+		try {
+			gameInfoPlayerOne = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
+			gameInfoPlayerTwo = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		ImageView imageView = new ImageView();
+		imageView.fitWidthProperty().bind(root.widthProperty());
+		imageView.fitHeightProperty().bind(root.heightProperty());
+		Image image = new Image(getClass().getResource("green.jpg").toExternalForm());
+		imageView.setImage(image);
+
+		root.setAlignment(Pos.CENTER);
+		parent.setAlignment(Pos.CENTER);
+		root.setPadding(new Insets(30, 30, 30, 30));
+		gameInfoPlayerOne.setPrefSize(250, 400);
+		gameInfoPlayerTwo.setPrefSize(250, 400);
+
+		root.getChildren().add(imageView);
+		root.getChildren().add(parent);
+		parent.add(gameInfoPlayerOne, 0, 0);
+		parent.add(gameView, 1, 0);
+		parent.add(gameInfoPlayerTwo, 2, 0);
+
+		if (!multiplayer)
+			gameController.createGame(GameController.Difficulty.EASY, gameType);
+
+		Iterator<Map.Entry<Integer, Tile>> it = gameController.getOptions().getBoard().getGameBoard().entrySet().iterator();
+		int row = 0;
+		int column = 0;
+		while (it.hasNext()) {
+			Map.Entry<Integer, Tile> pair = it.next();
+			gameView.add(pair.getValue(), column, row);
+			column++;
+
+			if ((pair.getKey() + 1) % gameController.getOptions().getBoard().getWidth() == 0)
+			{
+				column = 0;
+				row++;
+			}
+		}
+		return root;
 	}
 
 	public Controller getCurrentController(){

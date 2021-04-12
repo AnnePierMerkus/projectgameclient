@@ -50,7 +50,6 @@ public class AIPlayer extends Player {
 	 * @author mobieljoy12
 	 */
 	public void setGameOptions(GameOptions gameOptions) {
-		System.out.println(gameOptions);
 		this.gameOptions = gameOptions;
 	}
 

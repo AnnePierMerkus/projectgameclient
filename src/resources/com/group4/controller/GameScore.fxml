@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.shape.Circle?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<GridPane
+    fx:id="root"
+    xmlns="http://javafx.com/javafx"
+    style="-fx-background-color: transparent;"
+    alignment="CENTER"
+    xmlns:fx="http://javafx.com/fxml"
+    prefHeight="400.0" prefWidth="250">
+    <padding>
+        <Insets
+            bottom="50"
+            top="50"/>
+    </padding>
+
+    <Circle
+        fx:id="playerColor"
+        fill="black"
+        radius="25"
+        GridPane.columnIndex="0"
+        GridPane.rowIndex="0"/>
+
+    <HBox
+        style="-fx-font: 24 arial;"
+        alignment="CENTER"
+        GridPane.hgrow="ALWAYS"
+        GridPane.columnIndex="0"
+        GridPane.rowIndex="0">
+        <Text
+            fx:id="playerScore"
+            text="32"
+            fill="white"
+            textAlignment="LEFT"/>
+    </HBox>
+
+    <HBox
+        style="-fx-font: 12 arial;"
+        alignment="CENTER_LEFT"
+        GridPane.columnIndex="0"
+        GridPane.rowIndex="2">
+        <Text
+            fx:id="availableMoves"
+            text="Available moves:&#10;&#10;placeholder"
+            fill="black"
+            textAlignment="LEFT"/>
+    </HBox>
+
+    <ImageView
+        fx:id="playerTurn"
+        fitHeight="40"
+        fitWidth="80"
+        GridPane.columnIndex="0"
+        GridPane.rowIndex="5">
+        <!--  ^^  bind to size of node with fx:id="root" ^^  -->
+        <image>
+
+            <Image url="@yourturn.png"/>
+        </image>
+    </ImageView>
+
+    <rowConstraints>
+        <RowConstraints minHeight="50" maxHeight="50" />
+        <RowConstraints minHeight="50" maxHeight="50" />
+        <RowConstraints minHeight="50" maxHeight="50" />
+        <RowConstraints minHeight="50" maxHeight="50" />
+        <RowConstraints minHeight="50" maxHeight="50" />
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints minWidth="50" maxWidth="50" />
+    </columnConstraints>
+</GridPane>
