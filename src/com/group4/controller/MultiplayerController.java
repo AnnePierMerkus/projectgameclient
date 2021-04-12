@@ -127,7 +127,7 @@ public class MultiplayerController extends Controller{
             //register new observer to client for starting a match when server starts a match
             this.client.registerObserver(this::startMatch);
 
-            //register turn method to determin players turn
+            //register turn method to determine players turn
             this.client.registerObserver((this::setTurn));
 
             //register end match method

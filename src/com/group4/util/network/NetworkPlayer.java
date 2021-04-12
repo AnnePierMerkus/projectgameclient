@@ -65,10 +65,15 @@ public class NetworkPlayer extends Player {
      */
     @Override
     public void makeMove(Tile tile) {
+        System.out.println("");
         if (this.state instanceof InMatchPlayerTurnState){
             if (this.gameProperty.makeMove(tile, this)){
                 this.state.makeMove(this, tile.getIndex());
+            }else{
+                System.out.println("Move is illegal");
             }
+        }else{
+            System.out.println("Network Player has not the turn");
         }
     }
 
