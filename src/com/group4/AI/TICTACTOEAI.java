@@ -28,7 +28,6 @@ public class TICTACTOEAI extends AI {
 			this.gameai.makePredictionMove(tile.getIndex(), player);
 
            int score = minimax(this.gameai.getBoard(), false);
-           System.out.println("dddd" + score);
 
 			tile.reset();
            if (score > bestScore) {
