@@ -61,6 +61,7 @@
         fx:id="playerTurn"
         fitHeight="40"
         fitWidth="80"
+        visible="false"
         GridPane.columnIndex="0"
         GridPane.rowIndex="5">
         <!--  ^^  bind to size of node with fx:id="root" ^^  -->
