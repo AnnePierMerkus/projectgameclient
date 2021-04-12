@@ -45,7 +45,7 @@ public class REVERSIAI extends AI {
 
             //System.out.println(tile.getIndex());
             //System.out.println(tile.getOccupant());
-            int score = minimax(this.gameai.getBoard(), false, 2);
+            int score = minimax(this.gameai.getBoard(), false, 1);
             this.gameai.getBoard().revert(1);
             if (score > bestScore) {
                bestScore = score;
