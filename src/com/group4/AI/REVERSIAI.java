@@ -29,7 +29,7 @@ public class REVERSIAI extends AI {
         //return availableOptions.get(0);
 
         return bestMove();
-        
+
         //availableOptions.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
         //System.out.println(availableOptions.get(0).getWeight());
         //return availableOptions.get(0);
@@ -37,12 +37,21 @@ public class REVERSIAI extends AI {
 
     public Tile bestMove()
     {
-        System.out.println("fffffffff");
         //this.gameai.makePredictionMove(this.gameai.getGameProperty().getAvailableOptions(player).get(0).getIndex(), player);
         //System.out.println(this.gameai.getGameProperty().getAvailableOptions(otherPlayer).size());
         //int score = minimax(this.gameai.getBoard(), false, 2);
        //this.gameai.getGame().getGameProperty().getAvailableOptions(player).parallelStream().forEach(tile -> {
+
         for (Tile tile : this.gameai.getGame().getGameProperty().getAvailableOptions(player)) {
+            if (tile.getWeight() == 20) {
+                return tile;
+            }
+        }
+
+        for (Tile tile : this.gameai.getGame().getGameProperty().getAvailableOptions(player)) {
+            if (tile.getWeight() == 20) {
+                return tile;
+            }
            this.gameai.makePredictionMove(tile.getIndex(), player);
 
            int score = minimax(this.gameai.getBoard(), false, 5, Integer.MIN_VALUE, Integer.MAX_VALUE);
@@ -54,8 +63,6 @@ public class REVERSIAI extends AI {
                move = tile;
            }
        }
-
-
         return move;
     }
 
