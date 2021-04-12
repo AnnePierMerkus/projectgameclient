@@ -135,7 +135,10 @@ public class Board {
 				if(tile.isOccupied()) {
 					this.addFilledTile(tile.getOccupant(), this.gameBoard.get(tile.getIndex()));
 				}else {
-					this.filledTiles.get(this.gameBoard.get(tile.getIndex()).getOccupant().getId()).remove(tile.getIndex());
+					Tile onBoardTile = this.gameBoard.get(tile.getIndex());
+					if(onBoardTile.isOccupied()) {
+						this.filledTiles.get(onBoardTile.getOccupant().getId()).remove(tile.getIndex());
+					}
 				}
 				this.gameBoard.get(tile.getIndex()).setOccupant(tile.getOccupant());
 			}
