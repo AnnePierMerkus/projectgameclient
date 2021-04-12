@@ -208,7 +208,7 @@ public class Board {
 		for(String pId : this.filledTiles.keySet()) {
 			filledTileCount += this.filledTiles.get(pId).size();
 		}
-		System.out.println("Full board is: " + (this.getWidth() * this.getHeight()) + " tiles, " + filledTileCount + " are filled");
+		//System.out.println("Full board is: " + (this.getWidth() * this.getHeight()) + " tiles, " + filledTileCount + " are filled");
 
 		return ((this.getWidth() * this.getHeight()) == filledTileCount);
 	}

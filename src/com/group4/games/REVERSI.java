@@ -202,7 +202,7 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean endGameFlagMet(Player player) {
-		System.out.println("Checking endGameFlag");
+		//System.out.println("Checking endGameFlag");
 		if(this.game.getBoard().isFull()) {
 			System.out.println("endgame: true. Board full");
 			this.endGame();
@@ -214,7 +214,7 @@ public class REVERSI extends GameProperty {
 		}else {
 			this.setMatchPoint(false);
 		}
-		System.out.println("Endgame: false");
+		//System.out.println("Endgame: false");
 		return false;
 	}
 
