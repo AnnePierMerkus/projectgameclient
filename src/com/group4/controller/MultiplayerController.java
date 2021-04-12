@@ -235,10 +235,10 @@ public class MultiplayerController extends Controller{
         if (client != null){
             if (!username.getText().trim().isEmpty()){
                 this.networkPlayer.setName(username.getText());
-                this.networkPlayer.login();
-
-                loginScreen.setVisible(false);
-                matchmaking.setVisible(true);
+                if (this.networkPlayer.login()){
+                    loginScreen.setVisible(false);
+                    matchmaking.setVisible(true);
+                }
             }else{
                 System.out.println("Please enter a username");
             }

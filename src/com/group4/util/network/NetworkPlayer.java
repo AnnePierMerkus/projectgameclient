@@ -80,8 +80,8 @@ public class NetworkPlayer extends Player {
     /**
      * Log player into multiplayer server
      */
-    public void login(){
-        this.state.login(this);
+    public boolean login(){
+        return this.state.login(this);
     }
 
     /**

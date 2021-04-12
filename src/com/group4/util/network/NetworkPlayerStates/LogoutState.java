@@ -10,7 +10,7 @@ import com.group4.util.network.NetworkPlayer;
 public class LogoutState implements NetworkPlayerState{
 
     @Override
-    public void login(NetworkPlayer player) {
+    public boolean login(NetworkPlayer player) {
         System.out.println("Logging in player...");
 
         //send login message to server
@@ -26,6 +26,8 @@ public class LogoutState implements NetworkPlayerState{
                 if (player.getClient().getMessage().equals("OK")){
                     player.setState(new LoginState());
                     System.out.println("Player has been logged in");
+
+                    return true;
                 }else{
                     System.out.println("Player could not be logged in");
                 }
@@ -34,6 +36,7 @@ public class LogoutState implements NetworkPlayerState{
             }
         }
 
+        return false;
     }
 
     @Override
