@@ -40,7 +40,7 @@
         GridPane.rowIndex="0">
         <Text
             fx:id="playerScore"
-            text="32"
+            text="0"
             fill="white"
             textAlignment="LEFT"/>
     </HBox>

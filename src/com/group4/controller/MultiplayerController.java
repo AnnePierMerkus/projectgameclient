@@ -398,7 +398,13 @@ public class MultiplayerController extends Controller{
                 this.setTurnImage("p1");
             }
 
+            //set current scores of players
+            this.setScorePlayer1(String.valueOf(this.multiplayerGameController.game.getBoard().getScore(PlayerList.getPlayer("p1"))));
+            this.setScorePlayer2(String.valueOf(this.multiplayerGameController.game.getBoard().getScore(PlayerList.getPlayer("p2"))));
 
+            //set the available moves
+            this.setAvailableMovesPlayer1("Available moves: \n" + PlayerList.getPlayer("p1").getAvailableOptions().size());
+            this.setAvailableMovesPlayer2("Available moves: \n" + PlayerList.getPlayer("p2").getAvailableOptions().size());
         }
 
         //its network players turn to make a move set state

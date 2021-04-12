@@ -41,8 +41,13 @@ public class Controller {
 	public Controller() {
 		// TODO - Initialize
 	}
-	
-	// TODO - View stuff ~ swapScene maybe?
+
+	/**
+	 * Swap the current scene and set the current controller
+	 *
+	 * @param stage
+	 * @param resource
+	 */
 	public void swap(Stage stage, String resource){
 		try{
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(resource));
@@ -97,16 +102,17 @@ public class Controller {
 		if (gameInfoPlayerOne != null && gameInfoPlayerTwo != null){
 			if (gameController.game.getPlayerTurn().equals("p1")){
 				Circle playerCircle = ((Circle)gameInfoPlayerOne.getChildren().get(0));
-				playerCircle.setFill(Paint.valueOf("WHITE"));
+				playerCircle.setFill(Color.WHITE);
 
 				//get child 1 get childen(0) fill color
-				//.setStyle("-fx-text-fill: black;");
+				((Text)((HBox)gameInfoPlayerOne.getChildren().get(1)).getChildren().get(0)).setFill(Color.BLACK);
 				System.out.println(((Text)((HBox)gameInfoPlayerOne.getChildren().get(1)).getChildren().get(0)));
 
 				gameInfoPlayerTwo.getChildren().get(3).setVisible(true);
 			}else{
-				((Circle)gameInfoPlayerOne.getChildren().get(0)).setFill(Paint.valueOf("WHITE"));
+				((Circle)gameInfoPlayerOne.getChildren().get(0)).setFill(Color.WHITE);
 				gameInfoPlayerOne.getChildren().get(3).setVisible(true);
+				((Text)((HBox)gameInfoPlayerOne.getChildren().get(1)).getChildren().get(0)).setFill(Color.BLACK);
 			}
 		}
 
@@ -143,6 +149,11 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Set the player turn image
+	 *
+	 * @param player the player who has the turn
+	 */
 	public void setTurnImage(String player){
 		if (player.equals("p1")){
 			gameInfoPlayerTwo.getChildren().get(3).setVisible(true);
@@ -153,11 +164,39 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Set the available score for player 1
+	 *
+	 * @param score current score of player
+	 */
 	public void setScorePlayer1(String score){
 		((Text)((HBox)gameInfoPlayerOne.getChildren().get(1)).getChildren().get(0)).setText(score);
 	}
 
+	/**
+	 * Set the available score for player 2
+	 *
+	 * @param score current score of player
+	 */
 	public void setScorePlayer2(String score){
-		((Text)((HBox)gameInfoPlayerOne.getChildren().get(1)).getChildren().get(0)).setText(score);
+		((Text)((HBox)gameInfoPlayerTwo.getChildren().get(1)).getChildren().get(0)).setText(score);
+	}
+
+	/**
+	 * set The available moves for player 1 on screen
+	 *
+	 * @param availableMoves amount of available moves for player
+	 */
+	public void setAvailableMovesPlayer1(String availableMoves){
+		((Text)((HBox)gameInfoPlayerOne.getChildren().get(2)).getChildren().get(0)).setText(availableMoves);
+	}
+
+	/**
+	 * set The available moves for player 2 on screen
+	 *
+	 * @param availableMoves amount of available moves for player
+	 */
+	public void setAvailableMovesPlayer2(String availableMoves){
+		((Text)((HBox)gameInfoPlayerOne.getChildren().get(2)).getChildren().get(0)).setText(availableMoves);
 	}
 }
