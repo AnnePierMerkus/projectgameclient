@@ -138,4 +138,14 @@ public class Controller {
 			turnImagePlayerTwo.setVisible(!turnImagePlayerTwo.isVisible());
 		}
 	}
+
+	public void setTurnImage(String player){
+		if (player.equals("p1")){
+			gameInfoPlayerTwo.getChildren().get(3).setVisible(true);
+			gameInfoPlayerOne.getChildren().get(3).setVisible(false);
+		}else{
+			gameInfoPlayerTwo.getChildren().get(3).setVisible(false);
+			gameInfoPlayerOne.getChildren().get(3).setVisible(true);
+		}
+	}
 }
