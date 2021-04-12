@@ -418,6 +418,9 @@ public class MultiplayerController extends Controller{
             	Tile aiMove = this.AI.makeMove(this.networkPlayer.getAvailableOptions());
                 if(aiMove != null) {
                 	this.networkPlayer.makeMove(aiMove);//TODO depth meegeven
+                }else {
+                	//TODO - What to do with no more moves?
+                	System.out.println("No more moves :)");
                 }
             }
         }
