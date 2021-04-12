@@ -5,6 +5,8 @@ import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.network.NetworkPlayer;
 import com.group4.util.network.NetworkPlayerStates.InMatchNoTurnState;
+import com.group4.view.MyToggleButton;
+import javafx.fxml.FXML;
 
 /**
  * Multiplayer game controller for creating multiplayer game

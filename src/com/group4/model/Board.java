@@ -128,7 +128,6 @@ public class Board {
 	 * @author mobieljoy12
 	 */
 	public void revert(int moves) {
-		
 		for(int counter = 0; counter < moves; counter++) {
 			this.decMoveCounter();
 			for(Tile tile : this.previousBoard.get(this.moveCounter).values()) {
@@ -143,7 +142,20 @@ public class Board {
 				this.gameBoard.get(tile.getIndex()).setOccupant(tile.getOccupant());
 			}
 		}
+	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < getHeight(); i++) {
+			for (int j = 0; j < getWidth(); j++) {
+				if (gameBoard.get(i * j).getOccupant() != null) {
+					builder.append("[").append(gameBoard.get(i * j).getOccupant().getId()).append("]");
+				}
+			}
+			builder.append("\n");
+		}
+		return builder.toString();
 	}
 
 	/**

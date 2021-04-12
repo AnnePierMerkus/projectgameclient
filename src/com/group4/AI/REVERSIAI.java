@@ -41,16 +41,18 @@ public class REVERSIAI extends AI {
 
         for (Tile tile : this.gameai.getGame().getGameProperty().getAvailableOptions(player)) {
             this.gameai.makePredictionMove(tile.getIndex(), player);
-            //System.out.println(this.gameai.getBoard().getScores());
+            System.out.println(this.gameai.getBoard());
+            System.out.println(this.gameai.getBoard().getScores());
 
             //System.out.println(tile.getIndex());
             //System.out.println(tile.getOccupant());
-            int score = minimax(this.gameai.getBoard(), false, 2);
+
+            //int score = minimax(this.gameai.getBoard(), false, 1);
             this.gameai.getBoard().revert(1);
-            if (score > bestScore) {
-               bestScore = score;
+            //if (score > bestScore) {
+             //  bestScore = score;
               move = tile;
-            }
+            //}
         }
 
         return move;
