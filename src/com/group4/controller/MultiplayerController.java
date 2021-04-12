@@ -127,7 +127,7 @@ public class MultiplayerController extends Controller{
             //register new observer to client for starting a match when server starts a match
             this.client.registerObserver(this::startMatch);
 
-            //register turn method to determin players turn
+            //register turn method to determine players turn
             this.client.registerObserver((this::setTurn));
 
             //register end match method
@@ -235,10 +235,10 @@ public class MultiplayerController extends Controller{
         if (client != null){
             if (!username.getText().trim().isEmpty()){
                 this.networkPlayer.setName(username.getText());
-                this.networkPlayer.login();
-
-                loginScreen.setVisible(false);
-                matchmaking.setVisible(true);
+                if (this.networkPlayer.login()){
+                    loginScreen.setVisible(false);
+                    matchmaking.setVisible(true);
+                }
             }else{
                 System.out.println("Please enter a username");
             }
@@ -392,7 +392,12 @@ public class MultiplayerController extends Controller{
                 //let the server make a move on the board
                 //IMPORTANT! get the tile from the board not new otherwise tile wil not be recognised
                 PlayerList.getPlayer("p2").makeMove(this.multiplayerGameController.game.getBoard().getTile(Integer.parseInt(hashmap_msg.get("MOVE"))));
+                this.setTurnImage("p2");
+            }else {
+                this.setTurnImage("p1");
             }
+
+
         }
 
         //its network players turn to make a move set state
@@ -404,8 +409,6 @@ public class MultiplayerController extends Controller{
                 //Networkplayer makes a move with the best tile chosen by the AI.
                 this.networkPlayer.makeMove(this.AI.makeMove(this.networkPlayer.getAvailableOptions()));//TODO depth meegeven
             }
-
-            this.toggleTurnImage();
         }
     }
 

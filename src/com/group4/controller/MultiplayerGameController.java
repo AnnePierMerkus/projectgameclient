@@ -19,7 +19,7 @@ public class MultiplayerGameController extends GameController{
 
     @Override
     void createGame(GameType gameType) {
-        this.game = new GameOptions(Difficulty.MEDIUM, gameType, (this.startingPlayer != null) ? this.startingPlayer.getId() : PlayerList.getPlayer("p1").getId());
+        this.game = new GameOptions(Difficulty.MEDIUM, gameType, this.startingPlayer.getId());
 
         // Set PlayerState to has turn, turns will be monitored by server instead
         for(Player p : PlayerList.players.values()) {

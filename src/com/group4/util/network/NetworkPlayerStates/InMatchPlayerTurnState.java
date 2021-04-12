@@ -9,8 +9,9 @@ import com.group4.util.network.NetworkPlayer;
  */
 public class InMatchPlayerTurnState implements NetworkPlayerState{
     @Override
-    public void login(NetworkPlayer player) {
+    public boolean login(NetworkPlayer player) {
         System.out.println("Cannot login player. Player is already logged in.");
+        return false;
     }
 
     @Override
