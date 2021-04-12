@@ -415,7 +415,10 @@ public class MultiplayerController extends Controller{
             //when true let AI play instead of player
             if (this.AI != null){
                 //Networkplayer makes a move with the best tile chosen by the AI.
-                this.networkPlayer.makeMove(this.AI.makeMove(this.networkPlayer.getAvailableOptions()));//TODO depth meegeven
+            	Tile aiMove = this.AI.makeMove(this.networkPlayer.getAvailableOptions());
+                if(aiMove != null) {
+                	this.networkPlayer.makeMove(aiMove);//TODO depth meegeven
+                }
             }
         }
     }

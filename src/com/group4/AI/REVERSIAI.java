@@ -23,11 +23,6 @@ public class REVERSIAI extends AI {
     @Override
     public Tile makeMove(List<Tile> availableOptions)
     {
-    	String options = "Options: ";
-    	for(Tile t : availableOptions) {
-    		options += ", " + t.getIndex();
-    	}
-    	System.out.println(options);
         gameai.updateFromGame();
         this.bestScore = Integer.MIN_VALUE;
         this.move = null;
@@ -36,7 +31,6 @@ public class REVERSIAI extends AI {
         //return availableOptions.get(0);
 
         Tile bestMove = bestMove();
-        System.out.println("Picked " + bestMove.getIndex());
         
         return bestMove;
 
@@ -54,11 +48,8 @@ public class REVERSIAI extends AI {
 
     	List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player);
     	
-    	String sOptions = "BestMove Options: ";
-    	for(Tile t : options) {
-    		sOptions += ", " + t.getIndex();
-    	}
-    	System.out.println(sOptions);
+    	// If there are no options, return nothing
+    	if(options.isEmpty()) return null;
     	
         for (Tile tile : options) {
             if (tile.getWeight() == 20) {
@@ -70,7 +61,6 @@ public class REVERSIAI extends AI {
            this.gameai.makePredictionMove(tile.getIndex(), player);
 
            int score = minimax(this.gameai.getBoard(), false, 5, Integer.MIN_VALUE, Integer.MAX_VALUE);
-           System.out.println("dddd");
 
            this.gameai.getBoard().revert(1);
            if (score > bestScore) {
