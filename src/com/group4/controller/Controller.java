@@ -2,6 +2,7 @@ package com.group4.controller;
 
 import com.group4.util.Player;
 import com.group4.util.Tile;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -155,13 +156,15 @@ public class Controller {
 	 * @param player the player who has the turn
 	 */
 	public void setTurnImage(String player){
-		if (player.equals("p1")){
-			gameInfoPlayerTwo.getChildren().get(3).setVisible(true);
-			gameInfoPlayerOne.getChildren().get(3).setVisible(false);
-		}else{
-			gameInfoPlayerTwo.getChildren().get(3).setVisible(false);
-			gameInfoPlayerOne.getChildren().get(3).setVisible(true);
-		}
+		Platform.runLater(() -> {
+			if (player.equals("p1")){
+				gameInfoPlayerTwo.getChildren().get(3).setVisible(true);
+				gameInfoPlayerOne.getChildren().get(3).setVisible(false);
+			}else{
+				gameInfoPlayerTwo.getChildren().get(3).setVisible(false);
+				gameInfoPlayerOne.getChildren().get(3).setVisible(true);
+			}
+		});
 	}
 
 	/**
@@ -170,7 +173,9 @@ public class Controller {
 	 * @param score current score of player
 	 */
 	public void setScorePlayer1(String score){
-		((Text)((HBox)gameInfoPlayerOne.getChildren().get(1)).getChildren().get(0)).setText(score);
+		Platform.runLater(() -> {
+			((Text)((HBox)gameInfoPlayerOne.getChildren().get(1)).getChildren().get(0)).setText(score);
+		});
 	}
 
 	/**
@@ -179,7 +184,9 @@ public class Controller {
 	 * @param score current score of player
 	 */
 	public void setScorePlayer2(String score){
-		((Text)((HBox)gameInfoPlayerTwo.getChildren().get(1)).getChildren().get(0)).setText(score);
+		Platform.runLater(() -> {
+			((Text)((HBox)gameInfoPlayerTwo.getChildren().get(1)).getChildren().get(0)).setText(score);
+		});
 	}
 
 	/**
@@ -188,7 +195,9 @@ public class Controller {
 	 * @param availableMoves amount of available moves for player
 	 */
 	public void setAvailableMovesPlayer1(String availableMoves){
-		((Text)((HBox)gameInfoPlayerOne.getChildren().get(2)).getChildren().get(0)).setText(availableMoves);
+		Platform.runLater(() -> {
+			((Text)((HBox)gameInfoPlayerOne.getChildren().get(2)).getChildren().get(0)).setText(availableMoves);
+		});
 	}
 
 	/**
@@ -197,6 +206,9 @@ public class Controller {
 	 * @param availableMoves amount of available moves for player
 	 */
 	public void setAvailableMovesPlayer2(String availableMoves){
-		((Text)((HBox)gameInfoPlayerTwo.getChildren().get(2)).getChildren().get(0)).setText(availableMoves);
+		Platform.runLater(() -> {
+			((Text)((HBox)gameInfoPlayerTwo.getChildren().get(2)).getChildren().get(0)).setText(availableMoves);
+		});
+
 	}
 }

@@ -36,8 +36,9 @@ public class TICTACTOE extends GameProperty {
 	
 	@Override
 	public void doSetup(String currentPlayerSetup) {
-		// No setup needed
 	}
+	
+	
 
 	@Override
 	public String playerStart() {
@@ -57,11 +58,12 @@ public class TICTACTOE extends GameProperty {
 	}
 
 	@Override
-	public boolean makeMove(Tile tile, Player player) {
-		if(tile != null) {
-		}		
+	public boolean makeMove(Tile tile, Player player) {	
+		if(this.checkGameEnded()) return false;
 		if(this.isLegalMove(tile, player)) {
+			this.game.getBoard().savePrevious(tile, tile.getOccupant());
 			tile.setOccupant(player);
+			this.game.getBoard().incMoveCounter();
 			this.gameHasEnded();
 			return true;
 		}
@@ -71,6 +73,7 @@ public class TICTACTOE extends GameProperty {
 	@Override
 	public boolean isLegalMove(Tile tile, Player player) {
 		List<Tile> availableOptions = this.getAvailableOptions(player);
+		player.setAvailableOptions(availableOptions);
 		if(availableOptions.isEmpty()) {
 			return false;
 		}
@@ -106,7 +109,7 @@ public class TICTACTOE extends GameProperty {
 				this.gameEnded = true;
 				return true;
 			}
-		}		
+		}
 		return false;
 	}
 
