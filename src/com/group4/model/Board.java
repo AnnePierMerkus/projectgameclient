@@ -173,7 +173,6 @@ public class Board {
 		//if((this.moveCounter - moves) < 0) moves = this.moveCounter;
 		for(int counter = 0; counter < moves; counter++) {
 			this.decMoveCounter();
-			System.out.println("Reverting to " + this.moveCounter);
 			for(Tile tile : this.previousBoard.get(this.moveCounter).values()) {
 				if(tile.isOccupied()) {
 					this.addFilledTile(tile.getOccupant(), this.gameBoard.get(tile.getIndex()));
