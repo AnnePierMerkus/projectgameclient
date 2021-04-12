@@ -163,6 +163,7 @@ public class MultiplayerController extends Controller{
     {
         showPlayers(false);
         showAI(true);
+        resetAI();
     }
 
     @FXML
@@ -170,6 +171,7 @@ public class MultiplayerController extends Controller{
     {
         showPlayers(false);
         showAI(true);
+        resetAI();
     }
 
     @FXML
@@ -215,6 +217,13 @@ public class MultiplayerController extends Controller{
     private void showAI(boolean show){
         this.AIBtn.setVisible(show);
         this.AIDepth.setVisible(show);
+    }
+
+    private void resetAI(){
+        this.AIDepth.clear();
+        this.AIDepth.setDisable(false);
+        this.AIBtn.setSelected(false);
+        this.AIBtn.setText("Enable AI");
     }
 
     //clear all players from screen
@@ -276,12 +285,14 @@ public class MultiplayerController extends Controller{
     public void setAI(Event event){
         //when true create AI instance to be used by networkplayer
         if (this.AIBtn.isSelected() && this.AIDepth.getText().replaceAll("\\D", "").length() > 0){
+            this.AIDepth.setDisable(true);
             ToggleButton selected_game_btn =  (ToggleButton) this.GameGroup.getSelectedToggle();
 
             if (selected_game_btn != null){
                 try{
                     //make a new ai instance
-                    this.AI = (AI) Class.forName("com.group4.AI." + selected_game_btn.getText().replace("-", "").toUpperCase() + "AI").newInstance();
+                    //this.AI = (AI) Class.forName("com.group4.AI." + selected_game_btn.getText().replace("-", "").toUpperCase() + "AI").newInstance();
+                    this.AI = this.createAI(selected_game_btn.getText());
                     this.AIBtn.setText("Disable AI");
                 }catch (Exception e){
                     System.out.println("AI could not be Created: " + e);
@@ -292,8 +303,20 @@ public class MultiplayerController extends Controller{
         }else{
             this.AIBtn.setText("Enable AI");
             this.AIBtn.setSelected(false);
+            this.AIDepth.setDisable(false);
             this.AI = null; //remove any previous set ai instances
         }
+    }
+
+    /**
+     * Create new Ai from String name
+     *
+     * @param type AI type
+     * @return new AI
+     * @throws Exception
+     */
+    public AI createAI(String type) throws Exception {
+        return (AI) Class.forName("com.group4.AI." + type.replace("-", "").toUpperCase() + "AI").newInstance();
     }
 
     public void giveUp(){
@@ -320,7 +343,7 @@ public class MultiplayerController extends Controller{
                 //make a new current challenge
                 this.current_challenge = new Challenge(message_to_map.get("CHALLENGER"), message_to_map.get("CHALLENGENUMBER"), message_to_map.get("GAMETYPE"));
 
-                this.notificationController.revealNotification("You have been challenged by " + this.current_challenge.getUsername(), (object1 -> {
+                this.notificationController.revealNotification("You have been challenged by " + this.current_challenge.getUsername() + " | " + this.current_challenge.getGame_type(), (object1 -> {
                     this.networkPlayer.acceptChallenge(this.current_challenge.getCode());
                 }), (object1 -> {
                     System.out.println("Challenge declined");
@@ -453,9 +476,18 @@ public class MultiplayerController extends Controller{
             }
 
             if (this.AI != null){
+                //if AI differs for some reason from challenge make the right type AI
+                if (!((MyToggleButton)this.GameGroup.getSelectedToggle()).getText().equals(messageToMap.get("GAMETYPE"))){
+                    try{
+                        this.createAI(messageToMap.get("GAMETYPE"));
+                    }catch (Exception e){
+                        System.out.println("Ai could not be created: " + e);
+                    }
+                }
                 //set ai type
-                this.AI.setAIType(this.multiplayerGameController.game, this.multiplayerGameController.game.getGameType(), Integer.parseInt(AIDepth.getText()));
+                this.AI.setAIType(this.multiplayerGameController.game, this.multiplayerGameController.game.getGameType(), AIDepth.getText().length() > 0 ? Integer.parseInt(AIDepth.getText()) : 5);
             }
+
             thisScene = findPlayers.getScene();
             stage = (Stage) findPlayers.getScene().getWindow();
 

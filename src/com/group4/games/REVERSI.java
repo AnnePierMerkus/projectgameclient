@@ -12,14 +12,22 @@ import com.group4.util.PlayerList;
 import com.group4.util.Tile;
 import javafx.application.Platform;
 
+/***
+ * The REVERSI class defines the Reversi game.
+ * Extends GameProperty.
+ * 
+ * @author Mobieljoy12 & GRTerpstra
+ * @version 1.0
+ * @since   2021-03-25
+ */
 public class REVERSI extends GameProperty {
 
 	/***
-	 * Get the direction offset for a given direction
+	 * Get the direction offset for a given direction.
 	 *
-	 * @param direction
-	 * @return int
-	 * @author GRTerpstra
+	 * @param direction - the direction in which you want to search.
+	 * @return int - offset the number that calculates in which direction the program should search.
+	 * @author GRTerpstra.
 	 */
 	private int getDirectionOffset(int direction) {
 		int offset = 0;
@@ -52,26 +60,55 @@ public class REVERSI extends GameProperty {
 		return offset;
 	}
 
+	/**
+	 * The constructor of the REVERSI class.
+	 * This constructor instantiates the display names for the players.
+	 * @author mobieljoy12.
+	 */
 	public REVERSI() {
 		this.displayNames.put("p1", "Wit");
 		this.displayNames.put("p2", "Zwart");
 	}
-
+	
+	/***
+	 * Get the GameType that is currently running
+	 * 
+	 * @return GameType - The GameType that is running
+	 * @author mobieljoy12.
+	 */
 	@Override
 	public GameType getGameType() {
 		return GameType.REVERSI;
 	}
 
+	/***
+	 * The width of the board in number of columns.
+	 * 
+	 * @return int - Number of columns.
+	 * @author GRTerpstra & mobieljoy12.
+	 */
 	@Override
 	public int getBoardWidth() {
 		return 8;
 	}
 
+	/***
+	 * The height of the board in number of columns.
+	 * 
+	 * @return int - Number of columns.
+	 * @author GRTerpstra & mobieljoy12.
+	 */
 	@Override
 	public int getBoardHeight() {
 		return 8;
 	}
 
+	/***
+	 * The doSetup method instantiates the four starting pieces of the game.
+	 * 
+	 * @return Number of columns.
+	 * @author GRTerpstra & mobieljoy12.
+	 */
 	@Override
 	public void doSetup(String currentPlayerSetup) {
 
@@ -98,12 +135,24 @@ public class REVERSI extends GameProperty {
 
 	}
 
+	/***
+	 * This method returns the player that should start the game
+	 * 
+	 * @return String - P1 (white) is the player that should start the game.
+	 * @author GRTerpstra & mobieljoy12
+	 */
 	@Override
 	public String playerStart() {
 		// Wit always starts
 		return "p1";
 	}
 
+	/**
+	 * The getAvailableOptions method calculates all the moves the given player can make.
+	 * @param player - The player whose available moves should be calculates.
+	 * @return ArrayList<Tile> - List of available moves.
+	 * @author GRTerpstra.
+	 */
 	@Override
 	public List<Tile> getAvailableOptions(Player player) {
 		HashMap<Integer, Tile> availableOptions = new HashMap<Integer, Tile>();
@@ -145,6 +194,12 @@ public class REVERSI extends GameProperty {
 		return new ArrayList<Tile>(availableOptions.values());
 	}
 
+	/**
+	 * The swapTiles method changes the occupant of the tiles that should change after the last move.
+	 * @param tile - the tile on which the last move was made.
+	 * @param player - the Player who made the last move.
+	 * @author GRTerpstra.
+	 */
 	public void swapTiles(Tile tile, Player player) {
 		HashMap<Integer, Tile> board = this.game.getBoard().getGameBoard();
 		for(int i = 0; i < 8; i++) {
@@ -183,6 +238,13 @@ public class REVERSI extends GameProperty {
 		}
 	}
 
+	/**
+	 * the makeMove method implements all the changes made to the board after checking if the move is legal.
+	 * @param tile - The tile on which the move should be made.
+	 * @param player - the player who makes the move.
+	 * @return boolean - true if the move has been made, false otherwise.
+	 * @author GRTerpstra.
+	 */
 	@Override
 	public boolean makeMove(Tile tile, Player player) {
 		if(this.checkGameEnded()) return false;
@@ -197,6 +259,13 @@ public class REVERSI extends GameProperty {
 		return false;
 	}
 
+	/**
+	 * the isLegalMove method checks if the move that is about to happen is legal.
+	 * @param tile - The tile on which the move should be made.
+	 * @param player - the player who makes the move.
+	 * @return boolean - true if the move is legal, false otherwise.
+	 * @author GRTerpstra.
+	 */
 	@Override
 	public boolean isLegalMove(Tile tile, Player player) {
 		List<Tile> availableOptions = this.getAvailableOptions(player);
@@ -210,6 +279,11 @@ public class REVERSI extends GameProperty {
 		return false;
 	}
 
+	/**
+	 * the gameHasEnded method checks if the current game should terminate.
+	 * @return boolean - true if the game should end, false otherwise.
+	 * @author mobieljoy12.
+	 */
 	@Override
 	public boolean gameHasEnded() {
 		if(!PlayerList.getPlayer("p1").hasMovesLeft() && !PlayerList.getPlayer("p2").hasMovesLeft()) {
@@ -251,6 +325,11 @@ public class REVERSI extends GameProperty {
 		return false;
 	}
 
+	/**
+	 * the getPlayerWon method checks and returns the player who has won the game.
+	 * @return Player - the player who has won the game.
+	 * @author mobieljoy12.
+	 */
 	@Override
 	public Player getPlayerWon() {
 		HashMap<String, Integer> scores = this.game.getBoard().getScores();
