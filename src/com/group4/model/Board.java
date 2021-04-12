@@ -134,13 +134,11 @@ public class Board {
 				if(tile.isOccupied()) {
 					this.addFilledTile(tile.getOccupant(), this.gameBoard.get(tile.getIndex()));
 				}else {
-					Tile onBoardTile = this.gameBoard.get(tile.getIndex());
-					if(onBoardTile.isOccupied()) {
-						this.filledTiles.get(onBoardTile.getOccupant().getId()).remove(tile.getIndex());
-					}
+					this.filledTiles.get(this.gameBoard.get(tile.getIndex()).getOccupant().getId()).remove(tile.getIndex());
 				}
 				this.gameBoard.get(tile.getIndex()).setOccupant(tile.getOccupant());
 			}
+			this.previousBoard.remove(this.moveCounter);
 		}
 	}
 
@@ -211,6 +209,7 @@ public class Board {
 			filledTileCount += this.filledTiles.get(pId).size();
 		}
 		System.out.println("Full board is: " + (this.getWidth() * this.getHeight()) + " tiles, " + filledTileCount + " are filled");
+
 		return ((this.getWidth() * this.getHeight()) == filledTileCount);
 	}
 
