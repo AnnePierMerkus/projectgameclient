@@ -160,7 +160,6 @@ public class Board {
 		if(!this.previousBoard.containsKey(this.moveCounter)) this.previousBoard.put(this.moveCounter, new HashMap<Integer, Tile>());
 		Tile prevTile = new Tile(tile.getIndex(), tile.getWeight());
 		prevTile.setOccupant(player);
-		
 		this.previousBoard.get(this.moveCounter).put(tile.getIndex(), prevTile);
 	}
 	
@@ -174,7 +173,6 @@ public class Board {
 		//if((this.moveCounter - moves) < 0) moves = this.moveCounter;
 		for(int counter = 0; counter < moves; counter++) {
 			this.decMoveCounter();
-			System.out.println("Reverting back to move: " + this.moveCounter);
 			for(Tile tile : this.previousBoard.get(this.moveCounter).values()) {
 				if(tile.isOccupied()) {
 					this.addFilledTile(tile.getOccupant(), this.gameBoard.get(tile.getIndex()));
@@ -257,10 +255,10 @@ public class Board {
 	 *
 	 * @return HashMap<Player, Integer> - Hashmap holding scores per player
 	 */
-	public HashMap<Player, Integer> getScores(){
-		HashMap<Player, Integer> tempScores = new HashMap<Player, Integer>(); // New HashMap
+	public HashMap<String, Integer> getScores(){
+		HashMap<String, Integer> tempScores = new HashMap<String, Integer>(); // New HashMap
 		for(String pId : this.filledTiles.keySet()) {
-			tempScores.put(PlayerList.getPlayer(pId), this.filledTiles.get(pId).size());
+			tempScores.put(pId, this.filledTiles.get(pId).size());
 		}
 		return tempScores;
 	}
