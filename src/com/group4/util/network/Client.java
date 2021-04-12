@@ -67,10 +67,9 @@ public class Client implements Runnable, Observable {
                     //notify threads that are looking at the messages arraylist that a change has occurred
                     this.messages.notify();
                 }
-                synchronized (this.observers) {
-                    //notify observers that a message has been received
-                    this.notifyObservers();
-                }
+
+                //notify observers that a message has been received
+                this.notifyObservers();
             }
         }catch (Exception e){
             System.out.println("something went wrong:" + e);
@@ -140,7 +139,7 @@ public class Client implements Runnable, Observable {
      * @param observer
      */
     @Override
-    public void registerObserver(Observer observer) {
+    public synchronized void registerObserver(Observer observer) {
         this.observers.add(observer);
     }
 
@@ -150,7 +149,7 @@ public class Client implements Runnable, Observable {
      * @param observer
      */
     @Override
-    public void removeObserver(Observer observer) {
+    public synchronized void removeObserver(Observer observer) {
         this.observers.remove(observer);
     }
 
@@ -159,7 +158,7 @@ public class Client implements Runnable, Observable {
      *
      */
     @Override
-    public void notifyObservers() {
+    public synchronized void notifyObservers() {
         for (Observer observer : this.observers){
             observer.update(this);
         }
