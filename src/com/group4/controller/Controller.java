@@ -197,6 +197,6 @@ public class Controller {
 	 * @param availableMoves amount of available moves for player
 	 */
 	public void setAvailableMovesPlayer2(String availableMoves){
-		((Text)((HBox)gameInfoPlayerOne.getChildren().get(2)).getChildren().get(0)).setText(availableMoves);
+		((Text)((HBox)gameInfoPlayerTwo.getChildren().get(2)).getChildren().get(0)).setText(availableMoves);
 	}
 }
