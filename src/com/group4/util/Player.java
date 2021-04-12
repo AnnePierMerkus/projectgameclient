@@ -22,6 +22,8 @@ public class Player implements Observable {
 	// Holding the state the player is currently in
 	protected PlayerState playerState;
 	
+	private List<Tile> lastAvailableOptions = new ArrayList<Tile>();
+	
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
 	
 	/***
@@ -63,6 +65,16 @@ public class Player implements Observable {
 	 */
 	public void setPlayerState(PlayerState state) {
 		this.playerState = state;
+		if(state.equals(PlayerState.PLAYING_HAS_TURN)) {
+			if(this.gameProperty != null) { // If game is ready
+				if(this.getAvailableOptions().isEmpty()) { // Check if player has turns left
+					if(!this.gameProperty.gameHasEnded()) { // If game hasn't ended
+						System.out.println("Giving turn back to other player");
+						this.notifyObservers(); // Give turn back
+					}
+				}
+			}
+		}
 	}
 	
 	/***
@@ -77,11 +89,29 @@ public class Player implements Observable {
 		//TODO check matchpoint & end game
 		// Don't allow moves if player does not have the turn
 		if(this.playerState != PlayerState.PLAYING_HAS_TURN) return;
-		if(this.gameProperty.gameHasEnded()) return;
+		if(this.gameProperty.checkGameEnded()) return;
 		
 		if(this.gameProperty.makeMove(tile, this)){
 			this.notifyObservers();
 		}
+	}
+	
+	/***
+	 * Check if player has moves left
+	 * 
+	 * @return boolean - Moves left
+	 */
+	public boolean hasMovesLeft() {
+		return !this.lastAvailableOptions.isEmpty();
+	}
+	
+	/***
+	 * Set the last available options so the player is up-to-date
+	 * 
+	 * @param options - Options
+	 */
+	public void setAvailableOptions(List<Tile> options) {
+		this.lastAvailableOptions = new ArrayList<Tile>(options);
 	}
 	
 	/***
@@ -97,7 +127,9 @@ public class Player implements Observable {
 			System.out.println("Player tried getting options while gameproperty doesn't exist");
 			return null;
 		}
-		return this.gameProperty.getAvailableOptions(this);
+		List<Tile> options = this.gameProperty.getAvailableOptions(this);
+		this.lastAvailableOptions = new ArrayList<Tile>(options);
+		return options;
 	}
 	
 	/***
@@ -108,6 +140,7 @@ public class Player implements Observable {
 	 */
 	public void setGameProperty(GameProperty game) {
 		this.gameProperty = game;
+		this.getAvailableOptions();
 	}
 
 	@Override

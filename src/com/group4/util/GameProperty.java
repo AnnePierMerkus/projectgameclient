@@ -24,23 +24,10 @@ public abstract class GameProperty {
 	protected GameOptions game = null;
 	
 	// Whether the game is on matchpoint
-	private boolean matchPoint = false;
+	protected boolean matchPoint = false;
 	
 	// Whether the game has ended
-	private boolean gameEnded = false;
-	
-	// The player that has won the game, null for when it is a tie
-	protected Player playerWon = null;
-	
-	/***
-	 * Set the matchpoint variable
-	 * 
-	 * @param matchpoint
-	 * @author mobieljoy12
-	 */
-	public void setMatchPoint(boolean matchpoint) {
-		this.matchPoint = matchpoint;
-	}
+	protected boolean gameEnded = false;
 	
 	/***
 	 * Check whether it's currently a matchpoint
@@ -49,41 +36,6 @@ public abstract class GameProperty {
 	 */
 	public boolean isMatchPoint() {
 		return this.matchPoint;
-	}
-	
-	/***
-	 * End the game
-	 * 
-	 * @author mobieljoy12
-	 */
-	public void endGame() {
-		//TODO remove later
-		System.out.println("Game has ended");
-		if(this.playerWon == null) {
-			this.decidePlayerWin();
-		}
-		if(this.playerWon != null) System.out.println(this.displayNames.get(this.playerWon.getId()) + " wins!");
-		this.gameEnded = true;
-	}
-	
-	/***
-	 * Get the player that won the game
-	 * Null if player no player has won (yet)
-	 * 
-	 * @return Player - The player that won
-	 */
-	public Player getPlayerWon() {
-		return this.playerWon;
-	}
-	
-	/***
-	 * Whether the game has ended or should continue
-	 * 
-	 * @return boolean - Whether the game has ended
-	 * @author GRTerpstra & mobieljoy12
-	 */
-	public boolean gameHasEnded() {
-		return this.gameEnded;
 	}
 	
 	/***
@@ -106,6 +58,32 @@ public abstract class GameProperty {
 	public String getDiplayName(String playerId) {
 		return (this.displayNames.containsKey(playerId)) ? this.displayNames.get(playerId) : "";
 	}
+	
+	/***
+	 * Returns the current game ended value without doing checkups
+	 * 
+	 * @return boolean - Game ended
+	 */
+	public boolean checkGameEnded() {
+		return this.gameEnded;
+	}
+	
+	/***
+	 * Decide which player wins right now
+	 * Return null if no player has won (yet)
+	 * 
+	 * @return Player - The player that won
+	 */
+	public abstract Player getPlayerWon();
+	
+	/***
+	 * Whether the game has ended or should continue
+	 * Also sets the matchpoint
+	 * 
+	 * @return boolean - Whether the game has ended
+	 * @author GRTerpstra & mobieljoy12
+	 */
+	public abstract boolean gameHasEnded();
 	
 	/***
 	 * Get the GameType that is currently running
@@ -176,21 +154,5 @@ public abstract class GameProperty {
 	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract boolean isLegalMove(Tile tile, Player player);
-	
-	/***
-	 * Check if the player has met the criteria to end the game
-	 * 
-	 * @param player - The player to check for
-	 * @return boolean - Met criteria
-	 * @author GRTerpstra
-	 */
-	public abstract boolean endGameFlagMet(Player player);
-	
-	/***
-	 * Decide which player wins the game, null if it is a tie
-	 * 
-	 * @author GRTerpstra & mobieljoy12
-	 */
-	public abstract void decidePlayerWin();
 		
 }

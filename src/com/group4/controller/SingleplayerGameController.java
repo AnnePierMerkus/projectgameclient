@@ -29,8 +29,6 @@ public class SingleplayerGameController extends GameController {
 
 			p.setGameProperty(this.game.getGameProperty());
 		}
-		//TODO - Swap scene to new game using main Controller
-		this.game.setGameState(GameState.PLAYING);
 	}
 	
 	@Override
@@ -43,8 +41,6 @@ public class SingleplayerGameController extends GameController {
 			}
 			p.setGameProperty(this.game.getGameProperty());
 		}
-		//TODO - Swap scene to new game using main Controller
-		this.game.setGameState(GameState.PLAYING);
 	}
 	
 	@Override
