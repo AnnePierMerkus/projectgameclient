@@ -66,6 +66,7 @@ public class REVERSIAI extends AI {
 
         if (move == null && options.size() > 0)
         {
+            System.out.println("NULL");
             move = options.get(0);
         }
         return move;

@@ -54,7 +54,7 @@ public class MultiplayerController extends Controller{
     StackPane loginScreen;
 
     @FXML
-    GridPane matchmaking;
+    StackPane matchmaking;
 
     @FXML
     GridPane playersGrid;
@@ -360,8 +360,6 @@ public class MultiplayerController extends Controller{
 
                         playersGrid.add(playerView, 0, playersGrid.getChildren().size());
                         playersGrid.getRowConstraints().add(new RowConstraints(40, 40, 40));
-
-                        System.out.println(matchmaking.getRowConstraints());
                     }catch (Exception e){
                         System.out.println("Player could not be added to view." + e);
                     }

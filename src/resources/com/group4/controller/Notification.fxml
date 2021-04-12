@@ -15,7 +15,7 @@
         alignment="CENTER">
 
     <GridPane
-            style="-fx-border-color: black"
+            style="-fx-background-color: #FBFAF5; -fx-border-color: black;"
             fx:id="Notification"
             alignment="TOP_RIGHT"
             visible="false"

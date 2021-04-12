@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.group4.controller.GameController.GameType;
+import com.group4.controller.GameOverController;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
+import javafx.application.Platform;
 
 public class REVERSI extends GameProperty {
 
@@ -216,6 +218,32 @@ public class REVERSI extends GameProperty {
 		}else if(!PlayerList.getPlayer("p1").hasMovesLeft() || !PlayerList.getPlayer("p2").hasMovesLeft()) {
 			if(this.game.getBoard().getGameBoard().size() < 5) {
 				this.matchPoint = true;
+				/*Platform.runLater(() -> {
+					//go to GameOverScreen
+					this.swap(stage, "EndGame.fxml");
+					GameOverController gameOverController = (GameOverController) this.getCurrentController();
+
+					if (message.contains("WIN")){
+						gameOverController.getResultText().setText("Je Hebt Gewonnen!");
+					}else if (message.contains("LOSS")){
+						gameOverController.getResultText().setText("Je Hebt verloren :(");
+					}else {
+						gameOverController.getResultText().setText("Gelijk Spel!");
+					}
+
+					if (this.multiplayerGameController.game.getGameProperty() instanceof REVERSI) {
+						gameOverController.setScoreVisibility(true);
+						gameOverController.getScorePlayer1Text().setText("Score Speler 1: " + messageToMap.get("PLAYERONESCORE"));
+						gameOverController.getScorePlayer2Text().setText("Score Speler 2: " + messageToMap.get("PLAYERTWOSCORE"));
+					}else {
+						gameOverController.setScoreVisibility(false);
+					}
+
+					gameOverController.getQuitBtn().setOnAction((event) -> {
+						stage.setScene(this.thisScene);
+					});
+				});
+				 */
 			}
 		}else {
 			this.matchPoint = false;
