@@ -388,6 +388,7 @@ public class MultiplayerController extends Controller{
             if (!hashmap_msg.get("PLAYER").equals(this.networkPlayer.getName())){
                 //its not the players turn so set the player to no turn state
                 this.networkPlayer.setState(new InMatchNoTurnState());
+                this.multiplayerGameController.game.setPlayerTurn("p2");
 
                 //let the server make a move on the board
                 //IMPORTANT! get the tile from the board not new otherwise tile wil not be recognised
@@ -397,13 +398,20 @@ public class MultiplayerController extends Controller{
                 this.setTurnImage("p1");
             }
 
+            //set current scores of players
+            this.setScorePlayer1(String.valueOf(this.multiplayerGameController.game.getBoard().getScore(PlayerList.getPlayer("p1"))));
+            this.setScorePlayer2(String.valueOf(this.multiplayerGameController.game.getBoard().getScore(PlayerList.getPlayer("p2"))));
 
+            //set the available moves
+            this.setAvailableMovesPlayer1("Available moves: \n" + PlayerList.getPlayer("p1").getAvailableOptions().size());
+            this.setAvailableMovesPlayer2("Available moves: \n" + PlayerList.getPlayer("p2").getAvailableOptions().size());
         }
 
         //its network players turn to make a move set state
         if (message.contains("YOURTURN")){
             this.networkPlayer.setState(new InMatchPlayerTurnState());
-
+            this.multiplayerGameController.game.setPlayerTurn("p1");
+            
             //when true let AI play instead of player
             if (this.AI != null){
                 //Networkplayer makes a move with the best tile chosen by the AI.

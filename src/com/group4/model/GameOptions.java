@@ -151,6 +151,14 @@ public class GameOptions {
 	}
 	
 	/***
+	 * Set the player turn to a playerid
+	 * Used by the multiplayer toggleTurn
+	 */
+	public void setPlayerTurn(String playerId) {
+		this.playerTurn = playerId;
+	}
+	
+	/***
 	 * Get the current player turn
 	 * 
 	 * @return int - The player index that currently has the turn
