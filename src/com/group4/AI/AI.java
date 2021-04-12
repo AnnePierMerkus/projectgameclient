@@ -19,7 +19,8 @@ public abstract class AI {
 	public void setAIType(GameOptions gameOptions, GameType gameType) {
 		this.gameai = new GameAI(gameType);
 		this.gameai.setGameOptions(gameOptions);
-    }
+		this.gameai.updateFromGame();
+	}
 	
     public abstract Tile makeMove(List<Tile> availableOptions);
     
