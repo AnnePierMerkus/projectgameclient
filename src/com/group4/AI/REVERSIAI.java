@@ -48,9 +48,6 @@ public class REVERSIAI extends AI {
 
     	List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player);
     	
-    	// If there are no options, return nothing
-    	if(options.isEmpty()) return null;
-    	
         for (Tile tile : options) {
             if (tile.getWeight() == 20) {
                 return tile;
