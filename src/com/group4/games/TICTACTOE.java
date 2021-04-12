@@ -84,8 +84,8 @@ public class TICTACTOE extends GameProperty {
 	
 	@Override
 	public boolean gameHasEnded() {
-		ArrayList<Integer> playerTiles = new ArrayList<Integer>();
 		for(Player player : PlayerList.players.values()) {
+			ArrayList<Integer> playerTiles = new ArrayList<Integer>();
 			for(Tile tile : this.game.getBoard().getGameBoard().values()) {
 				if(tile.getOccupant() == player) {
 					playerTiles.add(tile.getIndex());
@@ -102,7 +102,10 @@ public class TICTACTOE extends GameProperty {
 			  ) {
 				this.playerWon = player;
 				this.gameEnded = true;
-				this.matchPoint = true;
+				return true;
+			}
+			if(this.getAvailableOptions(player).isEmpty()) {
+				this.gameEnded = true;
 				return true;
 			}
 		}		
