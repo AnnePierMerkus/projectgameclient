@@ -320,7 +320,7 @@ public class MultiplayerController extends Controller{
                 //make a new current challenge
                 this.current_challenge = new Challenge(message_to_map.get("CHALLENGER"), message_to_map.get("CHALLENGENUMBER"), message_to_map.get("GAMETYPE"));
 
-                this.notificationController.revealNotification("You have been challenged by " + this.current_challenge.getUsername(), (object1 -> {
+                this.notificationController.revealNotification("You have been challenged by " + this.current_challenge.getUsername() + " | " + this.current_challenge.getGame_type(), (object1 -> {
                     this.networkPlayer.acceptChallenge(this.current_challenge.getCode());
                 }), (object1 -> {
                     System.out.println("Challenge declined");
