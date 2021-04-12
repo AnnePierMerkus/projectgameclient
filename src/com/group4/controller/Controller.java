@@ -12,10 +12,12 @@ import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -98,6 +100,8 @@ public class Controller {
 				playerCircle.setFill(Paint.valueOf("WHITE"));
 
 				//get child 1 get childen(0) fill color
+				//.setStyle("-fx-text-fill: black;");
+				System.out.println(((Text)((HBox)gameInfoPlayerOne.getChildren().get(1)).getChildren().get(0)));
 
 				gameInfoPlayerTwo.getChildren().get(3).setVisible(true);
 			}else{
@@ -147,5 +151,13 @@ public class Controller {
 			gameInfoPlayerTwo.getChildren().get(3).setVisible(false);
 			gameInfoPlayerOne.getChildren().get(3).setVisible(true);
 		}
+	}
+
+	public void setScorePlayer1(String score){
+		((Text)((HBox)gameInfoPlayerOne.getChildren().get(1)).getChildren().get(0)).setText(score);
+	}
+
+	public void setScorePlayer2(String score){
+		((Text)((HBox)gameInfoPlayerOne.getChildren().get(1)).getChildren().get(0)).setText(score);
 	}
 }

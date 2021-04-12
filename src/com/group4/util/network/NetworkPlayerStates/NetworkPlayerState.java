@@ -9,7 +9,7 @@ import com.group4.util.network.NetworkPlayer;
  */
 public interface NetworkPlayerState{
     //login player to server
-    void login(NetworkPlayer player);
+    boolean login(NetworkPlayer player);
 
     //logout player to server
     void logout(NetworkPlayer player);
