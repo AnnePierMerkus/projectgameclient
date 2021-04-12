@@ -58,13 +58,11 @@ public class TICTACTOE extends GameProperty {
 
 	@Override
 	public boolean makeMove(Tile tile, Player player) {
-		if(this.gameHasEnded()) {
-			return false;
-		}
 		if(tile != null) {
 		}		
 		if(this.isLegalMove(tile, player)) {
 			tile.setOccupant(player);
+			this.gameHasEnded();
 			return true;
 		}
 		return false;
