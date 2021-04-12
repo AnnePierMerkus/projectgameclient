@@ -57,7 +57,7 @@ public class REVERSIAI extends AI {
         for (Tile tile : options) {
            this.gameai.makePredictionMove(tile.getIndex(), player);
 
-           int score = minimax(this.gameai.getBoard(), false, 5, Integer.MIN_VALUE, Integer.MAX_VALUE);
+           int score = minimax(this.gameai.getBoard(), false, 7, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
            this.gameai.getBoard().revert(1);
            if (score > bestScore) {
