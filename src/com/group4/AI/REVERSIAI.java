@@ -4,6 +4,8 @@ import com.group4.model.Board;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -29,11 +31,14 @@ public class REVERSIAI extends AI {
         gameai.updateFromGame();
         this.bestScore = Integer.MIN_VALUE;
         this.move = null;
-        player = PlayerList.getPlayer(gameai.getPlayerTurn());
-        otherPlayer = PlayerList.getOtherPlayer(gameai.getPlayerTurn());
+        player = PlayerList.getPlayer(gameai.getGame().getPlayerTurn());
+        otherPlayer = PlayerList.getOtherPlayer(gameai.getGame().getPlayerTurn());
         //return availableOptions.get(0);
 
-        return bestMove();
+        Tile bestMove = bestMove();
+        System.out.println("Picked " + bestMove.getIndex());
+        
+        return bestMove;
 
         //availableOptions.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
         //System.out.println(availableOptions.get(0).getWeight());
@@ -47,16 +52,21 @@ public class REVERSIAI extends AI {
         //int score = minimax(this.gameai.getBoard(), false, 2);
        //this.gameai.getGame().getGameProperty().getAvailableOptions(player).parallelStream().forEach(tile -> {
 
-        for (Tile tile : this.gameai.getGame().getGameProperty().getAvailableOptions(player)) {
+    	List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player);
+    	
+    	String sOptions = "BestMove Options: ";
+    	for(Tile t : options) {
+    		sOptions += ", " + t.getIndex();
+    	}
+    	System.out.println(sOptions);
+    	
+        for (Tile tile : options) {
             if (tile.getWeight() == 20) {
                 return tile;
             }
         }
 
-        for (Tile tile : this.gameai.getGame().getGameProperty().getAvailableOptions(player)) {
-            if (tile.getWeight() == 20) {
-                return tile;
-            }
+        for (Tile tile : options) {
            this.gameai.makePredictionMove(tile.getIndex(), player);
 
            int score = minimax(this.gameai.getBoard(), false, 5, Integer.MIN_VALUE, Integer.MAX_VALUE);
