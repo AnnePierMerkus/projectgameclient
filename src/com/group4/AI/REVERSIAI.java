@@ -21,6 +21,11 @@ public class REVERSIAI extends AI {
     @Override
     public Tile makeMove(List<Tile> availableOptions)
     {
+    	String options = "Options: ";
+    	for(Tile t : availableOptions) {
+    		options += ", " + t.getIndex();
+    	}
+    	System.out.println(options);
         gameai.updateFromGame();
         this.bestScore = Integer.MIN_VALUE;
         this.move = null;
