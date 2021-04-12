@@ -14,10 +14,20 @@ public class Board {
 
 	private HashMap<Integer, Tile> gameBoard = new HashMap<Integer, Tile>();
 	private HashMap<String, HashMap<Integer, Tile>> filledTiles = new HashMap<String, HashMap<Integer, Tile>>();
-	private HashMap<Integer, Tile> previousBoard = new HashMap<Integer, Tile>();
+	private HashMap<Integer, HashMap<Integer, Tile>> previousBoard = new HashMap<Integer, HashMap<Integer, Tile>>();
+	private int moveCounter = 0;
 	private int height;
 	private int width;
-
+	
+	/***
+	 * Decrement the move counter
+	 * 
+	 * @author mobieljoy12
+	 */
+	private void decMoveCounter() {
+		if(this.moveCounter > 0) this.moveCounter--;
+	}
+	
 	/**
 	 * Method that creates a new board which size is defined by the given height and width.
 	 * @param height the number of rows the board has to contain.
@@ -27,7 +37,7 @@ public class Board {
 	public Board(int height, int width) {
 		this.height = height;
 		this.width = width;
-
+		
 		this.filledTiles.put("p1", new HashMap<Integer, Tile>());
 		this.filledTiles.put("p2", new HashMap<Integer, Tile>());
 
@@ -70,10 +80,32 @@ public class Board {
 	}
 	
 	/***
-	 * Empty the previous board values
+	 * Get the current move counter
+	 * Move 0 is the initial board
+	 * 
+	 * @return int - Current move counter
+	 * @author mobieljoy12
 	 */
-	public void emptyPrevious() {
-		this.previousBoard = new HashMap<Integer, Tile>();
+	public int getMoveCounter() {
+		return this.moveCounter;
+	}
+	
+	/***
+	 * Increment the move counter
+	 * 
+	 * @author mobieljoy12
+	 */
+	public void incMoveCounter() {
+		this.moveCounter++;
+	}
+	
+	/***
+	 * Empty all the previous board values
+	 * 
+	 * @author mobieljoy12
+	 */
+	public void emptyAllPrevious() {
+		this.previousBoard = new HashMap<Integer, HashMap<Integer, Tile>>();
 	}
 	
 	/***
@@ -82,25 +114,33 @@ public class Board {
 	 * @author mobieljoy12
 	 */
 	public void savePrevious(Tile tile, Player player) {
+		if(!this.previousBoard.containsKey(this.moveCounter)) this.previousBoard.put(this.moveCounter, new HashMap<Integer, Tile>());
 		Tile prevTile = new Tile(tile.getIndex(), tile.getWeight());
 		prevTile.setOccupant(player);
-		this.previousBoard.put(tile.getIndex(), prevTile);
+		
+		this.previousBoard.get(this.moveCounter).put(tile.getIndex(), prevTile);
 	}
 	
 	/***
 	 * Revert the board back to the previous move
 	 * 
+	 * @param moves - Amount of moves to revert back
 	 * @author mobieljoy12
 	 */
-	public void revert() {
-		for(Tile tile : this.previousBoard.values()) {
-			if(tile.isOccupied()) {
-				this.addFilledTile(tile.getOccupant(), this.gameBoard.get(tile.getIndex()));
-			}else {
-				this.filledTiles.get(this.gameBoard.get(tile.getIndex()).getOccupant().getId()).remove(tile.getIndex());
+	public void revert(int moves) {
+		
+		for(int counter = 0; counter < moves; counter++) {
+			this.decMoveCounter();
+			for(Tile tile : this.previousBoard.get(this.moveCounter).values()) {
+				if(tile.isOccupied()) {
+					this.addFilledTile(tile.getOccupant(), this.gameBoard.get(tile.getIndex()));
+				}else {
+					this.filledTiles.get(this.gameBoard.get(tile.getIndex()).getOccupant().getId()).remove(tile.getIndex());
+				}
+				this.gameBoard.get(tile.getIndex()).setOccupant(tile.getOccupant());
 			}
-			this.gameBoard.get(tile.getIndex()).setOccupant(tile.getOccupant());
 		}
+
 	}
 
 	/**

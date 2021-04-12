@@ -4,9 +4,6 @@ import com.group4.model.Board;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
-import org.w3c.dom.ls.LSOutput;
-
-import java.util.HashMap;
 import java.util.List;
 
 /***
@@ -49,7 +46,7 @@ public class REVERSIAI extends AI {
             //System.out.println(tile.getIndex());
             //System.out.println(tile.getOccupant());
             int score = minimax(this.gameai.getBoard(), false, 2);
-            this.gameai.getBoard().revert();
+            this.gameai.getBoard().revert(1);
             if (score > bestScore) {
                bestScore = score;
               move = tile;
@@ -77,7 +74,7 @@ public class REVERSIAI extends AI {
 
                 gameai.makePredictionMove(tile.getIndex(), player);
                 int score = minimax(board, false, depth - 1);
-                this.gameai.getBoard().revert();
+                this.gameai.getBoard().revert(1);
                 bestScore = Math.max(score, bestScore);
             }
             return bestScore;
@@ -89,7 +86,7 @@ public class REVERSIAI extends AI {
 
                 gameai.makePredictionMove(tile.getIndex(), otherPlayer);
                 int score = minimax(board, true, depth - 1);
-                this.gameai.getBoard().revert();
+                this.gameai.getBoard().revert(1);
                 bestScore = Math.min(score, bestScore);
             }
             return bestScore;

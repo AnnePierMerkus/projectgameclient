@@ -36,6 +36,11 @@ public class GameAI extends GameOptions {
 		this.gameOptions = gameOptions;
 	}
 
+	/***
+	 * Get the current GameOptions
+	 * 
+	 * @return GameOptions
+	 */
 	public GameOptions getGame() {
 		return this.gameOptions;
 	}
