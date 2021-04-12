@@ -70,6 +70,33 @@ public class Board {
 			}
 		}
 	}
+	
+	/***
+	 * Get the current filledTiles HashMap
+	 * 
+	 * @return HashMap<String, HashMap<Integer, Tile>> - filledTiles
+	 */
+	public HashMap<String, HashMap<Integer, Tile>> getFilledTiles(){
+		return this.filledTiles;
+	}
+	
+	/***
+	 * Get the current previousBoard HashMap
+	 * 
+	 * @return HashMap<Integer, HashMap<Integer, Tile>> - previousBoard
+	 */
+	public HashMap<Integer, HashMap<Integer, Tile>> getPreviousBoard(){
+		return this.previousBoard;
+	}
+	
+	/***
+	 * Set the moveCounter to a given value
+	 * 
+	 * @param newCount - New value
+	 */
+	public void setMoveCounter(int newCount) {
+		this.moveCounter = newCount;
+	}
 
 	/**
 	 * Method that clears all settings of the board.
@@ -109,6 +136,22 @@ public class Board {
 	}
 	
 	/***
+	 * Save a previous tile to a moveCount
+	 * For AI purposes
+	 * 
+	 * @param moveCount - The move to save the tile to
+	 * @param tile - The Tile to save
+	 * @param player - The Player to put on the Tile
+	 */
+	public void savePrevious(int moveCount, Tile tile, Player player) {
+		if(!this.previousBoard.containsKey(moveCount)) this.previousBoard.put(moveCount, new HashMap<Integer, Tile>());
+		Tile prevTile = new Tile(tile.getIndex(), tile.getWeight());
+		prevTile.setOccupant(player);
+		
+		this.previousBoard.get(moveCount).put(tile.getIndex(), prevTile);
+	}
+	
+	/***
 	 * Save the current board before making a move so it can be reverted back to
 	 * 
 	 * @author mobieljoy12
@@ -128,8 +171,10 @@ public class Board {
 	 * @author mobieljoy12
 	 */
 	public void revert(int moves) {
+		//if((this.moveCounter - moves) < 0) moves = this.moveCounter;
 		for(int counter = 0; counter < moves; counter++) {
 			this.decMoveCounter();
+			System.out.println("Reverting back to move: " + this.moveCounter);
 			for(Tile tile : this.previousBoard.get(this.moveCounter).values()) {
 				if(tile.isOccupied()) {
 					this.addFilledTile(tile.getOccupant(), this.gameBoard.get(tile.getIndex()));
@@ -170,6 +215,14 @@ public class Board {
 	}
 
 	/***
+	 * Reset the whole filledTiles HashMap
+	 */
+	public void resetFilledTiles() {
+		this.filledTiles.put("p1", new HashMap<Integer, Tile>());
+		this.filledTiles.put("p2", new HashMap<Integer, Tile>());
+	}
+	
+	/***
 	 * Add a Tile to a Player
 	 *
 	 * @param player - The Player to add it to
@@ -194,7 +247,7 @@ public class Board {
 		for(String pId : this.filledTiles.keySet()) {
 			filledTileCount += this.filledTiles.get(pId).size();
 		}
-		System.out.println("Full board is: " + (this.getWidth() * this.getHeight()) + " tiles, " + filledTileCount + " are filled");
+		//System.out.println("Full board is: " + (this.getWidth() * this.getHeight()) + " tiles, " + filledTileCount + " are filled");
 
 		return ((this.getWidth() * this.getHeight()) == filledTileCount);
 	}

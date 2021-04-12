@@ -15,10 +15,6 @@ public abstract class GameController extends Controller {
 		EASY, MEDIUM, HARD
 	};
 	
-	public enum GameState {
-		PREPARING, PLAYING, ENDED
-	}
-	
 	// Initiate the player observer
 	protected PlayerObserver playerObserver = new PlayerObserver(this);
 	
@@ -50,12 +46,15 @@ public abstract class GameController extends Controller {
 	 */
 	public String toggleTurn() {
 		if(this.game != null) { // No player currently has the turn
-			if(this.game.getGameState().equals(GameState.PLAYING)) {
+			
+			if(!this.game.getGameProperty().gameHasEnded()) {
 				return this.game.toggleTurn();
-			}else if(this.game.getGameState().equals(GameState.ENDED)) {
+			}else {
+				// TODO - Display gameoverscreen once
+				// TODO - Clean up game when it is exited
+				System.out.println("Game over: " + this.game.getGameProperty().getPlayerWon());
 				PlayerList.players.values().forEach((p) -> p.setPlayerState(PlayerState.WAITING));
 			}
-			return "";
 		}
 		return "";
 	}

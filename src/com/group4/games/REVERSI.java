@@ -79,11 +79,17 @@ public class REVERSI extends GameProperty {
 		this.game.getBoard().getTile(27).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup));
 		this.game.getBoard().getTile(36).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup));
 		
-		// Add these to the previousBoard so they can be reverted back to
+		// Add these to the filled Tiles
 		this.game.getBoard().addFilledTile(PlayerList.getPlayer(currentPlayerSetup), this.game.getBoard().getTile(28));
 		this.game.getBoard().addFilledTile(PlayerList.getPlayer(currentPlayerSetup), this.game.getBoard().getTile(35));
 		this.game.getBoard().addFilledTile(PlayerList.getOtherPlayer(currentPlayerSetup), this.game.getBoard().getTile(27));
 		this.game.getBoard().addFilledTile(PlayerList.getOtherPlayer(currentPlayerSetup), this.game.getBoard().getTile(36));
+		
+		// Save init state to previous board so it can be reverted back to
+		this.game.getBoard().savePrevious(this.game.getBoard().getTile(28), PlayerList.getPlayer(currentPlayerSetup));
+		this.game.getBoard().savePrevious(this.game.getBoard().getTile(35), PlayerList.getPlayer(currentPlayerSetup));
+		this.game.getBoard().savePrevious(this.game.getBoard().getTile(27), PlayerList.getOtherPlayer(currentPlayerSetup));
+		this.game.getBoard().savePrevious(this.game.getBoard().getTile(36), PlayerList.getOtherPlayer(currentPlayerSetup));
 		
 		// Set move counter to 1 so the first move can be made
 		this.game.getBoard().incMoveCounter();
@@ -177,12 +183,13 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean makeMove(Tile tile, Player player) {
-		if(this.isLegalMove(tile, player) && !this.gameHasEnded()) {
+		if(this.checkGameEnded()) return false;
+		if(this.isLegalMove(tile, player)) {
 			this.game.getBoard().savePrevious(tile, tile.getOccupant());
 			tile.setOccupant(player);
 			swapTiles(tile, player);
 			this.game.getBoard().incMoveCounter(); // Increment move counter, this move is done
-			this.endGameFlagMet(player);
+			this.gameHasEnded();
 			return true;
 		}
 		return false;
@@ -190,7 +197,7 @@ public class REVERSI extends GameProperty {
 
 	@Override
 	public boolean isLegalMove(Tile tile, Player player) {
-		List<Tile> availableOptions = this.getAvailableOptions(player);
+		List<Tile> availableOptions = player.getAvailableOptions();
 		if(availableOptions.isEmpty()) {
 			return false;
 		}
@@ -201,34 +208,35 @@ public class REVERSI extends GameProperty {
 	}
 
 	@Override
-	public boolean endGameFlagMet(Player player) {
-		System.out.println("Checking endGameFlag");
-		if(this.game.getBoard().isFull()) {
-			System.out.println("endgame: true. Board full");
-			this.endGame();
+	public boolean gameHasEnded() {
+		if(!PlayerList.getPlayer("p1").hasMovesLeft() && !PlayerList.getPlayer("p2").hasMovesLeft()) {
+			this.gameEnded = true;
 			return true;
-		}else if(this.getAvailableOptions(player).isEmpty()) {
-			System.out.println("endgame: true. Options empty");
-			if(this.isMatchPoint()) this.endGame(); else this.setMatchPoint(true);
-			return true;
+		}else if(!PlayerList.getPlayer("p1").hasMovesLeft() || !PlayerList.getPlayer("p2").hasMovesLeft()) {
+			if(this.game.getBoard().getGameBoard().size() < 5) {
+				this.matchPoint = true;
+			}
 		}else {
-			this.setMatchPoint(false);
+			this.matchPoint = false;
 		}
-		System.out.println("Endgame: false");
 		return false;
 	}
 
 	@Override
-	public void decidePlayerWin() {
+	public Player getPlayerWon() {
 		HashMap<Player, Integer> scores = this.game.getBoard().getScores();
 		int currentHighest = 0;
 		Player currentWinner = null;
 		boolean tie = false;
-		for(Player p : scores.keySet()) {
-			if(scores.get(p) > currentHighest) currentWinner = p;
-			else if(scores.get(p) == currentHighest) tie = true;
+		if(!this.gameEnded) {
+			tie = true;
+		}else {
+			for(Player p : scores.keySet()) {
+				if(scores.get(p) > currentHighest) currentWinner = p;
+				else if(scores.get(p) == currentHighest) tie = true;
+			}
 		}
-		this.playerWon = (tie) ? null : currentWinner;
+		return (tie) ? null : currentWinner;
 	}
 
 }

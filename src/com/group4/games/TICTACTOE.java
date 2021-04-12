@@ -11,6 +11,8 @@ import com.group4.util.Tile;
 
 public class TICTACTOE extends GameProperty {
 	
+	private Player playerWon = null;
+	
 	public TICTACTOE() {
 		this.displayNames.put("p1", "X");
 		this.displayNames.put("p2", "O");
@@ -87,6 +89,10 @@ public class TICTACTOE extends GameProperty {
 	}
 	
 	@Override
+	public boolean gameHasEnded() {
+		return false;
+	}
+	
 	public boolean endGameFlagMet(Player player) {
 		ArrayList<Integer> playerTiles = new ArrayList<Integer>();
 		for(Tile tile : this.game.getBoard().getGameBoard().values()) {
@@ -104,7 +110,8 @@ public class TICTACTOE extends GameProperty {
 		   (playerTiles.contains(2) && playerTiles.contains(4) && playerTiles.contains(6))
 		  ) {
 			this.playerWon = player;
-			this.endGame();
+			this.gameEnded = true;
+			this.matchPoint = true;
 			System.out.println("Player " + player.getId() + " has won!");
 			return true;
 		}		
@@ -112,8 +119,8 @@ public class TICTACTOE extends GameProperty {
 	}
 
 	@Override
-	public void decidePlayerWin() {
-		// Not needed
+	public Player getPlayerWon() {
+		return this.playerWon;
 	}
 
 }

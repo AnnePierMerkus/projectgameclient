@@ -25,8 +25,6 @@ public class MultiplayerGameController extends GameController{
             p.setGameProperty(this.game.getGameProperty());
         }
 
-        this.game.setGameState(GameState.PLAYING);
-
         //set player state
         ((NetworkPlayer) PlayerList.getPlayer("p1")).setState(new InMatchNoTurnState());
     }
