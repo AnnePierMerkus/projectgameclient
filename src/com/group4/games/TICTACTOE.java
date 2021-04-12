@@ -10,25 +10,56 @@ import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
 
+/**
+ * The TICTACTIE CLASS defines a Tictactoe game.
+ * Extends GameProperty.
+ * 
+ * @author Mobieljoy12 & GRTerpstra
+ * @version 1.0
+ * @since   2021-03-25
+ */
 public class TICTACTOE extends GameProperty {
 	
 	private Player playerWon = null;
 	
+	/**
+	 * The constructor of the TICTACTOE class.
+	 * This constructor instantiates the display names for the players.
+	 * @author mobieljoy12.
+	 */
 	public TICTACTOE() {
 		this.displayNames.put("p1", "X");
 		this.displayNames.put("p2", "O");
 	}
 
+	/***
+	 * Get the GameType that is currently running
+	 * 
+	 * @return GameType - The GameType that is running
+	 * @author mobieljoy12.
+	 */
 	@Override
 	public GameType getGameType() {
 		return GameType.TICTACTOE;
 	}
 	
+	/***
+	 * The width of the board in number of columns.
+	 * 
+	 * @return int - Number of columns.
+	 * @author GRTerpstra & mobieljoy12.
+	 */
 	@Override
 	public int getBoardWidth() {
 		return 3;
 	}
 
+	/***
+	 * The height of the board in number of columns.
+	 * 
+	 * @return int - Number of columns.
+	 * @author GRTerpstra & mobieljoy12.
+	 */
 	@Override
 	public int getBoardHeight() {
 		return 3;
@@ -36,15 +67,25 @@ public class TICTACTOE extends GameProperty {
 	
 	@Override
 	public void doSetup(String currentPlayerSetup) {
-	}
+	}	
 	
-	
-
+	/***
+	 * This method returns the player that should start the game
+	 * 
+	 * @return String - P1 (X) is the player that should start the game.
+	 * @author GRTerpstra & mobieljoy12
+	 */
 	@Override
 	public String playerStart() {
 		return "p1"; // X always starts
 	}
 
+	/**
+	 * The getAvailableOptions method calculates all the moves the given player can make.
+	 * @param player - The player whose available moves should be calculates.
+	 * @return ArrayList<Tile> - List of available moves.
+	 * @author GRTerpstra.
+	 */
 	@Override
 	public List<Tile> getAvailableOptions(Player player) {
 		ArrayList<Tile> availableOptions = new ArrayList<Tile>();
@@ -57,6 +98,13 @@ public class TICTACTOE extends GameProperty {
 		return availableOptions;
 	}
 
+	/**
+	 * the makeMove method implements all the changes made to the board after checking if the move is legal.
+	 * @param tile - The tile on which the move should be made.
+	 * @param player - the player who makes the move.
+	 * @return boolean - true if the move has been made, false otherwise.
+	 * @author GRTerpstra.
+	 */
 	@Override
 	public boolean makeMove(Tile tile, Player player) {	
 		if(this.checkGameEnded()) return false;
@@ -70,6 +118,13 @@ public class TICTACTOE extends GameProperty {
 		return false;
 	}
 
+	/**
+	 * the isLegalMove method checks if the move that is about to happen is legal.
+	 * @param tile - The tile on which the move should be made.
+	 * @param player - the player who makes the move.
+	 * @return boolean - true if the move is legal, false otherwise.
+	 * @author GRTerpstra.
+	 */
 	@Override
 	public boolean isLegalMove(Tile tile, Player player) {
 		List<Tile> availableOptions = this.getAvailableOptions(player);
@@ -83,6 +138,12 @@ public class TICTACTOE extends GameProperty {
 		return false;
 	}
 	
+	/**
+	 * the gameHasEnded method checks if the current game should terminate.
+	 * This method also changes the playerWon variable accordingly.
+	 * @return boolean - true if the game should end, false otherwise.
+	 * @author GRTerpstra.
+	 */
 	@Override
 	public boolean gameHasEnded() {
 		for(Player player : PlayerList.players.values()) {
@@ -113,6 +174,11 @@ public class TICTACTOE extends GameProperty {
 		return false;
 	}
 
+	/**
+	 * the getPlayerWon method returns the player who has won the game.
+	 * @return Player - the player who has won the game.
+	 * @author GRTerpstra.
+	 */
 	@Override
 	public Player getPlayerWon() {
 		return this.playerWon;
