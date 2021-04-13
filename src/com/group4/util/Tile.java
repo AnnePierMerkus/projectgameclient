@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import com.group4.controller.GameController.GameType;
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
 
@@ -12,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 public class Tile extends StackPane implements Observable {
 	
@@ -24,6 +26,7 @@ public class Tile extends StackPane implements Observable {
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
 
 	Circle circle;
+	Text text;
 	
 	/***
 	 * Make a new Tile
@@ -41,8 +44,10 @@ public class Tile extends StackPane implements Observable {
 		circle = new Circle(0, 0, 25);
 		circle.setFill(Color.web("#009067"));
 		setStyle("-fx-background-color: #009067");
+		text = new Text();
+		text.setStyle("-fx-font: 50 arial; -fx-font-weight: bold;");
 
-		getChildren().add(circle);
+		getChildren().addAll(circle, text);
 		border.setFill(null);
 		border.setStroke(Color.BLACK);
 		setAlignment(Pos.CENTER);
@@ -101,7 +106,13 @@ public class Tile extends StackPane implements Observable {
 	 */
 	public void setOccupant(Player occupant) {
 		this.playerOnTile = occupant;
-		if(occupant != null) {
+		if(occupant != null && (occupant.gameProperty != null && occupant.gameProperty.getGameType() == GameType.TICTACTOE)) {
+			text.setText(this.playerOnTile.getId().equals("p1") ? "X" : "0");
+			if(this.playerOnTile.getId().equals("p1")) {
+				text.setFill(Color.WHITE);
+			}
+		}
+		else if(occupant != null) {
 			circle.setFill(this.playerOnTile.getId().equals("p1") ? Color.WHITE : Color.BLACK);
 		}
 		this.notifyObservers();

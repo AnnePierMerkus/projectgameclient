@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -38,6 +39,8 @@ public class Controller {
 
 	static GridPane gameInfoPlayerOne;
 	static GridPane gameInfoPlayerTwo;
+
+	private Button quitButton;
 
 
 	public Controller() {
@@ -94,6 +97,11 @@ public class Controller {
 
 		root.getChildren().add(imageView);
 		root.getChildren().add(parent);
+
+		this.quitButton = new Button("Geef op");
+		this.quitButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: #000000; -fx-text-fill: #ffffff");
+		parent.add(this.quitButton, 1, 1);
+
 		parent.add(gameInfoPlayerOne, 0, 0);
 		parent.add(gameView, 1, 0);
 		parent.add(gameInfoPlayerTwo, 2, 0);
@@ -218,5 +226,9 @@ public class Controller {
 			((Text)((HBox)gameInfoPlayerTwo.getChildren().get(2)).getChildren().get(0)).setText(availableMoves);
 		});
 
+	}
+
+	public Button getQuitButton(){
+		return this.quitButton;
 	}
 }
