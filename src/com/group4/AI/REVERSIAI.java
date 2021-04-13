@@ -52,7 +52,7 @@ public class REVERSIAI extends AI {
     public Tile bestMove()
     {
     	List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player);
-
+        options.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
         for (Tile tile : options) {
             HashMap<Integer, Tile> backup = (HashMap<Integer, Tile>) this.gameai.getBoard().getGameBoard().clone();
            this.gameai.makePredictionMove(tile.getIndex(), player);
