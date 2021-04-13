@@ -5,9 +5,7 @@ import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 /***
  * @author AnnePierMerkus
@@ -46,7 +44,7 @@ public class REVERSIAI extends AI {
         //int score = minimax(this.gameai.getBoard(), false, 2);
        //this.gameai.getGame().getGameProperty().getAvailableOptions(player).parallelStream().forEach(tile -> {
     	List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player);
-    	
+
         for (Tile tile : options) {
             if (tile.getWeight() == 20) {
                 return tile;

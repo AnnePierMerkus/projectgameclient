@@ -28,6 +28,7 @@ import java.util.Map;
 
 /***
  * Default Controller
+ * @author Anne Pier Merkus & Gemar Koning
  */
 public class Controller {
 
