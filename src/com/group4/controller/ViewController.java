@@ -21,6 +21,7 @@ import java.util.Map;
  */
 public class ViewController extends Controller {
     boolean online = false;
+    int depth;
 
     GameController.Difficulty gameDifficulty;
     GameController.GameType gameType;
@@ -173,7 +174,7 @@ public class ViewController extends Controller {
         }
         else
         {
-            Scene scene = new Scene(fillInBoard(gameType, new SingleplayerGameController(), false));
+            Scene scene = new Scene(fillInBoard(gameType, new SingleplayerGameController(gameDifficulty), false));
             stage.setScene(scene);
         }
     }

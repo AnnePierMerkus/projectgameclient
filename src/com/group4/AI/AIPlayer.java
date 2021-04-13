@@ -25,7 +25,20 @@ public class AIPlayer extends Player {
     private void instantiate(final String className, @SuppressWarnings("rawtypes") final Class type, GameType gameType) {
     	try {
     		this.ai = (AI) type.cast(Class.forName(className).newInstance());
-    		this.ai.setAIType(this.gameOptions, gameType, 5);
+    		switch (this.gameOptions.getDifficulty())
+			{
+				case EASY:
+					this.ai.setAIType(this.gameOptions, gameType, 0);
+					break;
+				case MEDIUM:
+				default:
+					this.ai.setAIType(this.gameOptions, gameType, 2);
+					break;
+				case HARD:
+					this.ai.setAIType(this.gameOptions, gameType, 5);
+					break;
+			}
+
         } catch (InstantiationException
                 | IllegalAccessException
                 | ClassNotFoundException e) {

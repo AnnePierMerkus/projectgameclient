@@ -32,10 +32,10 @@ public class TICTACTOEAI extends AI {
            	int score = minimax(this.gameai.getBoard(), false);
 			System.out.println(score);
 			tile.reset();
-           //if (score > bestScore) {
-             //  bestScore = score;
+           if (score > bestScore) {
+               bestScore = score;
 			move = tile;
-           //}
+           }
 		}
 
 		return move;

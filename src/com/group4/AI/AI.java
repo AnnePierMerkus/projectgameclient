@@ -13,6 +13,7 @@ public abstract class AI {
 	GameAI gameai;
 
 	int depth;
+
 	public void updateBoardFromGame() {
 		
 	}
@@ -22,8 +23,10 @@ public abstract class AI {
 		this.gameai = new GameAI(gameType);
 		this.gameai.setGameOptions(gameOptions);
 		this.gameai.updateFromGame();
+
+		System.out.println(depth);
 	}
-	
+
     public abstract Tile makeMove(List<Tile> availableOptions);
     
 }

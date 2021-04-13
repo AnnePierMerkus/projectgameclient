@@ -98,7 +98,7 @@ public class Controller {
 		parent.add(gameInfoPlayerTwo, 2, 0);
 
 		if (!multiplayer)
-			gameController.createGame(GameController.Difficulty.EASY, gameType);
+			gameController.createGame(gameType);
 
 		//set first turn
 		if (gameInfoPlayerOne != null && gameInfoPlayerTwo != null){

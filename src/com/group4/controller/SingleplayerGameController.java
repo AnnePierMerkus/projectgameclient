@@ -12,8 +12,10 @@ import com.group4.util.PlayerList;
  */
 public class SingleplayerGameController extends GameController {
 
-	public SingleplayerGameController() {
+	Difficulty difficulty;
+	public SingleplayerGameController(Difficulty difficulty) {
 		super();
+		this.difficulty = difficulty;
 		PlayerList.addPlayer(new Player("p1"));
 		PlayerList.addPlayer(new AIPlayer("p2"));
 		PlayerList.players.values().forEach((p) -> p.registerObserver(this.playerObserver));
@@ -21,7 +23,7 @@ public class SingleplayerGameController extends GameController {
 	
 	@Override
 	void createGame(GameType gameType) { // We need this method for Multiplayer stuff, but it still needs to be implemented here
-		this.game = new GameOptions(Difficulty.MEDIUM, gameType);
+		this.game = new GameOptions(difficulty, gameType);
 		for(Player p : PlayerList.players.values()) {
 			if(p instanceof AIPlayer) {
 				((AIPlayer) p).setGameOptions(this.game);
