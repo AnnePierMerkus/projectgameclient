@@ -541,6 +541,16 @@ public class MultiplayerController extends Controller{
             }
 
             if (this.AI != null){
+                //if AI differs for some reason from challenge make the right type AI
+                if (!((MyToggleButton)this.GameGroup.getSelectedToggle()).getText().equals(messageToMap.get("GAMETYPE"))){
+                    System.out.println("Challenge differs from enabled AI type Creating new AI");
+                    try{
+                        this.createAI(messageToMap.get("GAMETYPE"));
+                    }catch (Exception e){
+                        System.out.println("Ai could not be created: " + e);
+                    }
+                }
+
                 //set ai type
                 this.AI.setAIType(this.multiplayerGameController.game, this.multiplayerGameController.game.getGameType(), AIDepth.getText().length() > 0 ? Integer.parseInt(AIDepth.getText()) : 5);
             }
