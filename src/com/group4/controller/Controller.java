@@ -241,6 +241,13 @@ public class Controller {
 	 */
 	public void setAvailableMovesPlayer1(String availableMoves){
 		Platform.runLater(() -> {
+			if ((int)availableMoves.charAt(availableMoves.length() - 1) == 0)
+			{
+				gameInfoPlayerOne.getChildren().get(4).setVisible(true);
+			}else{
+				gameInfoPlayerOne.getChildren().get(4).setVisible(false);
+			}
+			System.out.println((int)availableMoves.charAt(availableMoves.length() - 1));
 			((Text)((HBox)gameInfoPlayerOne.getChildren().get(2)).getChildren().get(0)).setText(availableMoves);
 		});
 	}
@@ -253,6 +260,12 @@ public class Controller {
 	 */
 	public void setAvailableMovesPlayer2(String availableMoves){
 		Platform.runLater(() -> {
+			if ((int)availableMoves.charAt(availableMoves.length() - 1) == 0)
+			{
+				gameInfoPlayerTwo.getChildren().get(4).setVisible(true);
+			}else{
+				gameInfoPlayerTwo.getChildren().get(4).setVisible(false);
+			}
 			((Text)((HBox)gameInfoPlayerTwo.getChildren().get(2)).getChildren().get(0)).setText(availableMoves);
 		});
 

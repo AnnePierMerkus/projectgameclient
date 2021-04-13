@@ -15,24 +15,46 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+/**
+ * @author GRTerpstra & Anne Pier Merkus
+ */
 public class Tile extends StackPane implements Observable {
-	
+	/**
+	 * Index of the tile on the board.
+	 */
 	private int index;
 
+	/**
+	 * Weight of this tile depending on the position on the board.
+	 */
 	private int weight = 0;
 
+	/**
+	 * Player occupying this tile.
+	 */
 	private Player playerOnTile = null;
-	
+
+	/**
+	 * List of observers to call when the occupant of the tile changes.
+	 */
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
 
+	/**
+	 * Circle in black or white on the Reversi board.
+	 */
 	Circle circle;
+
+	/**
+	 * X/O on a tile when playing Tic_tac_toe
+	 */
 	Text text;
 	
 	/***
-	 * Make a new Tile
+	 * Make a new Tile and set the relevant values.
 	 * 
-	 * @param index
-	 * @author GRTerpstra
+	 * @param index index of this tile.
+	 * @param weight weight for this tile
+	 * @author GRTerpstra & Anne Pier Merkus
 	 */
 	public Tile(int index, int weight) {
 		this.index = index;
@@ -137,16 +159,27 @@ public class Tile extends StackPane implements Observable {
 		return (this.playerOnTile != null);
 	}
 
+	/**
+	 * Register observers for this Tile.
+	 * @param observer Observer to be added.
+	 */
 	@Override
 	public void registerObserver(Observer observer) {
 		this.observers.add(observer);
 	}
 
+	/**
+	 * Remove observers from this Tile.
+	 * @param observer Observer to be removed.
+	 */
 	@Override
 	public void removeObserver(Observer observer) {
 		this.observers.remove(observer);
 	}
 
+	/**
+	 * Notifying all the observers when the occupant changes.
+	 */
 	@Override
 	public void notifyObservers() {
 		this.observers.forEach((o) -> o.update(this));
