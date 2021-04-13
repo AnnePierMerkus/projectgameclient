@@ -246,6 +246,11 @@ public class Controller {
 
 	}
 
+	/**
+	 * Returns the game quit button
+	 *
+	 * @return the game quit button
+	 */
 	public Button getQuitButton(){
 		return this.quitButton;
 	}
