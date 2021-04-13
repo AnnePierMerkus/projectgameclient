@@ -6,10 +6,6 @@ import com.group4.util.Player.PlayerState;
 import com.group4.util.PlayerList;
 import com.group4.util.observers.PlayerObserver;
 import javafx.application.Platform;
-import javafx.stage.Stage;
-import javafx.stage.Window;
-
-import java.util.List;
 
 public abstract class GameController extends Controller {
 	
@@ -27,6 +23,11 @@ public abstract class GameController extends Controller {
 	// The game that is currently going on
 	protected GameOptions game = null;
 	
+	/***
+	 * The GameController is the base class for all GameControllers, multi- and single-player
+	 * 
+	 * @author mobieljoy12
+	 */
 	protected GameController() {
 		super();
 	}

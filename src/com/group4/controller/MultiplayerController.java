@@ -3,9 +3,7 @@ package com.group4.controller;
 import com.group4.AI.AI;
 import com.group4.games.REVERSI;
 import com.group4.model.Challenge;
-import com.group4.model.GameOptions;
 import com.group4.util.Player;
-import com.group4.util.Player.PlayerState;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
 import com.group4.util.network.Client;
@@ -31,8 +29,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 /**
  * Multiplayer Controller for controlling multiplayer view and network player
@@ -309,7 +305,6 @@ public class MultiplayerController extends Controller{
      * @param event
      */
     public void subscribe(ActionEvent event){
-        ToggleButton join_lobby_btn = (ToggleButton) event.getSource();
 
         ToggleButton selected_game_btn = (ToggleButton) this.GameGroup.getSelectedToggle();
 
@@ -361,7 +356,8 @@ public class MultiplayerController extends Controller{
      * @return new AI
      * @throws Exception
      */
-    public AI createAI(String type) throws Exception {
+    @SuppressWarnings("deprecation")
+	public AI createAI(String type) throws Exception {
         return (AI) Class.forName("com.group4.AI." + type.replace("-", "").toUpperCase() + "AI").newInstance();
     }
 
@@ -504,9 +500,6 @@ public class MultiplayerController extends Controller{
             	Tile aiMove = this.AI.makeMove(this.networkPlayer.getAvailableOptions());
                 if(aiMove != null) {
                 	this.networkPlayer.makeMove(aiMove);
-                }else {
-                	//TODO - What to do with no more moves?
-                	System.out.println("No more moves :)");
                 }
             }
         }

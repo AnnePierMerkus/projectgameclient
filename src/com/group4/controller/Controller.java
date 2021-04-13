@@ -1,29 +1,24 @@
 package com.group4.controller;
 
-import com.group4.util.Player;
 import com.group4.util.Tile;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -41,11 +36,6 @@ public class Controller {
 	static GridPane gameInfoPlayerTwo;
 
 	private Button quitButton;
-
-
-	public Controller() {
-		// TODO - Initialize
-	}
 
 	/**
 	 * Swap the current scene and set the current controller
@@ -77,8 +67,8 @@ public class Controller {
 		GridPane gameView = new GridPane();
 
 		try {
-			this.gameInfoPlayerOne = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
-			this.gameInfoPlayerTwo = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
+			Controller.gameInfoPlayerOne = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
+			Controller.gameInfoPlayerTwo = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

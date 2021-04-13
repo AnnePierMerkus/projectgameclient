@@ -5,15 +5,16 @@ import com.group4.model.GameOptions;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
 
-/***
- * SingleplayerGameController controls the game for singleplayer matches
- * 
- * @author mobieljoy12
- */
 public class SingleplayerGameController extends GameController {
 
 	Difficulty difficulty;
 	
+	/***
+	 * SingleplayerGameController controls the game for Single-player matches
+	 * 
+	 * @param difficulty - The Difficulty to play at
+	 * @author mobieljoy12
+	 */
 	public SingleplayerGameController(Difficulty difficulty) {
 		
 		super();
@@ -51,7 +52,6 @@ public class SingleplayerGameController extends GameController {
 	
 	@Override
 	public void endGame() {
-		//TODO - Swap scene to end game screen or home menu
 		this.game = null;
 	}
 
