@@ -63,10 +63,13 @@ public abstract class GameController extends Controller {
 					//go to GameOverScreen
 					this.swap(stage, "EndGame.fxml");
 					GameOverController gameOverController = (GameOverController) this.getCurrentController();
-
-					if (game.getGameProperty().getPlayerWon().getId() == "p1"){
+					if (this.game.getGameProperty().getPlayerWon() == null)
+					{
+						gameOverController.getResultText().setText("Gelijk Spel!");
+					}
+					else if (game.getGameProperty().getPlayerWon().getId().equals("p1")){
 						gameOverController.getResultText().setText("Je Hebt Gewonnen!");
-					}else if (game.getGameProperty().getPlayerWon().getId() == "p2"){
+					}else if (game.getGameProperty().getPlayerWon().getId().equals("p2")){
 						gameOverController.getResultText().setText("Je Hebt verloren :(");
 					}else {
 						gameOverController.getResultText().setText("Gelijk Spel!");

@@ -6,6 +6,7 @@ import com.group4.util.PlayerList;
 import com.group4.util.Tile;
 
 import java.util.List;
+import java.util.Random;
 
 /***
  * @author AnnePierMerkus
@@ -28,21 +29,24 @@ public class REVERSIAI extends AI {
         player = PlayerList.getPlayer(gameai.getGame().getPlayerTurn());
         otherPlayer = PlayerList.getOtherPlayer(gameai.getGame().getPlayerTurn());
         //return availableOptions.get(0);
-        Tile bestMove = bestMove();
-        
-        return bestMove;
-
-        //availableOptions.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
-        //System.out.println(availableOptions.get(0).getWeight());
-        //return availableOptions.get(0);
+        if (this.depth == 0) {
+            Random random = new Random();
+            int rand = random.nextInt(availableOptions.size());
+            return availableOptions.get(rand);
+        } else if (this.depth <= 2) {
+            availableOptions.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
+            return availableOptions.get(0);
+        } else {
+            return bestMove();
+        }
     }
 
+    /**
+     * Make a move for the Ai and then start minimax to find the best move.
+     * @return the best move for the Ai.
+     */
     public Tile bestMove()
     {
-        //this.gameai.makePredictionMove(this.gameai.getGameProperty().getAvailableOptions(player).get(0).getIndex(), player);
-        //System.out.println(this.gameai.getGameProperty().getAvailableOptions(otherPlayer).size());
-        //int score = minimax(this.gameai.getBoard(), false, 2);
-       //this.gameai.getGame().getGameProperty().getAvailableOptions(player).parallelStream().forEach(tile -> {
     	List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player);
 
         for (Tile tile : options) {
@@ -69,12 +73,17 @@ public class REVERSIAI extends AI {
         return move;
     }
 
-    int f = 0;
-    int loop1 = 0;
-    int loop2 = 0;
+    /**
+     *
+     * @param board
+     * @param maximizing
+     * @param depth
+     * @param alpha
+     * @param beta
+     * @return
+     */
     public int minimax(Board board, boolean maximizing, int depth, int alpha, int beta)
     {
-        f++;
         if (depth == 0 || gameai.getGameProperty().gameHasEnded()) {
             return board.getScore(player);
         }
@@ -82,7 +91,6 @@ public class REVERSIAI extends AI {
         if (maximizing) {
             int score = Integer.MIN_VALUE;
             for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(player)) {
-                loop1++;
                 gameai.makePredictionMove(tile.getIndex(), player);
                 score = Math.max(score, minimax(board, false, depth - 1, alpha, beta));
                 this.gameai.getBoard().revert(1);
@@ -95,7 +103,6 @@ public class REVERSIAI extends AI {
         else {
             int score = Integer.MAX_VALUE;;
             for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(otherPlayer)) {
-                loop2++;
                 gameai.makePredictionMove(tile.getIndex(), otherPlayer);
                 score = Math.min(score, minimax(board, true, depth - 1, alpha, beta));
                 this.gameai.getBoard().revert(1);
