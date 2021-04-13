@@ -358,7 +358,7 @@ public class MultiplayerController extends Controller{
     /**
      * Add players to view with observer
      *
-     * @author Anne Pier / Gemar Koning
+     * @author Anne Pier & Gemar Koning
      *
      * @param object client object
      */

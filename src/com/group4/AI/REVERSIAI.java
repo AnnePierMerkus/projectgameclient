@@ -46,7 +46,7 @@ public class REVERSIAI extends AI {
         //int score = minimax(this.gameai.getBoard(), false, 2);
        //this.gameai.getGame().getGameProperty().getAvailableOptions(player).parallelStream().forEach(tile -> {
     	List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player);
-    	
+
         for (Tile tile : options) {
             if (tile.getWeight() == 20) {
                 return tile;

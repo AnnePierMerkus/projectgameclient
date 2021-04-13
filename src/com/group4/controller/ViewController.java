@@ -16,12 +16,18 @@ import javafx.stage.Stage;
 import java.util.Iterator;
 import java.util.Map;
 
-
+/**
+ * @author Anne Pier Merkus
+ */
 public class ViewController extends Controller {
     boolean online = false;
 
     GameController.Difficulty gameDifficulty;
     GameController.GameType gameType;
+
+    /**
+     * The following variables are all declared and created in fxml files to control the views.
+     */
 
     @FXML
     GridPane difficulty;
@@ -46,6 +52,10 @@ public class ViewController extends Controller {
         start.setDisable(true);
     }
 
+    /**
+     * Quit the game.
+     * @param event
+     */
     @FXML
     protected void quit(ActionEvent event)
     {
@@ -83,18 +93,30 @@ public class ViewController extends Controller {
         online = true;
     }
 
+    /**
+     * Select tic_tac_toe game mode.
+     * @param event
+     */
     @FXML
     protected void tic_tac_toe(ActionEvent event)
     {
         selectGame(GameController.GameType.TICTACTOE);
     }
 
+    /**
+     * Select Reversi game mode.
+     * @param event
+     */
     @FXML
     protected void reversi(ActionEvent event)
     {
         selectGame(GameController.GameType.REVERSI);
     }
 
+    /**
+     * General game options preventing double code.
+     * @param gameType
+     */
     private void selectGame(GameController.GameType gameType)
     {
         this.gameType = gameType;
@@ -133,6 +155,11 @@ public class ViewController extends Controller {
         gameDifficulty = GameController.Difficulty.HARD;
     }
 
+    /**
+     * Play button is pressed and creating the game view.
+     * @param event
+     * @throws Exception
+     */
     @FXML void start(ActionEvent event) throws Exception {
         Stage stage = (Stage) start.getScene().getWindow();
 
