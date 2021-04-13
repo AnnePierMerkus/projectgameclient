@@ -5,8 +5,6 @@ import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.network.NetworkPlayer;
 import com.group4.util.network.NetworkPlayerStates.InMatchNoTurnState;
-import com.group4.view.MyToggleButton;
-import javafx.fxml.FXML;
 
 /**
  * Multiplayer game controller for creating multiplayer game
@@ -31,16 +29,31 @@ public class MultiplayerGameController extends GameController{
         ((NetworkPlayer) PlayerList.getPlayer("p1")).setState(new InMatchNoTurnState());
     }
 
+    /**
+     * Create a new game without difficulty
+     *
+     * (online doesn't have a difficulty)
+     *
+     * @param difficulty
+     * @param gameType
+     */
     @Override
     void createGame(Difficulty difficulty, GameType gameType) {
         this.createGame(gameType);
     }
 
+    /**
+     * End the current game
+     */
     @Override
     void endGame() {
         PlayerList.cleanUp();
     }
 
+    /**
+     * Set the game starting player
+     * @param player
+     */
     public void setStartingPlayer(Player player){
         this.startingPlayer = player;
     }

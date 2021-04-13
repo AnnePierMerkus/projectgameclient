@@ -135,6 +135,11 @@ public class Controller {
 		return root;
 	}
 
+	/**
+	 * Get the current controller that is controlling the view
+	 *
+	 * @return Controller
+	 */
 	public Controller getCurrentController(){
 		return this.CurrentController;
 	}

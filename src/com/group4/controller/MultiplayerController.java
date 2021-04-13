@@ -103,6 +103,11 @@ public class MultiplayerController extends Controller{
 
     private MultiplayerGameController multiplayerGameController;
 
+    /**
+     * Start the multiplayer controller and set the necessary variables
+     *
+     * @param client Client connected to server
+     */
     public void start(Client client){
         this.multiplayerGameController = new MultiplayerGameController();
 
@@ -174,6 +179,11 @@ public class MultiplayerController extends Controller{
         resetAI();
     }
 
+    /**
+     * Challenge online player selected from player list
+     *
+     * @param event Action event
+     */
     @FXML
     protected void challenge(ActionEvent event)
     {
@@ -197,6 +207,12 @@ public class MultiplayerController extends Controller{
         challenge_btn.setSelected(false);
     }
 
+    /**
+     * Get all online connected players
+     *
+     * @param event Action event
+     * @throws Exception
+     */
     @FXML
     protected void queue(ActionEvent event) throws Exception
     {
@@ -206,6 +222,11 @@ public class MultiplayerController extends Controller{
         this.networkPlayer.getOnlinePlayers();
     }
 
+    /**
+     * Show active players
+     *
+     * @param show
+     */
     private void showPlayers(boolean show)
     {
         findPlayers.setSelected(false);
@@ -214,11 +235,19 @@ public class MultiplayerController extends Controller{
         onlinePlayers.setVisible(show);
     }
 
+    /**
+     * Show AI button and depth field
+     *
+     * @param show boolean
+     */
     private void showAI(boolean show){
         this.AIBtn.setVisible(show);
         this.AIDepth.setVisible(show);
     }
 
+    /**
+     * Reset the AI button and depth textfield
+     */
     private void resetAI(){
         this.AIDepth.clear();
         this.AIDepth.setDisable(false);
@@ -226,11 +255,17 @@ public class MultiplayerController extends Controller{
         this.AIBtn.setText("Enable AI");
     }
 
-    //clear all players from screen
+    /**
+     * clear all players from screen
+     */
     public void clearPlayerView(){
         this.playersGrid.getChildren().clear();
     }
 
+    /**
+     * Call login on enter press
+     * @param event
+     */
     @FXML
     protected void loginEnter(KeyEvent event)
     {
@@ -238,7 +273,11 @@ public class MultiplayerController extends Controller{
             login(null);
     }
 
-    //log the player into the multiplayer server and set username
+    /**
+     * log the player into the multiplayer server and set username
+     *
+     * @param event
+     */
     @FXML
     public void login(ActionEvent event){
         if (client != null){
@@ -256,12 +295,18 @@ public class MultiplayerController extends Controller{
         this.connect.setSelected(false);
     }
 
-    //logout from server
+    /**
+     * logout from server
+     */
     public void logout(){
         this.networkPlayer.logout();
     }
 
-    //subscribe to game type
+    /**
+     * subscribe to game type
+     *
+     * @param event
+     */
     public void subscribe(ActionEvent event){
         ToggleButton join_lobby_btn = (ToggleButton) event.getSource();
 
