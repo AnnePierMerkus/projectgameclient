@@ -35,8 +35,8 @@ public class Controller {
 
 	private Controller CurrentController;
 
-	GridPane gameInfoPlayerOne;
-	GridPane gameInfoPlayerTwo;
+	static GridPane gameInfoPlayerOne;
+	static GridPane gameInfoPlayerTwo;
 
 
 	public Controller() {
@@ -72,8 +72,8 @@ public class Controller {
 		GridPane gameView = new GridPane();
 
 		try {
-			gameInfoPlayerOne = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
-			gameInfoPlayerTwo = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
+			this.gameInfoPlayerOne = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
+			this.gameInfoPlayerTwo = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -145,6 +145,7 @@ public class Controller {
 	}
 
 	public void toggleTurnImage(){
+		System.out.println(gameInfoPlayerOne);
 		if (gameInfoPlayerOne != null && gameInfoPlayerTwo != null){
 			ImageView turnImagePlayerOne = (ImageView) gameInfoPlayerOne.getChildren().get(3);
 			ImageView turnImagePlayerTwo = (ImageView) gameInfoPlayerTwo.getChildren().get(3);
