@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
  * @author Gemar Koning
  */
 public class GameOverController extends Controller{
+	
     @FXML
     private Text result;
 
@@ -23,9 +24,10 @@ public class GameOverController extends Controller{
     private Button quitBtn;
 
     /**
-     * get quit button from view
+     * Get quit button from view
      *
      * @return quit button
+     * @author Gemar Koning
      */
     public Button getQuitBtn(){
         return this.quitBtn;
@@ -35,6 +37,7 @@ public class GameOverController extends Controller{
      * Get result Text
      *
      * @return result Text
+     * @author Gemar Koning
      */
     public Text getResultText(){
         return this.result;
@@ -44,15 +47,17 @@ public class GameOverController extends Controller{
      * Get score player one
      *
      * @return text score player one
+     * @author Gemar Koning
      */
     public Text getScorePlayer1Text(){
         return this.scorePlayer1;
     }
 
     /**
-     * get score player two
+     * Get score player two
      *
      * @return text score player two
+     * @author Gemar Koning
      */
     public Text getScorePlayer2Text(){
         return this.scorePlayer2;
@@ -62,6 +67,7 @@ public class GameOverController extends Controller{
      * Set the scores from player 1 and 2 visibility
      *
      * @param value visibility
+     * @author Gemar Koning
      */
     public void setScoreVisibility(boolean value){
         this.getScorePlayer1Text().setVisible(value);

@@ -30,6 +30,7 @@ public class Board {
 	
 	/**
 	 * Method that creates a new board which size is defined by the given height and width.
+	 * 
 	 * @param height the number of rows the board has to contain.
 	 * @param width the number of columns the board has to contain.
 	 * @author GRTerpstra
@@ -75,6 +76,7 @@ public class Board {
 	 * Get the current filledTiles HashMap
 	 * 
 	 * @return HashMap<String, HashMap<Integer, Tile>> - filledTiles
+	 * @author mobieljoy12
 	 */
 	public HashMap<String, HashMap<Integer, Tile>> getFilledTiles(){
 		return this.filledTiles;
@@ -84,6 +86,7 @@ public class Board {
 	 * Get the current previousBoard HashMap
 	 * 
 	 * @return HashMap<Integer, HashMap<Integer, Tile>> - previousBoard
+	 * @author mobieljoy12
 	 */
 	public HashMap<Integer, HashMap<Integer, Tile>> getPreviousBoard(){
 		return this.previousBoard;
@@ -93,6 +96,7 @@ public class Board {
 	 * Set the moveCounter to a given value
 	 * 
 	 * @param newCount - New value
+	 * @author mobieljoy12
 	 */
 	public void setMoveCounter(int newCount) {
 		this.moveCounter = newCount;
@@ -100,6 +104,7 @@ public class Board {
 
 	/**
 	 * Method that clears all settings of the board.
+	 * 
 	 * @author GRTerpstra
 	 */
 	public void reset() {
@@ -142,6 +147,7 @@ public class Board {
 	 * @param moveCount - The move to save the tile to
 	 * @param tile - The Tile to save
 	 * @param player - The Player to put on the Tile
+	 * @author mobieljoy12
 	 */
 	public void savePrevious(int moveCount, Tile tile, Player player) {
 		if(!this.previousBoard.containsKey(moveCount)) this.previousBoard.put(moveCount, new HashMap<Integer, Tile>());
@@ -185,22 +191,9 @@ public class Board {
 		}
 	}
 
-	/*@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < getHeight(); i++) {
-			for (int j = 0; j < getWidth(); j++) {
-				if (gameBoard.get(i * j).getOccupant() != null) {
-					builder.append("[").append(gameBoard.get(i * j).getOccupant().getId()).append("]");
-				}
-			}
-			builder.append("\n");
-		}
-		return builder.toString();
-	}
-*/
 	/**
 	 * Method that returns the gameboard which consists of an ArrayList of tiles.
+	 * 
 	 * @return ArrayList<Tile> t the gameboard.
 	 * @author GRTerpstra
 	 */
@@ -210,6 +203,7 @@ public class Board {
 
 	/**
 	 * Method that returns the height aka number of rows of the board.
+	 * 
 	 * @return int - the height of the board.
 	 * @author GRTerpstra
 	 */
@@ -219,6 +213,7 @@ public class Board {
 
 	/**
 	 * Method that returns the width aka number of columns of the board.
+	 * 
 	 * @return int - the width of the board.
 	 * @author GRTerpstra
 	 */
@@ -228,6 +223,8 @@ public class Board {
 
 	/***
 	 * Reset the whole filledTiles HashMap
+	 * 
+	 * @author mobieljoy12
 	 */
 	public void resetFilledTiles() {
 		this.filledTiles.put("p1", new HashMap<Integer, Tile>());
@@ -239,6 +236,7 @@ public class Board {
 	 *
 	 * @param player - The Player to add it to
 	 * @param tile - The Tile to add
+	 * @author mobieljoy12
 	 */
 	public void addFilledTile(Player player, Tile tile) {
 		String otherPlayerId = PlayerList.getOtherPlayer(player.getId()).getId();
@@ -268,6 +266,7 @@ public class Board {
 	 * Get scores of all players
 	 *
 	 * @return HashMap<Player, Integer> - Hashmap holding scores per player
+	 * @author mobieljoy12
 	 */
 	public HashMap<String, Integer> getScores(){
 		HashMap<String, Integer> tempScores = new HashMap<String, Integer>(); // New HashMap
@@ -282,6 +281,7 @@ public class Board {
 	 *
 	 * @param player - The player for which you want the score
 	 * @return int - Score in tiles
+	 * @author mobieljoy12
 	 */
 	public int getScore(Player player) {
 		return this.filledTiles.get(player.getId()).size();

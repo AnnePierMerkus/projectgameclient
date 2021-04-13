@@ -24,6 +24,7 @@ import java.util.Map;
 
 /***
  * Default Controller
+ * 
  * @author Anne Pier Merkus & Gemar Koning
  */
 public class Controller {
@@ -42,6 +43,7 @@ public class Controller {
 	 *
 	 * @param stage
 	 * @param resource
+	 * @author Gemar Koning
 	 */
 	public void swap(Stage stage, String resource){
 		try{
@@ -61,6 +63,15 @@ public class Controller {
 		}
 	}
 
+	/***
+	 * Creates the gameview
+	 * 
+	 * @param gameType - The type of game to create the gameview for
+	 * @param gameController - The controller currently in charge of the game
+	 * @param multiplayer - Whether it is multiplayer or not
+	 * @return StackPane - The Stackpane to add to the window
+	 * @author Anne Pier Merkus
+	 */
 	public StackPane fillInBoard(GameController.GameType gameType, GameController gameController, boolean multiplayer) {
 		StackPane root = new StackPane();
 		GridPane parent = new GridPane();
@@ -157,11 +168,17 @@ public class Controller {
 	 * Get the current controller that is controlling the view
 	 *
 	 * @return Controller
+	 * @author Gemar Koning
 	 */
 	public Controller getCurrentController(){
 		return this.CurrentController;
 	}
 
+	/***
+	 * Toggles the image that shows who has the turn to the right player
+	 * 
+	 * @author Gemar Koning
+	 */
 	public void toggleTurnImage(){
 		System.out.println(gameInfoPlayerOne);
 		if (gameInfoPlayerOne != null && gameInfoPlayerTwo != null){
@@ -178,6 +195,7 @@ public class Controller {
 	 * Set the player turn image
 	 *
 	 * @param player the player who has the turn
+	 * @author Gemar Koning
 	 */
 	public void setTurnImage(String player){
 		Platform.runLater(() -> {
@@ -195,6 +213,7 @@ public class Controller {
 	 * Set the available score for player 1
 	 *
 	 * @param score current score of player
+	 * @author Gemar Koning
 	 */
 	public void setScorePlayer1(String score){
 		Platform.runLater(() -> {
@@ -206,6 +225,7 @@ public class Controller {
 	 * Set the available score for player 2
 	 *
 	 * @param score current score of player
+	 * @author Gemar Koning
 	 */
 	public void setScorePlayer2(String score){
 		Platform.runLater(() -> {
@@ -217,6 +237,7 @@ public class Controller {
 	 * set The available moves for player 1 on screen
 	 *
 	 * @param availableMoves amount of available moves for player
+	 * @author Gemar Koning
 	 */
 	public void setAvailableMovesPlayer1(String availableMoves){
 		Platform.runLater(() -> {
@@ -228,6 +249,7 @@ public class Controller {
 	 * set The available moves for player 2 on screen
 	 *
 	 * @param availableMoves amount of available moves for player
+	 * @author Gemar Koning
 	 */
 	public void setAvailableMovesPlayer2(String availableMoves){
 		Platform.runLater(() -> {
@@ -240,6 +262,7 @@ public class Controller {
 	 * Returns the game quit button
 	 *
 	 * @return the game quit button
+	 * @author Gemar Koning
 	 */
 	public Button getQuitButton(){
 		return this.quitButton;

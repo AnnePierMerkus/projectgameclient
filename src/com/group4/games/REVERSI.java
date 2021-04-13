@@ -61,6 +61,7 @@ public class REVERSI extends GameProperty {
 	/**
 	 * The constructor of the REVERSI class.
 	 * This constructor instantiates the display names for the players.
+	 * 
 	 * @author mobieljoy12.
 	 */
 	public REVERSI() {
@@ -147,6 +148,7 @@ public class REVERSI extends GameProperty {
 
 	/**
 	 * The getAvailableOptions method calculates all the moves the given player can make.
+	 * 
 	 * @param player - The player whose available moves should be calculates.
 	 * @return ArrayList<Tile> - List of available moves.
 	 * @author GRTerpstra.
@@ -194,6 +196,7 @@ public class REVERSI extends GameProperty {
 
 	/**
 	 * The swapTiles method changes the occupant of the tiles that should change after the last move.
+	 * 
 	 * @param tile - the tile on which the last move was made.
 	 * @param player - the Player who made the last move.
 	 * @author GRTerpstra.
@@ -237,7 +240,8 @@ public class REVERSI extends GameProperty {
 	}
 
 	/**
-	 * the makeMove method implements all the changes made to the board after checking if the move is legal.
+	 * The makeMove method implements all the changes made to the board after checking if the move is legal.
+	 * 
 	 * @param tile - The tile on which the move should be made.
 	 * @param player - the player who makes the move.
 	 * @return boolean - true if the move has been made, false otherwise.
@@ -258,7 +262,8 @@ public class REVERSI extends GameProperty {
 	}
 
 	/**
-	 * the isLegalMove method checks if the move that is about to happen is legal.
+	 * The isLegalMove method checks if the move that is about to happen is legal.
+	 * 
 	 * @param tile - The tile on which the move should be made.
 	 * @param player - the player who makes the move.
 	 * @return boolean - true if the move is legal, false otherwise.
@@ -278,7 +283,8 @@ public class REVERSI extends GameProperty {
 	}
 
 	/**
-	 * the gameHasEnded method checks if the current game should terminate.
+	 * The gameHasEnded method checks if the current game should terminate.
+	 * 
 	 * @return boolean - true if the game should end, false otherwise.
 	 * @author mobieljoy12.
 	 */
@@ -302,7 +308,8 @@ public class REVERSI extends GameProperty {
 	}
 
 	/**
-	 * the getPlayerWon method checks and returns the player who has won the game.
+	 * The getPlayerWon method checks and returns the player who has won the game.
+	 * 
 	 * @return Player - the player who has won the game.
 	 * @author mobieljoy12.
 	 */

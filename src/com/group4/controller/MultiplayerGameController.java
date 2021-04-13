@@ -25,14 +25,14 @@ public class MultiplayerGameController extends GameController{
             p.setGameProperty(this.game.getGameProperty());
         }
 
-        //set player state
+        // Set player state
         ((NetworkPlayer) PlayerList.getPlayer("p1")).setState(new InMatchNoTurnState());
     }
 
     /**
      * Create a new game without difficulty
      *
-     * (online doesn't have a difficulty)
+     * (Online doesn't have a difficulty)
      *
      * @param difficulty
      * @param gameType
@@ -52,7 +52,9 @@ public class MultiplayerGameController extends GameController{
 
     /**
      * Set the game starting player
+     * 
      * @param player
+     * @author Gemar Koning
      */
     public void setStartingPlayer(Player player){
         this.startingPlayer = player;

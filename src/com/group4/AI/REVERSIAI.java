@@ -10,10 +10,19 @@ import java.util.Random;
 
 public class REVERSIAI extends AI {
 
+	// The player the AI controls
     Player player;
+    
+    // The player not controller by the AI
     Player otherPlayer;
+    
+    // The maximun score possible
     int bestScore = Integer.MIN_VALUE;
+    
+    // The move just made
     Tile move = null;
+    
+    // The move to make
     Tile makeMove = null;
 
     @Override
@@ -39,9 +48,9 @@ public class REVERSIAI extends AI {
     }
 
     /**
-     * Make a move for the Ai and then start minimax to find the best move.
+     * Make a move for the AI and then start Minimax to find the best move.
      * 
-     * @return the best move for the Ai.
+     * @return the best move for the AI.
      * @author AnnePierMerkus
      */
     public Tile bestMove()
@@ -73,13 +82,15 @@ public class REVERSIAI extends AI {
     }
 
     /**
+     * The Minimax AI that will decide the best move to make
      *
-     * @param board
-     * @param maximizing
-     * @param depth
-     * @param alpha
-     * @param beta
-     * @return
+     * @param board - The board to check the moves on
+     * @param maximizing - Whether to get the min or max value
+     * @param depth - Amount of moves the AI looks ahead
+     * @param alpha - Alpha beta pruning
+     * @param beta - Alpha beta pruning
+     * @return amount - The amount of tiles the AI has at the end of the loop
+     * @author AnnePierMerkus
      */
     public int minimax(Board board, boolean maximizing, int depth, int alpha, int beta)
     {

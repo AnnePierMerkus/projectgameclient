@@ -50,7 +50,9 @@ public class ViewController extends Controller {
 
     /**
      * Quit the game.
+     * 
      * @param event
+     * @author Anne Pier Merkus
      */
     @FXML
     protected void quit(ActionEvent event)
@@ -60,7 +62,9 @@ public class ViewController extends Controller {
 
     /**
      * Set mode to local.
+     * 
      * @param event The UI element used to call this function.
+     * @author Anne Pier Merkus
      */
     @FXML
     protected void local(ActionEvent event) {
@@ -73,7 +77,9 @@ public class ViewController extends Controller {
 
     /**
      * Set mode to multiplayer online.
+     * 
      * @param event The UI element used to call this function.
+     * @author Anne Pier Merkus
      */
     @FXML
     protected void online(ActionEvent event) {
@@ -91,7 +97,9 @@ public class ViewController extends Controller {
 
     /**
      * Select tic_tac_toe game mode.
+     * 
      * @param event
+     * @author Anne Pier Merkus
      */
     @FXML
     protected void tic_tac_toe(ActionEvent event)
@@ -101,7 +109,9 @@ public class ViewController extends Controller {
 
     /**
      * Select Reversi game mode.
+     * 
      * @param event
+     * @author Anne Pier Merkus
      */
     @FXML
     protected void reversi(ActionEvent event)
@@ -111,7 +121,9 @@ public class ViewController extends Controller {
 
     /**
      * General game options preventing double code.
+     * 
      * @param gameType
+     * @author Anne Pier Merkus
      */
     private void selectGame(GameController.GameType gameType)
     {
@@ -123,7 +135,9 @@ public class ViewController extends Controller {
 
     /**
      * Set difficult to easy.
+     * 
      * @param event The UI element used to call this function.
+     * @author Anne Pier Merkus
      */
     @FXML
     protected void easy(ActionEvent event) {
@@ -133,7 +147,9 @@ public class ViewController extends Controller {
 
     /**
      * Set difficult to medium.
+     * 
      * @param event The UI element used to call this function.
+     * @author Anne Pier Merkus
      */
     @FXML
     protected void medium(ActionEvent event) {
@@ -143,7 +159,9 @@ public class ViewController extends Controller {
 
     /**
      * Set difficult to hard.
+     * 
      * @param event The UI element used to call this function.
+     * @author Anne Pier Merkus
      */
     @FXML
     protected void hard(ActionEvent event) {
@@ -153,8 +171,10 @@ public class ViewController extends Controller {
 
     /**
      * Play button is pressed and creating the game view.
+     * 
      * @param event
      * @throws Exception
+     * @author Anne Pier Merkus
      */
     @FXML void start(ActionEvent event) throws Exception {
         Stage stage = (Stage) start.getScene().getWindow();

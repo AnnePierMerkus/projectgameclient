@@ -10,8 +10,11 @@ import com.group4.util.Tile;
 
 public class TICTACTOEAI extends AI {
 
-	Player player;
-	Player otherPlayer;
+	// The player the AI controls
+    Player player;
+    
+    // The player not controller by the AI
+    Player otherPlayer;
 
 	@Override
 	public Tile makeMove(List<Tile> availableOptions)
@@ -33,7 +36,9 @@ public class TICTACTOEAI extends AI {
 
 	/**
 	 * Make a move for the Ai and then start minimax to find the best move.
+	 * 
 	 * @return the best move for the Ai.
+	 * @author AnnePierMerkus
 	 */
 	public Tile bestMove(List<Tile> availableOptions){
 
@@ -63,6 +68,14 @@ public class TICTACTOEAI extends AI {
 		return move;
 	}
 
+	/***
+	 * The Minimax AI that will decide the best move to make
+	 * 
+	 * @param board - The board to check the moves on
+	 * @param maximizing - Whether to get the min or max value
+	 * @return won - Whether the AI won, 1 when it wins, -1 when it loses and 0 when it ties
+     * @author AnnePierMerkus
+	 */
 	public int minimax(Board board, boolean maximizing)
 	{
 		if (gameai.getGameProperty().checkGameEnded()) {

@@ -9,7 +9,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
- *Connect Controller responsible for creating and connecting client with server
+ * Connect Controller responsible for creating and connecting client with server
  *
  * @author Gemar Koning
  */
@@ -26,7 +26,9 @@ public class ConnectController extends Controller{
 
     /**
      * Call connect to enter
+     * 
      * @param event
+     * @author Gemar Koning
      */
     public void connectEnter(KeyEvent event){
         if(event.getCode() == KeyCode.ENTER)
@@ -35,6 +37,8 @@ public class ConnectController extends Controller{
 
     /**
      * Connect to the server and create a new Client instance
+     * 
+     * @author Gemar Koning
      */
     public void connectToServer(){
         String ip_adres = this.ipAdres.getText();

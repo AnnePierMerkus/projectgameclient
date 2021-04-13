@@ -9,10 +9,12 @@ import javafx.application.Platform;
 
 public abstract class GameController extends Controller {
 	
+	// The GameTypes possible, a new game should also be added here
 	public enum GameType {
 		TICTACTOE, REVERSI
 	};
 	
+	// The possible difficulties to add to a game
 	public enum Difficulty {
 		EASY, MEDIUM, HARD
 	};
@@ -57,8 +59,6 @@ public abstract class GameController extends Controller {
 			if(!this.game.getGameProperty().gameHasEnded()) {
 				return this.game.toggleTurn();
 			}else {
-				// TODO - Display gameoverscreen once
-				// TODO - Clean up game when it is exited
 
 				Platform.runLater(() -> {
 					//go to GameOverScreen
@@ -96,8 +96,8 @@ public abstract class GameController extends Controller {
 	}
 	
 	/***
-	 * Create a new game with automatic difficulty or multiplayer in mind
-	 * Abstract so the Singeplayer and Multiplayer can have their own implementation
+	 * Create a new game with automatic difficulty or multi-player in mind
+	 * Abstract so the single-player and multi-player can have their own implementation
 	 * 
 	 * @param gameType
 	 * @author mobieljoy12
@@ -106,7 +106,7 @@ public abstract class GameController extends Controller {
 	
 	/***
 	 * Create a new game
-	 * Abstract so the Singeplayer and Multiplayer can have their own implementation
+	 * Abstract so the single-player and multi-player can have their own implementation
 	 * 
 	 * @param difficulty
 	 * @param gameType
@@ -116,7 +116,7 @@ public abstract class GameController extends Controller {
 	
 	/***
 	 * End the current game
-	 * Abstract so the Singeplayer and Multiplayer can have their own implementation
+	 * Abstract so the single-player and multi-player can have their own implementation
 	 * 
 	 * @author mobieljoy12
 	 */

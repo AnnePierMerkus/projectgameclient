@@ -69,6 +69,7 @@ public class GameAI extends GameOptions {
 	 * Get the current GameOptions
 	 * 
 	 * @return GameOptions
+	 * @author mobieljoy12
 	 */
 	public GameOptions getGame() {
 		return this.gameOptions;

@@ -7,6 +7,7 @@ import com.group4.util.PlayerList;
 
 public class SingleplayerGameController extends GameController {
 
+	// The difficulty to play at
 	Difficulty difficulty;
 	
 	/***

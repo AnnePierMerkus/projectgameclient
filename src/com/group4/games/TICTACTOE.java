@@ -23,6 +23,7 @@ public class TICTACTOE extends GameProperty {
 	/**
 	 * The constructor of the TICTACTOE class.
 	 * This constructor instantiates the display names for the players.
+	 * 
 	 * @author mobieljoy12.
 	 */
 	public TICTACTOE() {
@@ -81,6 +82,7 @@ public class TICTACTOE extends GameProperty {
 
 	/**
 	 * The getAvailableOptions method calculates all the moves the given player can make.
+	 * 
 	 * @param player - The player whose available moves should be calculates.
 	 * @return ArrayList<Tile> - List of available moves.
 	 * @author GRTerpstra.
@@ -98,7 +100,8 @@ public class TICTACTOE extends GameProperty {
 	}
 
 	/**
-	 * the makeMove method implements all the changes made to the board after checking if the move is legal.
+	 * The makeMove method implements all the changes made to the board after checking if the move is legal.
+	 * 
 	 * @param tile - The tile on which the move should be made.
 	 * @param player - the player who makes the move.
 	 * @return boolean - true if the move has been made, false otherwise.
@@ -119,7 +122,8 @@ public class TICTACTOE extends GameProperty {
 	}
 
 	/**
-	 * the isLegalMove method checks if the move that is about to happen is legal.
+	 * The isLegalMove method checks if the move that is about to happen is legal.
+	 * 
 	 * @param tile - The tile on which the move should be made.
 	 * @param player - the player who makes the move.
 	 * @return boolean - true if the move is legal, false otherwise.
@@ -139,8 +143,9 @@ public class TICTACTOE extends GameProperty {
 	}
 	
 	/**
-	 * the gameHasEnded method checks if the current game should terminate.
+	 * The gameHasEnded method checks if the current game should terminate.
 	 * This method also changes the playerWon variable accordingly.
+	 * 
 	 * @return boolean - true if the game should end, false otherwise.
 	 * @author GRTerpstra.
 	 */
@@ -175,7 +180,8 @@ public class TICTACTOE extends GameProperty {
 	}
 
 	/**
-	 * the getPlayerWon method returns the player who has won the game.
+	 * The getPlayerWon method returns the player who has won the game.
+	 * 
 	 * @return Player - the player who has won the game.
 	 * @author GRTerpstra.
 	 */
