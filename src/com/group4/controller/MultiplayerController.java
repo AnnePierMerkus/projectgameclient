@@ -253,6 +253,7 @@ public class MultiplayerController extends Controller{
         this.AIDepth.setDisable(false);
         this.AIBtn.setSelected(false);
         this.AIBtn.setText("Enable AI");
+        this.AI = null;
     }
 
     /**
@@ -364,6 +365,25 @@ public class MultiplayerController extends Controller{
         return (AI) Class.forName("com.group4.AI." + type.replace("-", "").toUpperCase() + "AI").newInstance();
     }
 
+    /**
+     * Logout player and close connection to server and stop the client Thread
+     *
+     * @param event Action event
+     * @throws Exception
+     */
+    public void close(Event event) throws Exception{
+        this.networkPlayer.logout();
+        //wait for 500 miliseconds for server to respond
+        Thread.sleep(500);
+        //close the client socket and there by stop the thread
+        this.client.close();
+        //Go back to main menu
+        this.swap((Stage) this.findPlayers.getScene().getWindow(), "../MainMenu.fxml");
+    }
+
+    /**
+     * Give Up during the Match
+     */
     public void giveUp(){
         this.networkPlayer.forfeit(); //give up on current game this wil end the game
         this.multiplayerGameController.endGame();
@@ -521,14 +541,6 @@ public class MultiplayerController extends Controller{
             }
 
             if (this.AI != null){
-                //if AI differs for some reason from challenge make the right type AI
-                if (!((MyToggleButton)this.GameGroup.getSelectedToggle()).getText().equals(messageToMap.get("GAMETYPE"))){
-                    try{
-                        this.createAI(messageToMap.get("GAMETYPE"));
-                    }catch (Exception e){
-                        System.out.println("Ai could not be created: " + e);
-                    }
-                }
                 //set ai type
                 this.AI.setAIType(this.multiplayerGameController.game, this.multiplayerGameController.game.getGameType(), AIDepth.getText().length() > 0 ? Integer.parseInt(AIDepth.getText()) : 5);
             }

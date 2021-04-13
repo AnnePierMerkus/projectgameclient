@@ -73,7 +73,6 @@ public class Client implements Runnable, Observable {
             }
         }catch (Exception e){
             System.out.println("something went wrong:" + e);
-            e.printStackTrace();
         }finally {
             this.close(); //close connection and buffers to cleanup memory
         }
@@ -124,12 +123,14 @@ public class Client implements Runnable, Observable {
      * if the thread is running this wil throw a checked exception
      */
     public void close(){
-        try {
-            this.socket.close(); //important to call first otherwise thread wil hang...
-            this.input.close();
-            this.output.close();
-        }catch (Exception e){
-            System.out.println("Something went wrong while trying to close the client: " + e);
+        if (!this.socket.isClosed()){
+            try {
+                this.socket.close(); //important to call first otherwise thread wil hang...
+                this.input.close();
+                this.output.close();
+            }catch (Exception e){
+                System.out.println("Something went wrong while trying to close the client: " + e);
+            }
         }
     }
 

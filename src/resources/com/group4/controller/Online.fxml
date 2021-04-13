@@ -242,6 +242,14 @@
                 </GridPane>
             </ScrollPane>
 
+            <MyToggleButton
+                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                    text="Afsluiten"
+                    maxWidth="100"
+                    maxHeight="300"
+                    onAction="#close"
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="5"/>
             <HBox
                 fx:id="challenge"
                 visible="false"
