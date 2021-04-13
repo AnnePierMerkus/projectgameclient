@@ -1,6 +1,5 @@
 package com.group4.controller;
 
-import com.group4.util.Tile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,11 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * @author Anne Pier Merkus
@@ -163,7 +158,7 @@ public class ViewController extends Controller {
      */
     @FXML void start(ActionEvent event) throws Exception {
         Stage stage = (Stage) start.getScene().getWindow();
-
+        this.stage = stage;
         if (online) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Connect.fxml"));
             Parent root = loader.load();

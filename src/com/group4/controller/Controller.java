@@ -32,12 +32,12 @@ import java.util.Map;
  */
 public class Controller {
 
-	private Stage stage;
+	protected static Stage stage;
 
 	private Controller CurrentController;
 
-	GridPane gameInfoPlayerOne;
-	GridPane gameInfoPlayerTwo;
+	static GridPane gameInfoPlayerOne;
+	static GridPane gameInfoPlayerTwo;
 
 
 	public Controller() {
@@ -60,6 +60,7 @@ public class Controller {
 			Scene scene = new Scene(root, 500, 500);
 			scene.getStylesheets().add(getClass().getResource("../test.css").toExternalForm());
 
+			System.out.println(stage);
 			stage.setScene(scene);
 		}catch (Exception e){
 			System.out.println("New scene could not be loaded: " + e);
@@ -73,8 +74,8 @@ public class Controller {
 		GridPane gameView = new GridPane();
 
 		try {
-			gameInfoPlayerOne = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
-			gameInfoPlayerTwo = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
+			this.gameInfoPlayerOne = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
+			this.gameInfoPlayerTwo = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -146,6 +147,7 @@ public class Controller {
 	}
 
 	public void toggleTurnImage(){
+		System.out.println(gameInfoPlayerOne);
 		if (gameInfoPlayerOne != null && gameInfoPlayerTwo != null){
 			ImageView turnImagePlayerOne = (ImageView) gameInfoPlayerOne.getChildren().get(3);
 			ImageView turnImagePlayerTwo = (ImageView) gameInfoPlayerTwo.getChildren().get(3);

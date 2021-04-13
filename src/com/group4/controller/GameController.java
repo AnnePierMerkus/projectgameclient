@@ -1,9 +1,15 @@
 package com.group4.controller;
 
+import com.group4.games.REVERSI;
 import com.group4.model.GameOptions;
 import com.group4.util.Player.PlayerState;
 import com.group4.util.PlayerList;
 import com.group4.util.observers.PlayerObserver;
+import javafx.application.Platform;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+
+import java.util.List;
 
 public abstract class GameController extends Controller {
 	
@@ -52,6 +58,32 @@ public abstract class GameController extends Controller {
 			}else {
 				// TODO - Display gameoverscreen once
 				// TODO - Clean up game when it is exited
+
+				Platform.runLater(() -> {
+					//go to GameOverScreen
+					this.swap(stage, "EndGame.fxml");
+					GameOverController gameOverController = (GameOverController) this.getCurrentController();
+
+					if (game.getGameProperty().getPlayerWon().getId() == "p1"){
+						gameOverController.getResultText().setText("Je Hebt Gewonnen!");
+					}else if (game.getGameProperty().getPlayerWon().getId() == "p2"){
+						gameOverController.getResultText().setText("Je Hebt verloren :(");
+					}else {
+						gameOverController.getResultText().setText("Gelijk Spel!");
+					}
+
+					if (this.game.getGameProperty() instanceof REVERSI) {
+						gameOverController.setScoreVisibility(true);
+						gameOverController.getScorePlayer1Text().setText("Score Speler 1: " + game.getBoard().getScore(PlayerList.getPlayer("p1")));
+						gameOverController.getScorePlayer2Text().setText("Score Speler 2: " + game.getBoard().getScore(PlayerList.getPlayer("p2")));
+					}else {
+						gameOverController.setScoreVisibility(false);
+					}
+
+					gameOverController.getQuitBtn().setOnAction((event) -> {
+						this.swap(stage, "../MainMenu.fxml");
+					});
+				});
 				System.out.println("Game over: " + this.game.getGameProperty().getPlayerWon());
 				PlayerList.players.values().forEach((p) -> p.setPlayerState(PlayerState.WAITING));
 			}

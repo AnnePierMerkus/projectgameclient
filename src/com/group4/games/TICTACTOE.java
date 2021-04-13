@@ -20,8 +20,6 @@ import com.group4.util.Tile;
  */
 public class TICTACTOE extends GameProperty {
 	
-	private Player playerWon = null;
-	
 	/**
 	 * The constructor of the TICTACTOE class.
 	 * This constructor instantiates the display names for the players.
@@ -67,6 +65,7 @@ public class TICTACTOE extends GameProperty {
 	
 	@Override
 	public void doSetup(String currentPlayerSetup) {
+		
 	}	
 	
 	/***
@@ -106,7 +105,8 @@ public class TICTACTOE extends GameProperty {
 	 * @author GRTerpstra.
 	 */
 	@Override
-	public boolean makeMove(Tile tile, Player player) {	
+	public boolean makeMove(Tile tile, Player player) {
+		this.gameHasEnded();
 		if(this.checkGameEnded()) return false;
 		if(this.isLegalMove(tile, player)) {
 			this.game.getBoard().savePrevious(tile, tile.getOccupant());
@@ -162,7 +162,6 @@ public class TICTACTOE extends GameProperty {
 			   (playerTiles.contains(0) && playerTiles.contains(4) && playerTiles.contains(8)) ||
 			   (playerTiles.contains(2) && playerTiles.contains(4) && playerTiles.contains(6))
 			  ) {
-				this.playerWon = player;
 				this.gameEnded = true;
 				return true;
 			}
@@ -171,6 +170,7 @@ public class TICTACTOE extends GameProperty {
 				return true;
 			}
 		}
+		this.gameEnded = false;
 		return false;
 	}
 
@@ -181,7 +181,29 @@ public class TICTACTOE extends GameProperty {
 	 */
 	@Override
 	public Player getPlayerWon() {
-		return this.playerWon;
+		Player playerWin = null;
+		
+		for(Player player : PlayerList.players.values()) {
+			ArrayList<Integer> playerTiles = new ArrayList<Integer>();
+			for(Tile tile : this.game.getBoard().getGameBoard().values()) {
+				if(tile.getOccupant() == player) {
+					playerTiles.add(tile.getIndex());
+				}
+			}
+			if((playerTiles.contains(0) && playerTiles.contains(1) && playerTiles.contains(2)) ||
+			   (playerTiles.contains(3) && playerTiles.contains(4) && playerTiles.contains(5)) ||
+			   (playerTiles.contains(6) && playerTiles.contains(7) && playerTiles.contains(8)) ||
+			   (playerTiles.contains(0) && playerTiles.contains(3) && playerTiles.contains(6)) ||
+			   (playerTiles.contains(1) && playerTiles.contains(4) && playerTiles.contains(7)) ||
+			   (playerTiles.contains(2) && playerTiles.contains(5) && playerTiles.contains(8)) ||
+			   (playerTiles.contains(0) && playerTiles.contains(4) && playerTiles.contains(8)) ||
+			   (playerTiles.contains(2) && playerTiles.contains(4) && playerTiles.contains(6))
+			  ) {
+				playerWin = player;
+			}
+		}
+		
+		return playerWin;
 	}
 
 }

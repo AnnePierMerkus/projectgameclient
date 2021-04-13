@@ -29,13 +29,14 @@ public class TICTACTOEAI extends AI {
 
 			this.gameai.makePredictionMove(tile.getIndex(), player);
 
-           	int score = minimax(this.gameai.getBoard(), false);
+	       	int score = minimax(this.gameai.getBoard(), false);
 			System.out.println(score);
 			tile.reset();
-           if (score > bestScore) {
-               bestScore = score;
-			move = tile;
-           }
+			
+			if (score > bestScore) {
+			   bestScore = score;
+			   move = tile;
+			}
 		}
 
 		return move;
