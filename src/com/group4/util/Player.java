@@ -22,7 +22,7 @@ public class Player implements Observable {
 	// Holding the state the player is currently in
 	protected PlayerState playerState;
 	
-	private List<Tile> lastAvailableOptions = new ArrayList<Tile>();
+	private List<TileUI> lastAvailableOptions = new ArrayList<TileUI>();
 	
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
 	
@@ -81,17 +81,17 @@ public class Player implements Observable {
 	 * Make a move on the board on a given Tile
 	 * Returns false if player is not in a game
 	 * 
-	 * @param tile - The Tile to make a move on
+	 * @param tileUI - The Tile to make a move on
 	 * @return boolean - Whether the move was legal
 	 * @author mobieljoy12
 	 */
-	public void makeMove(Tile tile) {
+	public void makeMove(TileUI tileUI) {
 		//TODO check matchpoint & end game
 		// Don't allow moves if player does not have the turn
 		if(this.playerState != PlayerState.PLAYING_HAS_TURN) return;
 		if(this.gameProperty.checkGameEnded()) return;
 		
-		if(this.gameProperty.makeMove(tile, this)){
+		if(this.gameProperty.makeMove(tileUI, this)){
 			this.notifyObservers();
 		}
 	}
@@ -110,8 +110,8 @@ public class Player implements Observable {
 	 * 
 	 * @param options - Options
 	 */
-	public void setAvailableOptions(List<Tile> options) {
-		this.lastAvailableOptions = new ArrayList<Tile>(options);
+	public void setAvailableOptions(List<TileUI> options) {
+		this.lastAvailableOptions = new ArrayList<TileUI>(options);
 	}
 	
 	/***
@@ -121,14 +121,14 @@ public class Player implements Observable {
 	 * @return List<Tile> - List of available Tiles to make a move on
 	 * @author mobieljoy12
 	 */
-	public List<Tile> getAvailableOptions(){
+	public List<TileUI> getAvailableOptions(){
 		if(this.gameProperty == null) {
 			//TODO - Catch exception, player is not in a game so he can not get available options
 			System.out.println("Player tried getting options while gameproperty doesn't exist");
 			return null;
 		}
-		List<Tile> options = this.gameProperty.getAvailableOptions(this);
-		this.lastAvailableOptions = new ArrayList<Tile>(options);
+		List<TileUI> options = this.gameProperty.getAvailableOptions(this);
+		this.lastAvailableOptions = new ArrayList<TileUI>(options);
 		return options;
 	}
 	

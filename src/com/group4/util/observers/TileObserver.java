@@ -1,7 +1,7 @@
 package com.group4.util.observers;
 
 import com.group4.model.Board;
-import com.group4.util.Tile;
+import com.group4.util.TileUI;
 
 public class TileObserver implements Observer {
 
@@ -13,9 +13,9 @@ public class TileObserver implements Observer {
 	
 	@Override
 	public void update(Object object) {
-		Tile tile = (Tile) object;
-		if (tile.isOccupied()) {
-			this.board.addFilledTile(tile.getOccupant(), tile);
+		TileUI tileUI = (TileUI) object;
+		if (tileUI.isOccupied()) {
+			this.board.addFilledTile(tileUI.getOccupant(), tileUI);
 		}
 	}
 

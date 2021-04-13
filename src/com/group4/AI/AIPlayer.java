@@ -6,7 +6,7 @@ import com.group4.controller.GameController.GameType;
 import com.group4.model.GameOptions;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
-import com.group4.util.Tile;
+import com.group4.util.TileUI;
 
 public class AIPlayer extends Player {
 
@@ -70,7 +70,7 @@ public class AIPlayer extends Player {
 	}
 
 	@Override
-	public void makeMove(Tile tile) {
+	public void makeMove(TileUI tileUI) {
 		// Empty
 	}
 
@@ -80,7 +80,7 @@ public class AIPlayer extends Player {
 		if(state.equals(PlayerState.PLAYING_HAS_TURN)) {
 			if(this.ai != null) {
 				Thread thread = new Thread(() -> {
-					List<Tile> options = getAvailableOptions();
+					List<TileUI> options = getAvailableOptions();
 					if(!options.isEmpty()) {
 						this.gameProperty.makeMove(this.ai.makeMove(getAvailableOptions()), this);
 					}

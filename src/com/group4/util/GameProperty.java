@@ -133,26 +133,26 @@ public abstract class GameProperty {
 	 * @return List<Tile> - List of Tile options player could play
 	 * @author GRTerpstra & mobieljoy12
 	 */
-	public abstract List<Tile> getAvailableOptions(Player player);
+	public abstract List<TileUI> getAvailableOptions(Player player);
 	
 	/***
 	 * Make a move on a given Tile for a given Player
 	 * 
-	 * @param tile - The tile to make a move on
+	 * @param tileUI - The tile to make a move on
 	 * @param player - The Player to make the move for
 	 * @return boolean - Whether move was legal
 	 * @author GRTerpstra & mobieljoy12
 	 */
-	public abstract boolean makeMove(Tile tile, Player player);
+	public abstract boolean makeMove(TileUI tileUI, Player player);
 	
 	/***
 	 * Check if a move on a Tile is legal for a given Player
 	 * 
-	 * @param tile - The tile to make the move on
+	 * @param tileUI - The tile to make the move on
 	 * @param player - The Player to make the move with
 	 * @return boolean - Whether the move is legal
 	 * @author GRTerpstra & mobieljoy12
 	 */
-	public abstract boolean isLegalMove(Tile tile, Player player);
+	public abstract boolean isLegalMove(TileUI tileUI, Player player);
 		
 }

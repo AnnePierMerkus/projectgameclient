@@ -2,7 +2,7 @@ package com.group4.AI;
 
 import com.group4.controller.GameController.GameType;
 import com.group4.model.GameOptions;
-import com.group4.util.Tile;
+import com.group4.util.TileUI;
 
 import java.util.List;
 
@@ -30,6 +30,6 @@ public abstract class AI {
 		this.gameai.updateFromGame();
 	}
 
-    public abstract Tile makeMove(List<Tile> availableOptions);
+    public abstract TileUI makeMove(List<TileUI> availableOptions);
 
 }

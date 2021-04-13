@@ -8,7 +8,7 @@ import com.group4.controller.GameController.GameType;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
-import com.group4.util.Tile;
+import com.group4.util.TileUI;
 
 /***
  * The REVERSI class defines the Reversi game.
@@ -27,7 +27,7 @@ public class REVERSI extends GameProperty {
 	 * @return int - offset the number that calculates in which direction the program should search.
 	 * @author GRTerpstra.
 	 */
-	private int getDirectionOffset(int direction) {
+	public static int getDirectionOffset(int direction) {
 		int offset = 0;
 		switch(direction) {
 			case 0:
@@ -124,10 +124,10 @@ public class REVERSI extends GameProperty {
 		this.game.getBoard().addFilledTile(PlayerList.getOtherPlayer(currentPlayerSetup), this.game.getBoard().getTile(36));
 
 		// Save init state to previous board so it can be reverted back to
-		this.game.getBoard().savePrevious(this.game.getBoard().getTile(28), PlayerList.getPlayer(currentPlayerSetup));
-		this.game.getBoard().savePrevious(this.game.getBoard().getTile(35), PlayerList.getPlayer(currentPlayerSetup));
-		this.game.getBoard().savePrevious(this.game.getBoard().getTile(27), PlayerList.getOtherPlayer(currentPlayerSetup));
-		this.game.getBoard().savePrevious(this.game.getBoard().getTile(36), PlayerList.getOtherPlayer(currentPlayerSetup));
+//		this.game.getBoard().savePrevious(this.game.getBoard().getTile(28), PlayerList.getPlayer(currentPlayerSetup));
+//		this.game.getBoard().savePrevious(this.game.getBoard().getTile(35), PlayerList.getPlayer(currentPlayerSetup));
+//		this.game.getBoard().savePrevious(this.game.getBoard().getTile(27), PlayerList.getOtherPlayer(currentPlayerSetup));
+//		this.game.getBoard().savePrevious(this.game.getBoard().getTile(36), PlayerList.getOtherPlayer(currentPlayerSetup));
 
 		// Set move counter to 1 so the first move can be made
 		this.game.getBoard().incMoveCounter();
@@ -154,84 +154,84 @@ public class REVERSI extends GameProperty {
 	 * @author GRTerpstra.
 	 */
 	@Override
-	public List<Tile> getAvailableOptions(Player player) {
-		HashMap<Integer, Tile> availableOptions = new HashMap<Integer, Tile>();
-		for(Tile tile : this.game.getBoard().getGameBoard().values()) {
-			if(tile.getOccupant() == player) {
+	public List<TileUI> getAvailableOptions(Player player) {
+		HashMap<Integer, TileUI> availableOptions = new HashMap<Integer, TileUI>();
+		for(TileUI tileUI : this.game.getBoard().getGameBoard().values()) {
+			if(tileUI.getOccupant() == player) {
 				for(int i = 0; i < 8; i++) {
-					Tile currentTile = tile;
+					TileUI currentTileUI = tileUI;
 					int directionOffset = getDirectionOffset(i);
 					boolean foundOpponentTile = false;
-					while(currentTile.getIndex() + directionOffset >= 0 && currentTile.getIndex() + directionOffset <= 63) {
-						if(		(i == 0 && (currentTile.getIndex() < 8)) 												||
-								(i == 1 && ((currentTile.getIndex() < 8) || (currentTile.getIndex() + 1) % 8 == 0)) 	||
-								(i == 2 && ((currentTile.getIndex() + 1) % 8 == 0)) 									||
-								(i == 3 && ((((currentTile.getIndex() + 1) % 8 == 0)) || (currentTile.getIndex() > 55)))||
-								(i == 4 && (currentTile.getIndex() > 55)) 												||
-								(i == 5 && ((currentTile.getIndex() > 55) || currentTile.getIndex() % 8 == 0)) 			||
-								(i == 6 && (currentTile.getIndex() % 8 == 0)) 											||
-								(i == 7 && ((currentTile.getIndex() % 8 == 0) || currentTile.getIndex() < 8))
+					while(currentTileUI.getIndex() + directionOffset >= 0 && currentTileUI.getIndex() + directionOffset <= 63) {
+						if(		(i == 0 && (currentTileUI.getIndex() < 8)) 												||
+								(i == 1 && ((currentTileUI.getIndex() < 8) || (currentTileUI.getIndex() + 1) % 8 == 0)) 	||
+								(i == 2 && ((currentTileUI.getIndex() + 1) % 8 == 0)) 									||
+								(i == 3 && ((((currentTileUI.getIndex() + 1) % 8 == 0)) || (currentTileUI.getIndex() > 55)))||
+								(i == 4 && (currentTileUI.getIndex() > 55)) 												||
+								(i == 5 && ((currentTileUI.getIndex() > 55) || currentTileUI.getIndex() % 8 == 0)) 			||
+								(i == 6 && (currentTileUI.getIndex() % 8 == 0)) 											||
+								(i == 7 && ((currentTileUI.getIndex() % 8 == 0) || currentTileUI.getIndex() < 8))
 						)
 						{
 							break;
 						}
-						currentTile = this.game.getBoard().getGameBoard().get(currentTile.getIndex() + directionOffset);
-						if((currentTile.getOccupant() == player) || (currentTile.getOccupant() == null && !(foundOpponentTile))) {
+						currentTileUI = this.game.getBoard().getGameBoard().get(currentTileUI.getIndex() + directionOffset);
+						if((currentTileUI.getOccupant() == player) || (currentTileUI.getOccupant() == null && !(foundOpponentTile))) {
 							break;
 						}
-						else if(currentTile.getOccupant() != player && currentTile.getOccupant() != null) {
+						else if(currentTileUI.getOccupant() != player && currentTileUI.getOccupant() != null) {
 							foundOpponentTile = true;
 							continue;
 						}
-						else if(currentTile.getOccupant() == null && foundOpponentTile) {
-							availableOptions.put(currentTile.getIndex(), currentTile);
+						else if(currentTileUI.getOccupant() == null && foundOpponentTile) {
+							availableOptions.put(currentTileUI.getIndex(), currentTileUI);
 							break;
 						}
 					}
 				}
 			}
 		}
-		return new ArrayList<Tile>(availableOptions.values());
+		return new ArrayList<TileUI>(availableOptions.values());
 	}
 
 	/**
 	 * The swapTiles method changes the occupant of the tiles that should change after the last move.
 	 * 
-	 * @param tile - the tile on which the last move was made.
+	 * @param tileUI - the tile on which the last move was made.
 	 * @param player - the Player who made the last move.
 	 * @author GRTerpstra.
 	 */
-	public void swapTiles(Tile tile, Player player) {
-		HashMap<Integer, Tile> board = this.game.getBoard().getGameBoard();
+	public void swapTiles(TileUI tileUI, Player player) {
+		HashMap<Integer, TileUI> board = this.game.getBoard().getGameBoard();
 		for(int i = 0; i < 8; i++) {
-			Tile currentTile = tile;
+			TileUI currentTileUI = tileUI;
 			int directionOffset = getDirectionOffset(i);
-			ArrayList<Tile> candidateTiles = new ArrayList<Tile>();
-			while(currentTile.getIndex() + directionOffset >= 0 && currentTile.getIndex() + directionOffset <= 63) {
-				if(		(i == 0 && (currentTile.getIndex() < 8)) 												||
-						(i == 1 && ((currentTile.getIndex() < 8) || (currentTile.getIndex() + 1) % 8 == 0)) 	||
-						(i == 2 && ((currentTile.getIndex() + 1) % 8 == 0)) 									||
-						(i == 3 && ((((currentTile.getIndex() + 1) % 8 == 0)) || (currentTile.getIndex() > 55)))||
-						(i == 4 && (currentTile.getIndex() > 55)) 												||
-						(i == 5 && ((currentTile.getIndex() > 55) || currentTile.getIndex() % 8 == 0)) 			||
-						(i == 6 && (currentTile.getIndex() % 8 == 0)) 											||
-						(i == 7 && ((currentTile.getIndex() % 8 == 0) || currentTile.getIndex() < 8))
+			ArrayList<TileUI> candidateTileUIS = new ArrayList<TileUI>();
+			while(currentTileUI.getIndex() + directionOffset >= 0 && currentTileUI.getIndex() + directionOffset <= 63) {
+				if(		(i == 0 && (currentTileUI.getIndex() < 8)) 												||
+						(i == 1 && ((currentTileUI.getIndex() < 8) || (currentTileUI.getIndex() + 1) % 8 == 0)) 	||
+						(i == 2 && ((currentTileUI.getIndex() + 1) % 8 == 0)) 									||
+						(i == 3 && ((((currentTileUI.getIndex() + 1) % 8 == 0)) || (currentTileUI.getIndex() > 55)))||
+						(i == 4 && (currentTileUI.getIndex() > 55)) 												||
+						(i == 5 && ((currentTileUI.getIndex() > 55) || currentTileUI.getIndex() % 8 == 0)) 			||
+						(i == 6 && (currentTileUI.getIndex() % 8 == 0)) 											||
+						(i == 7 && ((currentTileUI.getIndex() % 8 == 0) || currentTileUI.getIndex() < 8))
 				)
 				{
 					break;
 				}
-				currentTile = board.get(currentTile.getIndex() + directionOffset);
-				if((currentTile.getOccupant() == player && candidateTiles.isEmpty()) || (currentTile.getOccupant() == null)) {
+				currentTileUI = board.get(currentTileUI.getIndex() + directionOffset);
+				if((currentTileUI.getOccupant() == player && candidateTileUIS.isEmpty()) || (currentTileUI.getOccupant() == null)) {
 					break;
 				}
-				else if(currentTile.getOccupant() != player && currentTile.getOccupant() != null) {
-					candidateTiles.add(currentTile);
+				else if(currentTileUI.getOccupant() != player && currentTileUI.getOccupant() != null) {
+					candidateTileUIS.add(currentTileUI);
 					continue;
 				}
-				else if(currentTile.getOccupant() == player && !(candidateTiles.isEmpty())) {
-					for(Tile candidateTile : candidateTiles) {
-						this.game.getBoard().savePrevious(candidateTile, candidateTile.getOccupant());
-						this.game.getBoard().getTile(candidateTile.getIndex()).setOccupant(player);
+				else if(currentTileUI.getOccupant() == player && !(candidateTileUIS.isEmpty())) {
+					for(TileUI candidateTileUI : candidateTileUIS) {
+						//this.game.getBoard().savePrevious(candidateTile, candidateTile.getOccupant());
+						this.game.getBoard().getTile(candidateTileUI.getIndex()).setOccupant(player);
 					}
 					break;
 				}
@@ -242,18 +242,18 @@ public class REVERSI extends GameProperty {
 	/**
 	 * The makeMove method implements all the changes made to the board after checking if the move is legal.
 	 * 
-	 * @param tile - The tile on which the move should be made.
+	 * @param tileUI - The tile on which the move should be made.
 	 * @param player - the player who makes the move.
 	 * @return boolean - true if the move has been made, false otherwise.
 	 * @author GRTerpstra.
 	 */
 	@Override
-	public boolean makeMove(Tile tile, Player player) {
+	public boolean makeMove(TileUI tileUI, Player player) {
 		if(this.checkGameEnded()) return false;
-		if(this.isLegalMove(tile, player)) {
-			this.game.getBoard().savePrevious(tile, tile.getOccupant());
-			tile.setOccupant(player);
-			swapTiles(tile, player);
+		if(this.isLegalMove(tileUI, player)) {
+			//this.game.getBoard().savePrevious(tile, tile.getOccupant());
+			tileUI.setOccupant(player);
+			swapTiles(tileUI, player);
 			this.game.getBoard().incMoveCounter(); // Increment move counter, this move is done
 			this.gameHasEnded();
 			return true;
@@ -264,19 +264,19 @@ public class REVERSI extends GameProperty {
 	/**
 	 * The isLegalMove method checks if the move that is about to happen is legal.
 	 * 
-	 * @param tile - The tile on which the move should be made.
+	 * @param tileUI - The tile on which the move should be made.
 	 * @param player - the player who makes the move.
 	 * @return boolean - true if the move is legal, false otherwise.
 	 * @author GRTerpstra.
 	 */
 	@Override
-	public boolean isLegalMove(Tile tile, Player player) {
-		List<Tile> availableOptions = this.getAvailableOptions(player);
+	public boolean isLegalMove(TileUI tileUI, Player player) {
+		List<TileUI> availableOptions = this.getAvailableOptions(player);
 		player.setAvailableOptions(availableOptions);
 		if(availableOptions.isEmpty()) {
 			return false;
 		}
-		else if(availableOptions.contains(tile)) {
+		else if(availableOptions.contains(tileUI)) {
 			return true;
 		}
 		return false;

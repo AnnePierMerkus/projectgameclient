@@ -6,7 +6,7 @@ import java.util.Random;
 import com.group4.model.Board;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
-import com.group4.util.Tile;
+import com.group4.util.TileUI;
 
 public class TICTACTOEAI extends AI {
 
@@ -17,7 +17,7 @@ public class TICTACTOEAI extends AI {
     Player otherPlayer;
 
 	@Override
-	public Tile makeMove(List<Tile> availableOptions)
+	public TileUI makeMove(List<TileUI> availableOptions)
 	{
 		gameai.updateFromGame();
 
@@ -40,28 +40,28 @@ public class TICTACTOEAI extends AI {
 	 * @return the best move for the Ai.
 	 * @author AnnePierMerkus
 	 */
-	public Tile bestMove(List<Tile> availableOptions){
+	public TileUI bestMove(List<TileUI> availableOptions){
 
-		List<Tile> options = this.gameai.getGameProperty().getAvailableOptions(player);
+		List<TileUI> options = this.gameai.getGameProperty().getAvailableOptions(player);
 		int bestScore = Integer.MIN_VALUE;
-		Tile move = null;
+		TileUI move = null;
 
-		for (Tile tile : options)
+		for (TileUI tileUI : options)
 		{
-			this.gameai.makePredictionMove(tile.getIndex(), player);
+			this.gameai.makePredictionMove(tileUI.getIndex(), player);
 			int score = minimax(this.gameai.getBoard(), false);
-			tile.reset();
+			tileUI.reset();
 			if (score > bestScore) {
 				bestScore = score;
-				move = tile;
+				move = tileUI;
 			}
 		}
 
-		for (Tile tile : availableOptions)
+		for (TileUI tileUI : availableOptions)
 		{
-			if (tile.getIndex() == move.getIndex())
+			if (tileUI.getIndex() == move.getIndex())
 			{
-				move = tile;
+				move = tileUI;
 			}
 		}
 
@@ -84,10 +84,10 @@ public class TICTACTOEAI extends AI {
 
 		if (maximizing) {
 			int bestScore = Integer.MIN_VALUE;
-			for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(player)) {
-				gameai.makePredictionMove(tile.getIndex(), player);
+			for (TileUI tileUI : this.gameai.getGameProperty().getAvailableOptions(player)) {
+				gameai.makePredictionMove(tileUI.getIndex(), player);
 				int score = minimax(board, false);
-				tile.reset();
+				tileUI.reset();
 				bestScore = Math.max(score, bestScore);
 			}
 			return bestScore;
@@ -95,10 +95,10 @@ public class TICTACTOEAI extends AI {
 		else {
 			int bestScore = Integer.MAX_VALUE;
 
-			for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(otherPlayer)) {
-				gameai.makePredictionMove(tile.getIndex(), otherPlayer);
+			for (TileUI tileUI : this.gameai.getGameProperty().getAvailableOptions(otherPlayer)) {
+				gameai.makePredictionMove(tileUI.getIndex(), otherPlayer);
 				int score = minimax(board, true);
-				tile.reset();
+				tileUI.reset();
 				bestScore = Math.min(score, bestScore);
 			}
 			return bestScore;

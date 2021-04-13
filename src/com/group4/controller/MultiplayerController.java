@@ -5,7 +5,7 @@ import com.group4.games.REVERSI;
 import com.group4.model.Challenge;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
-import com.group4.util.Tile;
+import com.group4.util.TileUI;
 import com.group4.util.network.Client;
 import com.group4.util.network.NetworkPlayer;
 import com.group4.util.network.NetworkPlayerStates.InMatchNoTurnState;
@@ -518,7 +518,7 @@ public class MultiplayerController extends Controller{
             // When true let AI play instead of player
             if (this.AI != null){
                 // Networkplayer makes a move with the best tile chosen by the AI.
-            	Tile aiMove = this.AI.makeMove(this.networkPlayer.getAvailableOptions());
+            	TileUI aiMove = this.AI.makeMove(this.networkPlayer.getAvailableOptions());
                 if(aiMove != null) {
                 	this.networkPlayer.makeMove(aiMove);
                 }

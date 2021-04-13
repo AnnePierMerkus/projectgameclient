@@ -1,15 +1,11 @@
 package com.group4;
 
 
-import com.group4.controller.MultiplayerController;
-import com.group4.util.Tile;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.util.Scanner;
 
 public class MainClass extends Application {
 	

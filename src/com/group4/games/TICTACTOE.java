@@ -8,7 +8,7 @@ import com.group4.controller.GameController.GameType;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
-import com.group4.util.Tile;
+import com.group4.util.TileUI;
 
 /**
  * The TICTACTIE CLASS defines a Tictactoe game.
@@ -88,12 +88,12 @@ public class TICTACTOE extends GameProperty {
 	 * @author GRTerpstra.
 	 */
 	@Override
-	public List<Tile> getAvailableOptions(Player player) {
-		ArrayList<Tile> availableOptions = new ArrayList<Tile>();
-		HashMap<Integer, Tile> board = this.game.getBoard().getGameBoard();
-		for(Tile tile : board.values()) {
-			if(tile.getOccupant() == null) {
-				availableOptions.add(tile);
+	public List<TileUI> getAvailableOptions(Player player) {
+		ArrayList<TileUI> availableOptions = new ArrayList<TileUI>();
+		HashMap<Integer, TileUI> board = this.game.getBoard().getGameBoard();
+		for(TileUI tileUI : board.values()) {
+			if(tileUI.getOccupant() == null) {
+				availableOptions.add(tileUI);
 			}
 		}
 		return availableOptions;
@@ -102,18 +102,18 @@ public class TICTACTOE extends GameProperty {
 	/**
 	 * The makeMove method implements all the changes made to the board after checking if the move is legal.
 	 * 
-	 * @param tile - The tile on which the move should be made.
+	 * @param tileUI - The tile on which the move should be made.
 	 * @param player - the player who makes the move.
 	 * @return boolean - true if the move has been made, false otherwise.
 	 * @author GRTerpstra.
 	 */
 	@Override
-	public boolean makeMove(Tile tile, Player player) {
+	public boolean makeMove(TileUI tileUI, Player player) {
 		this.gameHasEnded();
 		if(this.checkGameEnded()) return false;
-		if(this.isLegalMove(tile, player)) {
-			this.game.getBoard().savePrevious(tile, tile.getOccupant());
-			tile.setOccupant(player);
+		if(this.isLegalMove(tileUI, player)) {
+			//this.game.getBoard().savePrevious(tile, tile.getOccupant());
+			tileUI.setOccupant(player);
 			this.game.getBoard().incMoveCounter();
 			this.gameHasEnded();
 			return true;
@@ -124,19 +124,19 @@ public class TICTACTOE extends GameProperty {
 	/**
 	 * The isLegalMove method checks if the move that is about to happen is legal.
 	 * 
-	 * @param tile - The tile on which the move should be made.
+	 * @param tileUI - The tile on which the move should be made.
 	 * @param player - the player who makes the move.
 	 * @return boolean - true if the move is legal, false otherwise.
 	 * @author GRTerpstra.
 	 */
 	@Override
-	public boolean isLegalMove(Tile tile, Player player) {
-		List<Tile> availableOptions = this.getAvailableOptions(player);
+	public boolean isLegalMove(TileUI tileUI, Player player) {
+		List<TileUI> availableOptions = this.getAvailableOptions(player);
 		player.setAvailableOptions(availableOptions);
 		if(availableOptions.isEmpty()) {
 			return false;
 		}
-		else if(availableOptions.contains(tile)) {
+		else if(availableOptions.contains(tileUI)) {
 			return true;
 		}
 		return false;
@@ -153,9 +153,9 @@ public class TICTACTOE extends GameProperty {
 	public boolean gameHasEnded() {
 		for(Player player : PlayerList.players.values()) {
 			ArrayList<Integer> playerTiles = new ArrayList<Integer>();
-			for(Tile tile : this.game.getBoard().getGameBoard().values()) {
-				if(tile.getOccupant() == player) {
-					playerTiles.add(tile.getIndex());
+			for(TileUI tileUI : this.game.getBoard().getGameBoard().values()) {
+				if(tileUI.getOccupant() == player) {
+					playerTiles.add(tileUI.getIndex());
 				}
 			}
 			if((playerTiles.contains(0) && playerTiles.contains(1) && playerTiles.contains(2)) ||
@@ -191,9 +191,9 @@ public class TICTACTOE extends GameProperty {
 		
 		for(Player player : PlayerList.players.values()) {
 			ArrayList<Integer> playerTiles = new ArrayList<Integer>();
-			for(Tile tile : this.game.getBoard().getGameBoard().values()) {
-				if(tile.getOccupant() == player) {
-					playerTiles.add(tile.getIndex());
+			for(TileUI tileUI : this.game.getBoard().getGameBoard().values()) {
+				if(tileUI.getOccupant() == player) {
+					playerTiles.add(tileUI.getIndex());
 				}
 			}
 			if((playerTiles.contains(0) && playerTiles.contains(1) && playerTiles.contains(2)) ||

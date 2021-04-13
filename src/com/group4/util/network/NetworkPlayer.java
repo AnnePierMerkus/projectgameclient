@@ -1,7 +1,7 @@
 package com.group4.util.network;
 
 import com.group4.util.Player;
-import com.group4.util.Tile;
+import com.group4.util.TileUI;
 import com.group4.util.network.NetworkPlayerStates.InMatchPlayerTurnState;
 import com.group4.util.network.NetworkPlayerStates.LogoutState;
 import com.group4.util.network.NetworkPlayerStates.NetworkPlayerState;
@@ -60,15 +60,15 @@ public class NetworkPlayer extends Player {
     /**
      * Make a move and let the server know which move you have done
      *
-     * @param tile - The Tile to make a move on
+     * @param tileUI - The Tile to make a move on
      * @return
      */
     @Override
-    public void makeMove(Tile tile) {
+    public void makeMove(TileUI tileUI) {
         System.out.println("");
         if (this.state instanceof InMatchPlayerTurnState){
-            if (this.gameProperty.makeMove(tile, this)){
-                this.state.makeMove(this, tile.getIndex());
+            if (this.gameProperty.makeMove(tileUI, this)){
+                this.state.makeMove(this, tileUI.getIndex());
             }else{
                 System.out.println("Move is illegal");
             }

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 import com.group4.controller.GameController.GameType;
+import com.group4.model.Tile;
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
 
@@ -18,7 +19,7 @@ import javafx.scene.text.Text;
 /**
  * @author GRTerpstra & Anne Pier Merkus
  */
-public class Tile extends StackPane implements Observable {
+public class TileUI extends StackPane implements Observable {
 	/**
 	 * Index of the tile on the board.
 	 */
@@ -48,6 +49,7 @@ public class Tile extends StackPane implements Observable {
 	 * X/O on a tile when playing Tic_tac_toe
 	 */
 	Text text;
+
 	
 	/***
 	 * Make a new Tile and set the relevant values.
@@ -56,7 +58,7 @@ public class Tile extends StackPane implements Observable {
 	 * @param weight weight for this tile
 	 * @author GRTerpstra & Anne Pier Merkus
 	 */
-	public Tile(int index, int weight) {
+	public TileUI(int index, int weight) {
 		this.index = index;
 		if (this.weight == 0)
 			this.weight = weight;
