@@ -10,7 +10,10 @@ import com.group4.util.Tile;
 
 public class AIPlayer extends Player {
 
+	// The AI instance
 	private AI ai = null;
+	
+	// The game currently going on, used to check the board
 	private GameOptions gameOptions = null;
 
 	/**

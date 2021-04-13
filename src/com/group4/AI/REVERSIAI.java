@@ -8,9 +8,6 @@ import com.group4.util.Tile;
 import java.util.List;
 import java.util.Random;
 
-/***
- * @author AnnePierMerkus
- */
 public class REVERSIAI extends AI {
 
     Player player;
@@ -43,7 +40,9 @@ public class REVERSIAI extends AI {
 
     /**
      * Make a move for the Ai and then start minimax to find the best move.
+     * 
      * @return the best move for the Ai.
+     * @author AnnePierMerkus
      */
     public Tile bestMove()
     {

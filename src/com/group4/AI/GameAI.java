@@ -11,6 +11,12 @@ public class GameAI extends GameOptions {
 	// Holds the GameOptions value
 	private GameOptions gameOptions;
 	
+	/***
+	 * A mock game that the AI can create to perform the predictions
+	 * 
+	 * @param gameType - The gameType for the game
+	 * @author mobieljoy12
+	 */
 	public GameAI(GameType gameType) {
 		super(gameType);
 	}
