@@ -13,12 +13,16 @@ import com.group4.util.PlayerList;
 public class SingleplayerGameController extends GameController {
 
 	Difficulty difficulty;
+	
 	public SingleplayerGameController(Difficulty difficulty) {
+		
 		super();
 		this.difficulty = difficulty;
+		
 		PlayerList.addPlayer(new Player("p1"));
 		PlayerList.addPlayer(new AIPlayer("p2"));
 		PlayerList.players.values().forEach((p) -> p.registerObserver(this.playerObserver));
+		
 	}
 	
 	@Override
