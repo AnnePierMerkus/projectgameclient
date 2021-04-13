@@ -503,7 +503,7 @@ public class MultiplayerController extends Controller{
                 //Networkplayer makes a move with the best tile chosen by the AI.
             	Tile aiMove = this.AI.makeMove(this.networkPlayer.getAvailableOptions());
                 if(aiMove != null) {
-                	this.networkPlayer.makeMove(aiMove);//TODO depth meegeven
+                	this.networkPlayer.makeMove(aiMove);
                 }else {
                 	//TODO - What to do with no more moves?
                 	System.out.println("No more moves :)");
@@ -561,6 +561,10 @@ public class MultiplayerController extends Controller{
             System.out.println("players: " + PlayerList.players.values());
             Platform.runLater(() -> {
                 Scene scene = new Scene(fillInBoard(this.multiplayerGameController.game.getGameType(), this.multiplayerGameController, true));
+                //set quitbutton action
+                this.getQuitButton().setOnAction((event) -> {
+                    this.giveUp();
+                });
                 stage.setScene(scene);
             });
         }
