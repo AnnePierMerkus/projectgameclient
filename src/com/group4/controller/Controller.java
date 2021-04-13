@@ -247,7 +247,6 @@ public class Controller {
 			}else{
 				gameInfoPlayerOne.getChildren().get(4).setVisible(false);
 			}
-			System.out.println((int)availableMoves.charAt(availableMoves.length() - 1));
 			((Text)((HBox)gameInfoPlayerOne.getChildren().get(2)).getChildren().get(0)).setText(availableMoves);
 		});
 	}

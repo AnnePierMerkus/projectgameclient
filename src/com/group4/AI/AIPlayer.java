@@ -82,9 +82,7 @@ public class AIPlayer extends Player {
 				Thread thread = new Thread(() -> {
 					List<Tile> options = getAvailableOptions();
 					if(!options.isEmpty()) {
-
-							this.gameProperty.makeMove(this.ai.makeMove(getAvailableOptions()), this);
-
+						this.gameProperty.makeMove(this.ai.makeMove(getAvailableOptions()), this);
 					}
 					this.notifyObservers();
 					});

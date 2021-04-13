@@ -8,21 +8,15 @@ import com.group4.util.Tile;
 import java.util.List;
 import java.util.Random;
 
+/***
+ * @author AnnePierMerkus
+ */
 public class REVERSIAI extends AI {
 
-	// The player the AI controls
     Player player;
-    
-    // The player not controller by the AI
     Player otherPlayer;
-    
-    // The maximun score possible
     int bestScore = Integer.MIN_VALUE;
-    
-    // The move just made
     Tile move = null;
-    
-    // The move to make
     Tile makeMove = null;
 
     @Override
@@ -48,10 +42,8 @@ public class REVERSIAI extends AI {
     }
 
     /**
-     * Make a move for the AI and then start Minimax to find the best move.
-     * 
-     * @return the best move for the AI.
-     * @author AnnePierMerkus
+     * Make a move for the Ai and then start minimax to find the best move.
+     * @return the best move for the Ai.
      */
     public Tile bestMove()
     {
@@ -82,20 +74,18 @@ public class REVERSIAI extends AI {
     }
 
     /**
-     * The Minimax AI that will decide the best move to make
      *
-     * @param board - The board to check the moves on
-     * @param maximizing - Whether to get the min or max value
-     * @param depth - Amount of moves the AI looks ahead
-     * @param alpha - Alpha beta pruning
-     * @param beta - Alpha beta pruning
-     * @return amount - The amount of tiles the AI has at the end of the loop
-     * @author AnnePierMerkus
+     * @param board
+     * @param maximizing
+     * @param depth
+     * @param alpha
+     * @param beta
+     * @return
      */
     public int minimax(Board board, boolean maximizing, int depth, int alpha, int beta)
     {
         if (depth == 0 || gameai.getGameProperty().gameHasEnded()) {
-            return board.getScore(player);
+            return evaluateGame(board);
         }
 
         if (maximizing) {
@@ -125,4 +115,7 @@ public class REVERSIAI extends AI {
         }
     }
 
+    public int evaluateGame(Board board) {
+        return board.getScore(player);
+    }
 }
