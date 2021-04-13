@@ -108,6 +108,9 @@ public class Tile extends StackPane implements Observable {
 		this.playerOnTile = occupant;
 		if(occupant != null && (occupant.gameProperty != null && occupant.gameProperty.getGameType() == GameType.TICTACTOE)) {
 			text.setText(this.playerOnTile.getId().equals("p1") ? "X" : "0");
+			if(this.playerOnTile.getId().equals("p1")) {
+				text.setFill(Color.WHITE);
+			}
 		}
 		else if(occupant != null) {
 			circle.setFill(this.playerOnTile.getId().equals("p1") ? Color.WHITE : Color.BLACK);
