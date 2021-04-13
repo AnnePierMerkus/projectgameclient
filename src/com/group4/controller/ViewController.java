@@ -158,7 +158,7 @@ public class ViewController extends Controller {
      */
     @FXML void start(ActionEvent event) throws Exception {
         Stage stage = (Stage) start.getScene().getWindow();
-        this.stage = stage;
+        Controller.stage = stage;
         if (online) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Connect.fxml"));
             Parent root = loader.load();

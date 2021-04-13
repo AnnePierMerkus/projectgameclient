@@ -309,8 +309,6 @@ public class MultiplayerController extends Controller{
      * @param event
      */
     public void subscribe(ActionEvent event){
-        ToggleButton join_lobby_btn = (ToggleButton) event.getSource();
-
         ToggleButton selected_game_btn = (ToggleButton) this.GameGroup.getSelectedToggle();
 
         if (selected_game_btn != null){

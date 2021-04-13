@@ -75,6 +75,7 @@ public class Controller {
 		StackPane root = new StackPane();
 		GridPane parent = new GridPane();
 		GridPane gameView = new GridPane();
+		GridPane giveUp = new GridPane();
 
 		try {
 			this.gameInfoPlayerOne = FXMLLoader.load(getClass().getResource("GameScore.fxml"));
@@ -85,10 +86,16 @@ public class Controller {
 
 		ImageView imageView = new ImageView();
 		imageView.fitWidthProperty().bind(root.widthProperty());
-		imageView.fitHeightProperty().bind(root.heightProperty());
+		imageView.fitHeightProperty().bind(root.heightProperty());;
 		Image image = new Image(getClass().getResource("green.jpg").toExternalForm());
 		imageView.setImage(image);
+		giveUp.setMaxHeight(50);
+		giveUp.setMinHeight(50);
+		giveUp.setMinWidth(487);
+		giveUp.setMaxWidth(487);
+		parent.setVgap(20);
 
+		giveUp.setAlignment(Pos.CENTER);
 		root.setAlignment(Pos.CENTER);
 		parent.setAlignment(Pos.CENTER);
 		root.setPadding(new Insets(30, 30, 30, 30));
@@ -99,8 +106,19 @@ public class Controller {
 		root.getChildren().add(parent);
 
 		this.quitButton = new Button("Geef op");
+		quitButton.setMinWidth(80);
+		quitButton.setMinHeight(40);
+		quitButton.setMaxWidth(80);
+		quitButton.setMaxHeight(40);
 		this.quitButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: #000000; -fx-text-fill: #ffffff");
-		parent.add(this.quitButton, 1, 1);
+		this.quitButton.setOnAction((event) -> {
+			if (!multiplayer)
+			{
+				swap(stage, "../MainMenu.fxml");
+			}
+		});
+		giveUp.add(quitButton, 0, 0);
+		parent.add(giveUp, 1, 1);
 
 		parent.add(gameInfoPlayerOne, 0, 0);
 		parent.add(gameView, 1, 0);
