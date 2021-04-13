@@ -29,6 +29,13 @@ public class NotificationController {
 
     Observer declineObserver;
 
+    /**
+     * Toon een nieuwe notificatie op het scherm
+     *
+     * @param msg
+     * @param acceptObserver
+     * @param declineObserver
+     */
     public void revealNotification(String msg, Observer acceptObserver, Observer declineObserver){
         this.Notification.setVisible(true);
         this.notification_text.setText(msg);
@@ -40,6 +47,12 @@ public class NotificationController {
         this.notificationDeclineBtn.setVisible(true);
     }
 
+    /**
+     * Toon een nieuwe notificatie op het scherm
+     *
+     * @param msg
+     * @param acceptObserver
+     */
     public void revealNotification(String msg, Observer acceptObserver){
         this.Notification.setVisible(true);
         this.notification_text.setText(msg);
@@ -51,6 +64,11 @@ public class NotificationController {
     }
 
 
+    /**
+     * Toon een nieuwe notificatie op het scherm
+     *
+     * @param msg
+     */
     public void revealNotification(String msg){
         this.Notification.setVisible(true);
         this.notification_text.setText(msg);
@@ -59,10 +77,17 @@ public class NotificationController {
         this.notificationDeclineBtn.setVisible(false);
     }
 
+    /**
+     * hide revealed notification
+     *
+     */
     public void hideNotification(){
         this.Notification.setVisible(false);
     }
 
+    /**
+     * call observable on accept button press
+     */
     public void notificationAccept(){
         System.out.println("Notification accepted");
 
@@ -74,6 +99,9 @@ public class NotificationController {
         this.notificationAcceptBtn.setSelected(false);
     }
 
+    /**
+     * call observable on decline button press
+     */
     public void notificationDecline(){
         System.out.println("Notification declined");
 

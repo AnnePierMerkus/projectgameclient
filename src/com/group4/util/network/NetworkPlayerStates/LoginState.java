@@ -3,6 +3,11 @@ package com.group4.util.network.NetworkPlayerStates;
 import com.group4.util.Player;
 import com.group4.util.network.NetworkPlayer;
 
+/**
+ * Class that represents the network player logged in
+ *
+ * @author Gemar Koning
+ */
 public class LoginState implements NetworkPlayerState {
 
     @Override

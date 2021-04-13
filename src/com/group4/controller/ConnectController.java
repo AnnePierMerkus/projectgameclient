@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 /**
  *Connect Controller responsible for creating and connecting client with server
  *
+ * @author Gemar Koning
  */
 public class ConnectController extends Controller{
 
@@ -23,6 +24,10 @@ public class ConnectController extends Controller{
     @FXML
     MyToggleButton connect;
 
+    /**
+     * Call connect to enter
+     * @param event
+     */
     public void connectEnter(KeyEvent event){
         if(event.getCode() == KeyCode.ENTER)
             connectToServer();
