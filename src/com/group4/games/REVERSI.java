@@ -5,12 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.group4.controller.GameController.GameType;
-import com.group4.controller.GameOverController;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
-import javafx.application.Platform;
 
 /***
  * The REVERSI class defines the Reversi game.
