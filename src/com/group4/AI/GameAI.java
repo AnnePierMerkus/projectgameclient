@@ -34,7 +34,6 @@ public class GameAI extends GameOptions {
 		
 		// Update the previous board
 		this.board.emptyAllPrevious(0);
-		System.out.println("tile" + this.gameOptions.getBoard().getPreviousBoard(0));
 		for(int moveCount : this.gameOptions.getBoard().getPreviousBoard(0).keySet()) {
 			for(Tile tile : this.gameOptions.getBoard().getPreviousBoard(0).get(moveCount).values()) {
 				this.board.savePrevious(0, moveCount, tile, tile.getOccupant());
@@ -50,7 +49,7 @@ public class GameAI extends GameOptions {
 		}
 		
 		// Update the moveCounter
-		this.board.setMoveCounter(this.gameOptions.getBoard().getMoveCounter(0), 0);
+		this.board.setMoveCounter(0, this.gameOptions.getBoard().getMoveCounter(0));
 		
 		// Update the playerturn
 		this.playerTurn = this.gameOptions.getPlayerTurn();
@@ -67,14 +66,12 @@ public class GameAI extends GameOptions {
 		this.getBoard().createExtra(threadFrom, threadTo);
 
 		// Update the previous board
-	/*	this.getBoard().emptyAllPrevious(threadFrom);
+		this.getBoard().emptyAllPrevious(threadFrom);
 		for(int moveCount : this.getBoard().getPreviousBoard(threadFrom).keySet()) {
 			for(Tile tile : this.getBoard().getPreviousBoard(threadFrom).get(moveCount).values()) {
 				this.getBoard().savePrevious(threadTo, moveCount, tile, tile.getOccupant());
 			}
 		}
-*/
-		this.getBoard().createExtraPrevious(threadFrom, threadTo);
 		// Update the filled tiles
 		this.getBoard().resetFilledTiles(threadTo);
 		for(Player p : PlayerList.players.values()) {
@@ -116,7 +113,7 @@ public class GameAI extends GameOptions {
 	 */
 	public void makePredictionMove(int tileIndex, Player player, int threadId) {
 		//this.board.getTile(tileIndex).setOccupant(player);
-		this.getGameProperty().makeMove(this.board.getTile(tileIndex, threadId), player, threadId);
+		this.getGameProperty().makeMove(this.board.getTile(threadId, tileIndex), player, threadId);
 		//this.getGame().makeMove(this.board.getTile(tileIndex), player);
 	}
 	

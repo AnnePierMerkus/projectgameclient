@@ -8,6 +8,8 @@ import com.group4.util.Tile;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /***
  * @author AnnePierMerkus
@@ -52,22 +54,23 @@ public class REVERSIAI extends AI {
     public Tile bestMove() {
         List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player, 0);
         options.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
+
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
         int i = 0;
         for (Tile tile : options) {
-            if (i + 1 < options.size()) this.gameai.copyThread(i, i + 1);
-            Thread thread = new Thread(() -> {
-                this.gameai.makePredictionMove(tile.getIndex(), player, i);
+            //if (i + 1 < options.size()) this.gameai.copyThread(i, i + 1);
+                this.gameai.makePredictionMove(tile.getIndex(), player, 0);
+                double score = minimax(this.gameai.getBoard(), false, this.depth, Double.MIN_VALUE, Double.MAX_VALUE, 0);
 
-                double score = minimax(this.gameai.getBoard(), false, this.depth, Double.MIN_VALUE, Double.MAX_VALUE, i);
-                this.gameai.getBoard().revert(1, 1);
+                this.gameai.getBoard().revert(0, 1);
                 if (score > bestScore) {
                     bestScore = score;
                     move = tile;
                 }
-            });
-            thread.start();
+            i++;
         }
 
+        executorService.shutdown();
         if (move == null && options.size() > 0) {
             move = options.get(0);
         }

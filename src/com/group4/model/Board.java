@@ -117,6 +117,7 @@ public class Board {
      * @author mobieljoy12
      */
     public void setMoveCounter(int threadId, int newCount) {
+        System.out.println("setcounter" + threadId);
         this.moveCounter.put(threadId, newCount);
     }
 
@@ -203,6 +204,7 @@ public class Board {
             this.previousBoard.get(threadId).put(this.getMoveCounter(threadId), new HashMap<Integer, Tile>());
         Tile prevTile = new Tile(tile.getIndex(), tile.getWeight());
         prevTile.setOccupant(player, threadId);
+
         this.previousBoard.get(threadId).get(this.getMoveCounter(threadId)).put(tile.getIndex(), prevTile);
     }
 
@@ -214,10 +216,8 @@ public class Board {
      * @author mobieljoy12
      */
     public void revert(int threadId, int moves) {
-        //if((this.moveCounter - moves) < 0) moves = this.moveCounter;
         for (int counter = 0; counter < moves; counter++) {
             this.decMoveCounter(threadId);
-            System.out.println(this.previousBoard);
             for (Tile tile : this.previousBoard.get(threadId).get(this.getMoveCounter(threadId)).values()) {
                 if (tile.isOccupied()) {
                     this.addFilledTile(threadId, tile.getOccupant(), this.gameBoard.get(threadId).get(tile.getIndex()));
@@ -226,7 +226,7 @@ public class Board {
                 }
                 this.gameBoard.get(threadId).get(tile.getIndex()).setOccupant(tile.getOccupant(), threadId);
             }
-            this.previousBoard.remove(this.moveCounter.get(threadId));
+            this.previousBoard.get(threadId).remove(this.getMoveCounter(threadId));
         }
     }
 
