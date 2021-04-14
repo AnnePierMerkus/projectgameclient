@@ -42,13 +42,13 @@ public class TICTACTOEAI extends AI {
 	 */
 	public Tile bestMove(List<Tile> availableOptions){
 
-		List<Tile> options = this.gameai.getGameProperty().getAvailableOptions(player);
+		List<Tile> options = this.gameai.getGameProperty().getAvailableOptions(player, 0);
 		int bestScore = Integer.MIN_VALUE;
 		Tile move = null;
 
 		for (Tile tile : options)
 		{
-			this.gameai.makePredictionMove(tile.getIndex(), player);
+			this.gameai.makePredictionMove(tile.getIndex(), player, 0);
 			int score = minimax(this.gameai.getBoard(), false);
 			tile.reset();
 			if (score > bestScore) {
@@ -78,14 +78,14 @@ public class TICTACTOEAI extends AI {
 	 */
 	public int minimax(Board board, boolean maximizing)
 	{
-		if (gameai.getGameProperty().checkGameEnded()) {
-			return gameai.getGameProperty().getPlayerWon() == null ? 0 : gameai.getGameProperty().getPlayerWon() == player ? 1 : -1;
+		if (gameai.getGameProperty().checkGameEnded(0)) {
+			return gameai.getGameProperty().getPlayerWon(0) == null ? 0 : gameai.getGameProperty().getPlayerWon(0) == player ? 1 : -1;
 		}
 
 		if (maximizing) {
 			int bestScore = Integer.MIN_VALUE;
-			for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(player)) {
-				gameai.makePredictionMove(tile.getIndex(), player);
+			for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(player, 0)) {
+				gameai.makePredictionMove(tile.getIndex(), player, 0);
 				int score = minimax(board, false);
 				tile.reset();
 				bestScore = Math.max(score, bestScore);
@@ -95,8 +95,8 @@ public class TICTACTOEAI extends AI {
 		else {
 			int bestScore = Integer.MAX_VALUE;
 
-			for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(otherPlayer)) {
-				gameai.makePredictionMove(tile.getIndex(), otherPlayer);
+			for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(otherPlayer, 0)) {
+				gameai.makePredictionMove(tile.getIndex(), otherPlayer, 0);
 				int score = minimax(board, true);
 				tile.reset();
 				bestScore = Math.min(score, bestScore);

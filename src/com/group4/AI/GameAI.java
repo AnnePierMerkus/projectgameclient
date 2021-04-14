@@ -23,39 +23,69 @@ public class GameAI extends GameOptions {
 	
 	/***
 	 * Update this game from the actual game that is going on
-	 * 
-	 * @param threadId - The thread to update the game to
+	 *
 	 * @author mobieljoy12
 	 */
-	public void updateFromGame(int threadId) {
+	public void updateFromGame() {
 		// Update the board
 		for(Tile tile : this.gameOptions.getBoard().getGameBoard(0).values()) {
-			this.board.getTile(tile.getIndex(), threadId).setOccupant(tile.getOccupant(), threadId);
+			this.board.getTile(0, tile.getIndex()).setOccupant(tile.getOccupant(), 0);
 		}
 		
 		// Update the previous board
-		this.board.emptyAllPrevious(threadId);
+		this.board.emptyAllPrevious(0);
+		System.out.println("tile" + this.gameOptions.getBoard().getPreviousBoard(0));
 		for(int moveCount : this.gameOptions.getBoard().getPreviousBoard(0).keySet()) {
 			for(Tile tile : this.gameOptions.getBoard().getPreviousBoard(0).get(moveCount).values()) {
-				this.board.savePrevious(threadId, moveCount, tile, tile.getOccupant());
+				this.board.savePrevious(0, moveCount, tile, tile.getOccupant());
 			}
 		}
 		
 		// Update the filled tiles
-		this.board.resetFilledTiles(threadId);
+		this.board.resetFilledTiles(0);
 		for(Player p : PlayerList.players.values()) {
 			for(Tile tile : this.gameOptions.getBoard().getFilledTiles(0).get(p.getId()).values()) {
-				this.board.addFilledTile(threadId, p, tile);
+				this.board.addFilledTile(0, p, tile);
 			}
 		}
 		
 		// Update the moveCounter
-		this.board.setMoveCounter(this.gameOptions.getBoard().getMoveCounter(0), threadId);
+		this.board.setMoveCounter(this.gameOptions.getBoard().getMoveCounter(0), 0);
 		
 		// Update the playerturn
 		this.playerTurn = this.gameOptions.getPlayerTurn();
 	}
-	
+
+	public void copyThread(int threadFrom, int threadTo)
+	{
+		// Update the board
+		/*for(Tile tile : this.getBoard().getGameBoard(threadFrom).values()) {
+			this.getBoard().getTile(threadTo, tile.getIndex()).setOccupant(tile.getOccupant(), threadTo);
+		}
+		 */
+
+		this.getBoard().createExtra(threadFrom, threadTo);
+
+		// Update the previous board
+	/*	this.getBoard().emptyAllPrevious(threadFrom);
+		for(int moveCount : this.getBoard().getPreviousBoard(threadFrom).keySet()) {
+			for(Tile tile : this.getBoard().getPreviousBoard(threadFrom).get(moveCount).values()) {
+				this.getBoard().savePrevious(threadTo, moveCount, tile, tile.getOccupant());
+			}
+		}
+*/
+		this.getBoard().createExtraPrevious(threadFrom, threadTo);
+		// Update the filled tiles
+		this.getBoard().resetFilledTiles(threadTo);
+		for(Player p : PlayerList.players.values()) {
+			for(Tile tile : this.getBoard().getFilledTiles(threadFrom).get(p.getId()).values()) {
+				this.getBoard().addFilledTile(threadTo, p, tile);
+			}
+		}
+
+		// Update the moveCounter
+		this.getBoard().setMoveCounter(this.getBoard().getMoveCounter(threadFrom), threadTo);
+	}
 	/***
 	 * Set the GameOptions
 	 * 

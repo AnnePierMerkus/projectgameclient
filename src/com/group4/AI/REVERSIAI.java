@@ -50,18 +50,22 @@ public class REVERSIAI extends AI {
      * @return the best move for the Ai.
      */
     public Tile bestMove() {
-        List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player);
+        List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player, 0);
         options.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
+        int i = 0;
         for (Tile tile : options) {
-            
-            this.gameai.makePredictionMove(tile.getIndex(), player);
+            if (i + 1 < options.size()) this.gameai.copyThread(i, i + 1);
+            Thread thread = new Thread(() -> {
+                this.gameai.makePredictionMove(tile.getIndex(), player, i);
 
-            double score = minimax(this.gameai.getBoard(), false, this.depth, Double.MIN_VALUE, Double.MAX_VALUE);
-            this.gameai.getBoard().revert(1);
-            if (score > bestScore) {
-                bestScore = score;
-                move = tile;
-            }
+                double score = minimax(this.gameai.getBoard(), false, this.depth, Double.MIN_VALUE, Double.MAX_VALUE, i);
+                this.gameai.getBoard().revert(1, 1);
+                if (score > bestScore) {
+                    bestScore = score;
+                    move = tile;
+                }
+            });
+            thread.start();
         }
 
         if (move == null && options.size() > 0) {
@@ -81,18 +85,18 @@ public class REVERSIAI extends AI {
      */
     int f;
 
-    public double minimax(Board board, boolean maximizing, int depth, double alpha, double beta) {
-        if (depth == 0 || gameai.getGameProperty().gameHasEnded()) {
+    public double minimax(Board board, boolean maximizing, int depth, double alpha, double beta, int threadId) {
+        if (depth == 0 || gameai.getGameProperty().gameHasEnded(threadId)) {
             f++;
-            return evaluateGame(board);
+            return evaluateGame(board, threadId);
         }
 
         if (maximizing) {
             double score = Double.MIN_VALUE;
-            for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(player)) {
-                gameai.makePredictionMove(tile.getIndex(), player);
-                score = Math.max(score, minimax(board, false, depth - 1, alpha, beta));
-                this.gameai.getBoard().revert(1);
+            for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(player, threadId)) {
+                gameai.makePredictionMove(tile.getIndex(), player, threadId);
+                score = Math.max(score, minimax(board, false, depth - 1, alpha, beta, threadId));
+                this.gameai.getBoard().revert(threadId, 1);
                 alpha = Math.max(score, alpha);
                 if (alpha >= beta)
                     break;
@@ -101,10 +105,10 @@ public class REVERSIAI extends AI {
         } else {
             Double score = Double.MAX_VALUE;
             ;
-            for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(otherPlayer)) {
-                gameai.makePredictionMove(tile.getIndex(), otherPlayer);
-                score = Math.min(score, minimax(board, true, depth - 1, alpha, beta));
-                this.gameai.getBoard().revert(1);
+            for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(otherPlayer, threadId)) {
+                gameai.makePredictionMove(tile.getIndex(), otherPlayer, threadId);
+                score = Math.min(score, minimax(board, true, depth - 1, alpha, beta, threadId));
+                this.gameai.getBoard().revert(threadId, 1);
                 beta = Math.min(score, beta);
 
                 if (beta <= alpha)
@@ -119,18 +123,18 @@ public class REVERSIAI extends AI {
      *
      * @return
      */
-    public double evaluateGame(Board board) {
+    public double evaluateGame(Board board, int threadId) {
 
         double playerOneScore = 0;
         double playerTwoScore = 0;
 
-        int stones = board.getMoveCounter();
+        int stones = board.getMoveCounter(threadId);
         if (stones < 1) stones = 1;
 
         double modifierRegression = INITIAL_MODIFIER - END_GAME_MODIFIER;    // How much value will it have lost at the end of the game
         double modifier = INITIAL_MODIFIER - modifierRegression * (stones / 60.0);
 
-        for (Tile tile : board.getGameBoard().values()) {
+        for (Tile tile : board.getGameBoard(threadId).values()) {
             if (tile.getOccupant() == null) continue;
             double value = 1;
             int pos = tile.getIndex();

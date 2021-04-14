@@ -27,7 +27,7 @@ public abstract class AI {
 		this.depth = depth;
 		this.gameai = new GameAI(gameType);
 		this.gameai.setGameOptions(gameOptions);
-		this.gameai.updateFromGame(0);
+		this.gameai.updateFromGame();
 	}
 
     public abstract Tile makeMove(List<Tile> availableOptions);
