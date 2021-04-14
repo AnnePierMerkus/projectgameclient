@@ -24,66 +24,19 @@ public abstract class GameProperty {
 	protected GameOptions game = null;
 	
 	// Whether the game is on matchpoint
-	private boolean matchPoint = false;
+	protected HashMap<Integer, Boolean> matchPoint = new HashMap<Integer, Boolean>();
 	
 	// Whether the game has ended
-	private boolean gameEnded = false;
-	
-	// The player that has won the game, null for when it is a tie
-	protected Player playerWon = null;
-	
-	/***
-	 * Set the matchpoint variable
-	 * 
-	 * @param matchpoint
-	 * @author mobieljoy12
-	 */
-	public void setMatchPoint(boolean matchpoint) {
-		this.matchPoint = matchpoint;
-	}
+	protected HashMap<Integer, Boolean> gameEnded = new HashMap<Integer, Boolean>();
 	
 	/***
 	 * Check whether it's currently a matchpoint
 	 * 
 	 * @return boolean - Matchpoint
 	 */
-	public boolean isMatchPoint() {
-		return this.matchPoint;
-	}
-	
-	/***
-	 * End the game
-	 * 
-	 * @author mobieljoy12
-	 */
-	public void endGame() {
-		//TODO remove later
-		System.out.println("Game has ended");
-		if(this.playerWon == null) {
-			this.decidePlayerWin();
-		}
-		if(this.playerWon != null) System.out.println(this.displayNames.get(this.playerWon.getId()) + " wins!");
-		this.gameEnded = true;
-	}
-	
-	/***
-	 * Get the player that won the game
-	 * Null if player no player has won (yet)
-	 * 
-	 * @return Player - The player that won
-	 */
-	public Player getPlayerWon() {
-		return this.playerWon;
-	}
-	
-	/***
-	 * Whether the game has ended or should continue
-	 * 
-	 * @return boolean - Whether the game has ended
-	 * @author GRTerpstra & mobieljoy12
-	 */
-	public boolean gameHasEnded() {
-		return this.gameEnded;
+	public boolean isMatchPoint(int threadId) {
+		if(!this.matchPoint.containsKey(threadId)) this.matchPoint.put(threadId, false);
+		return this.matchPoint.get(threadId);
 	}
 	
 	/***
@@ -106,6 +59,33 @@ public abstract class GameProperty {
 	public String getDiplayName(String playerId) {
 		return (this.displayNames.containsKey(playerId)) ? this.displayNames.get(playerId) : "";
 	}
+	
+	/***
+	 * Returns the current game ended value without doing checkups
+	 * 
+	 * @return boolean - Game ended
+	 */
+	public boolean checkGameEnded(int threadId) {
+		if(!this.gameEnded.containsKey(threadId)) this.gameEnded.put(threadId, false);
+		return this.gameEnded.get(threadId);
+	}
+	
+	/***
+	 * Decide which player wins right now
+	 * Return null if no player has won (yet)
+	 * 
+	 * @return Player - The player that won
+	 */
+	public abstract Player getPlayerWon(int threadId);
+	
+	/***
+	 * Whether the game has ended or should continue
+	 * Also sets the matchpoint
+	 * 
+	 * @return boolean - Whether the game has ended
+	 * @author GRTerpstra & mobieljoy12
+	 */
+	public abstract boolean gameHasEnded(int threadId);
 	
 	/***
 	 * Get the GameType that is currently running
@@ -136,7 +116,7 @@ public abstract class GameProperty {
 	 * 
 	 * @param String - The player who gets first turn
 	 */
-	public abstract void doSetup(String currentPlayerTurn);
+	public abstract void doSetup(String currentPlayerTurn, int threadId);
 	
 	/***
 	 * The player that should start the game
@@ -155,7 +135,7 @@ public abstract class GameProperty {
 	 * @return List<Tile> - List of Tile options player could play
 	 * @author GRTerpstra & mobieljoy12
 	 */
-	public abstract List<Tile> getAvailableOptions(Player player);
+	public abstract List<Tile> getAvailableOptions(Player player, int threadId);
 	
 	/***
 	 * Make a move on a given Tile for a given Player
@@ -165,7 +145,7 @@ public abstract class GameProperty {
 	 * @return boolean - Whether move was legal
 	 * @author GRTerpstra & mobieljoy12
 	 */
-	public abstract boolean makeMove(Tile tile, Player player);
+	public abstract boolean makeMove(Tile tile, Player player, int threadId);
 	
 	/***
 	 * Check if a move on a Tile is legal for a given Player
@@ -175,22 +155,6 @@ public abstract class GameProperty {
 	 * @return boolean - Whether the move is legal
 	 * @author GRTerpstra & mobieljoy12
 	 */
-	public abstract boolean isLegalMove(Tile tile, Player player);
-	
-	/***
-	 * Check if the player has met the criteria to end the game
-	 * 
-	 * @param player - The player to check for
-	 * @return boolean - Met criteria
-	 * @author GRTerpstra
-	 */
-	public abstract boolean endGameFlagMet(Player player);
-	
-	/***
-	 * Decide which player wins the game, null if it is a tie
-	 * 
-	 * @author GRTerpstra & mobieljoy12
-	 */
-	public abstract void decidePlayerWin();
+	public abstract boolean isLegalMove(Tile tile, Player player, int threadId);
 		
 }

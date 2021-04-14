@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.*?>
 
 <?import com.group4.view.MyToggleButton?>
-
 <StackPane
     fx:controller="com.group4.controller.MultiplayerController"
     fx:id="root"
@@ -64,208 +63,236 @@
 
     </StackPane>
 
-    <GridPane
+    <StackPane
         fx:id="matchmaking"
-        vgap="2"
-        minHeight="500"
         visible="false"
-        alignment="TOP_CENTER"
-        xmlns:fx="http://javafx.com/fxml">
-        <padding>
-            <Insets
-                left="50"
-                right="50"/>
-        </padding>
-
-        <Text
-            text="Available games:"
-            GridPane.columnIndex="0"
-            GridPane.rowIndex="0">
-            <GridPane.margin>
-                <Insets
-                    bottom="-20"/>
-            </GridPane.margin>
-        </Text>
+        alignment="CENTER">
+        <ImageView fitWidth="${root.width}" fitHeight="${root.height}" >
+            <!--  ^^  bind to size of node with fx:id="root" ^^  -->
+            <image>
+                <Image url="@boardbackground.png"/>
+            </image>
+        </ImageView>
 
         <GridPane
-            fx:id="Games"
-            alignment="TOP_CENTER"
-            GridPane.columnIndex="0"
-            GridPane.rowIndex="1"
-            hgap="0"
-            vgap="2" >
+            vgap="2"
+            minHeight="500"
+            alignment="CENTER"
+            xmlns:fx="http://javafx.com/fxml">
+            <padding>
+                <Insets
+                    left="50"
+                    right="50"/>
+            </padding>
 
-            <HBox
-                spacing="10"
-                GridPane.hgrow="ALWAYS"
-                maxWidth="500"
-                maxHeight="500"
+            <Text
+                text="Available games:"
+                fill="white"
                 GridPane.columnIndex="0"
                 GridPane.rowIndex="0">
+                <GridPane.margin>
+                    <Insets
+                        bottom="-20"/>
+                </GridPane.margin>
+            </Text>
 
-                <MyToggleButton
-                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-                    text="Tic-tac-toe"
-                    toggleGroup="$GameGroup"
-                    alignment="CENTER_LEFT"
-                    HBox.hgrow="ALWAYS"
-                    maxWidth="500"
-                    maxHeight="300"
-                    onAction="#tic_tac_toe">
-
-                <toggleGroup>
-                        <ToggleGroup fx:id="GameGroup"/>
-                    </toggleGroup>
-                </MyToggleButton>
-            </HBox>
-
-
-            <HBox
-                spacing="10"
-                alignment="CENTER_RIGHT"
-                maxWidth="500"
-                maxHeight="500"
-                GridPane.columnIndex="0"
-                GridPane.rowIndex="1">
-
-                <MyToggleButton
-                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-                    text="Reversi"
-                    toggleGroup="$GameGroup"
-
-                    alignment="CENTER_LEFT"
-                    HBox.hgrow="ALWAYS"
-                    maxWidth="500"
-                    maxHeight="300"
-                    onAction="#reversi"/>
-            </HBox>
-
-            <rowConstraints>
-                <RowConstraints minHeight="40" maxHeight="40" />
-                <RowConstraints minHeight="40" maxHeight="40" />
-            </rowConstraints>
-        </GridPane>
-
-        <HBox
-            spacing="10"
-            maxWidth="500"
-            maxHeight="500"
-            alignment="TOP_RIGHT"
-            GridPane.columnIndex="0"
-            GridPane.rowIndex="2">
-
-            <GridPane.margin>
-                <Insets
-                    top="10"/>
-            </GridPane.margin>
-
-            <ToggleButton
-                    fx:id="AIBtn"
-                    visible="false"
-                    text="Enable AI"
-                    HBox.hgrow="ALWAYS"
-                    maxWidth="100"
-                    maxHeight="300"
-                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-                    onAction="#setAI"
-            />
-
-            <MyToggleButton
-                fx:id="joinLobby"
-                style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-                text="Join Lobby"
-                HBox.hgrow="ALWAYS"
-                maxWidth="100"
-                focusTraversable="false"
-                maxHeight="300"
-                onAction="#subscribe"/>
-
-            <MyToggleButton
-                fx:id="findPlayers"
-                style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-                text="Find Players"
-                focusTraversable="false"
-                HBox.hgrow="ALWAYS"
-                maxWidth="100"
-                maxHeight="300"
-                onAction="#queue"/>
-        </HBox>
-
-        <Text
-            fx:id="onlinePlayers"
-            visible="false"
-            text="Online players:"
-            GridPane.columnIndex="0"
-            GridPane.rowIndex="3">
-            <GridPane.margin>
-                <Insets
-                    bottom="-20"/>
-            </GridPane.margin>
-        </Text>
-
-        <ScrollPane
-                GridPane.columnIndex="0"
-                GridPane.rowIndex="4"
-                fitToWidth="true">
             <GridPane
-                    fx:id="playersGrid"
-                    visible="false"
-                    alignment="TOP_CENTER"
+                fx:id="Games"
+                alignment="TOP_CENTER"
+                GridPane.columnIndex="0"
+                GridPane.rowIndex="1"
+                hgap="0"
+                vgap="2" >
 
-                    hgap="0"
-                    vgap="2" >
+                <HBox
+                    spacing="10"
+                    GridPane.hgrow="ALWAYS"
+                    maxWidth="500"
+                    maxHeight="500"
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="0">
 
-                <!-- players are dynamically added here-->
+                    <MyToggleButton
+                        style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                        text="Tic-tac-toe"
+                        toggleGroup="$GameGroup"
+                        alignment="CENTER_LEFT"
+                        HBox.hgrow="ALWAYS"
+                        maxWidth="500"
+                        maxHeight="300"
+                        onAction="#tic_tac_toe">
+
+                    <toggleGroup>
+                            <ToggleGroup fx:id="GameGroup"/>
+                        </toggleGroup>
+                    </MyToggleButton>
+                </HBox>
+
+
+                <HBox
+                    spacing="10"
+                    alignment="CENTER_RIGHT"
+                    maxWidth="500"
+                    maxHeight="500"
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="1">
+
+                    <MyToggleButton
+                        style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                        text="Reversi"
+                        toggleGroup="$GameGroup"
+
+                        alignment="CENTER_LEFT"
+                        HBox.hgrow="ALWAYS"
+                        maxWidth="500"
+                        maxHeight="300"
+                        onAction="#reversi"/>
+                </HBox>
 
                 <rowConstraints>
                     <RowConstraints minHeight="40" maxHeight="40" />
                     <RowConstraints minHeight="40" maxHeight="40" />
                 </rowConstraints>
             </GridPane>
-        </ScrollPane>
 
-        <HBox
-            fx:id="challenge"
-            visible="false"
-            spacing="10"
-            maxWidth="500"
-            maxHeight="500"
-            alignment="TOP_RIGHT"
-            GridPane.columnIndex="0"
-            GridPane.rowIndex="5">
-
-            <GridPane.margin>
-                <Insets
-                    top="10"/>
-            </GridPane.margin>
-            <MyToggleButton
-                style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-                text="Challenge"
-                HBox.hgrow="ALWAYS"
-                maxWidth="100"
-                maxHeight="300"
-                onAction="#challenge"/>
-        </HBox>
-
-        <!-- notificationBox -->
-        <fx:include
+            <HBox
+                spacing="10"
+                maxWidth="500"
+                maxHeight="500"
+                alignment="TOP_RIGHT"
                 GridPane.columnIndex="0"
-                GridPane.rowIndex="7"
-                source="Notification.fxml"
-                fx:id="notification"
-        />
+                GridPane.rowIndex="2">
 
-        <rowConstraints>
-            <RowConstraints minHeight="40" maxHeight="40" />
-            <RowConstraints minHeight="82" maxHeight="82" />
-            <RowConstraints minHeight="40" maxHeight="40" />
-            <RowConstraints minHeight="40" maxHeight="40" />
-            <RowConstraints minHeight="123" maxHeight="400" />
-            <RowConstraints minHeight="40" maxHeight="40" />
-            <RowConstraints minHeight="40" maxHeight="40" />
-        </rowConstraints>
-        <columnConstraints>
-            <ColumnConstraints minWidth="400" />
-        </columnConstraints>
-    </GridPane>
+                <GridPane.margin>
+                    <Insets
+                        top="10"/>
+                </GridPane.margin>
+
+                <ToggleButton
+                        fx:id="AIBtn"
+                        visible="false"
+                        text="Enable AI"
+                        HBox.hgrow="ALWAYS"
+                        maxWidth="100"
+                        maxHeight="300"
+                        style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                        onAction="#setAI"
+                />
+
+                <TextField
+                        fx:id="AIDepth"
+                        promptText="AI Depth"
+                        visible="false"
+                        maxWidth="100"
+
+                />
+
+                <MyToggleButton
+                    fx:id="joinLobby"
+                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                    text="Join Lobby"
+                    HBox.hgrow="ALWAYS"
+                    maxWidth="100"
+                    focusTraversable="false"
+                    maxHeight="300"
+                    onAction="#subscribe"/>
+
+                <MyToggleButton
+                    fx:id="findPlayers"
+                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                    text="Find Players"
+                    focusTraversable="false"
+                    HBox.hgrow="ALWAYS"
+                    maxWidth="100"
+                    maxHeight="300"
+                    onAction="#queue"/>
+            </HBox>
+
+            <Text
+                fx:id="onlinePlayers"
+                visible="false"
+                fill="white"
+                text="Online players:"
+                GridPane.columnIndex="0"
+                GridPane.rowIndex="3">
+                <GridPane.margin>
+                    <Insets
+                        bottom="-20"/>
+                </GridPane.margin>
+            </Text>
+
+            <ScrollPane
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="4"
+                    style="-fx-background-color: #FBFAF5; -fx-border-color: black"
+                    fitToWidth="true">
+                <GridPane
+                        fx:id="playersGrid"
+                        visible="false"
+                        alignment="TOP_CENTER"
+                        hgap="0"
+                        vgap="2" >
+
+                    <!-- players are dynamically added here-->
+
+                    <rowConstraints>
+                        <RowConstraints minHeight="40" maxHeight="40" />
+                        <RowConstraints minHeight="40" maxHeight="40" />
+                    </rowConstraints>
+                </GridPane>
+            </ScrollPane>
+
+            <MyToggleButton
+                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                    text="Afsluiten"
+                    maxWidth="100"
+                    maxHeight="300"
+                    onAction="#close"
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="5"/>
+            <HBox
+                fx:id="challenge"
+                visible="false"
+                spacing="10"
+                maxWidth="500"
+                maxHeight="500"
+                alignment="TOP_RIGHT"
+                GridPane.columnIndex="0"
+                GridPane.rowIndex="5">
+
+                <GridPane.margin>
+                    <Insets
+                        top="10"/>
+                </GridPane.margin>
+                <MyToggleButton
+                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                    text="Challenge"
+                    HBox.hgrow="ALWAYS"
+                    maxWidth="100"
+                    maxHeight="300"
+                    onAction="#challenge"/>
+            </HBox>
+
+            <!-- notificationBox -->
+            <fx:include
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="7"
+                    source="Notification.fxml"
+                    fx:id="notification"
+            />
+
+            <rowConstraints>
+                <RowConstraints minHeight="40" maxHeight="40" />
+                <RowConstraints minHeight="82" maxHeight="82" />
+                <RowConstraints minHeight="40" maxHeight="40" />
+                <RowConstraints minHeight="40" maxHeight="40" />
+                <RowConstraints minHeight="123" maxHeight="400" />
+                <RowConstraints minHeight="40" maxHeight="40" />
+                <RowConstraints minHeight="40" maxHeight="40" />
+            </rowConstraints>
+            <columnConstraints>
+                <ColumnConstraints minWidth="400" />
+            </columnConstraints>
+        </GridPane>
+    </StackPane>
 </StackPane>

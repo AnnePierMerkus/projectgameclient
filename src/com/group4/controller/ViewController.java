@@ -1,6 +1,5 @@
 package com.group4.controller;
 
-import com.group4.util.Tile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,18 +9,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.util.Iterator;
-import java.util.Map;
-
-
-public class ViewController {
+/**
+ * @author Anne Pier Merkus
+ */
+public class ViewController extends Controller {
     boolean online = false;
+    int depth;
 
     GameController.Difficulty gameDifficulty;
     GameController.GameType gameType;
+
+    /**
+     * The following variables are all declared and created in fxml files to control the views.
+     */
 
     @FXML
     GridPane difficulty;
@@ -46,6 +48,12 @@ public class ViewController {
         start.setDisable(true);
     }
 
+    /**
+     * Quit the game.
+     * 
+     * @param event
+     * @author Anne Pier Merkus
+     */
     @FXML
     protected void quit(ActionEvent event)
     {
@@ -54,7 +62,9 @@ public class ViewController {
 
     /**
      * Set mode to local.
+     * 
      * @param event The UI element used to call this function.
+     * @author Anne Pier Merkus
      */
     @FXML
     protected void local(ActionEvent event) {
@@ -67,7 +77,9 @@ public class ViewController {
 
     /**
      * Set mode to multiplayer online.
+     * 
      * @param event The UI element used to call this function.
+     * @author Anne Pier Merkus
      */
     @FXML
     protected void online(ActionEvent event) {
@@ -83,18 +95,36 @@ public class ViewController {
         online = true;
     }
 
+    /**
+     * Select tic_tac_toe game mode.
+     * 
+     * @param event
+     * @author Anne Pier Merkus
+     */
     @FXML
     protected void tic_tac_toe(ActionEvent event)
     {
         selectGame(GameController.GameType.TICTACTOE);
     }
 
+    /**
+     * Select Reversi game mode.
+     * 
+     * @param event
+     * @author Anne Pier Merkus
+     */
     @FXML
     protected void reversi(ActionEvent event)
     {
         selectGame(GameController.GameType.REVERSI);
     }
 
+    /**
+     * General game options preventing double code.
+     * 
+     * @param gameType
+     * @author Anne Pier Merkus
+     */
     private void selectGame(GameController.GameType gameType)
     {
         this.gameType = gameType;
@@ -105,7 +135,9 @@ public class ViewController {
 
     /**
      * Set difficult to easy.
+     * 
      * @param event The UI element used to call this function.
+     * @author Anne Pier Merkus
      */
     @FXML
     protected void easy(ActionEvent event) {
@@ -115,7 +147,9 @@ public class ViewController {
 
     /**
      * Set difficult to medium.
+     * 
      * @param event The UI element used to call this function.
+     * @author Anne Pier Merkus
      */
     @FXML
     protected void medium(ActionEvent event) {
@@ -125,7 +159,9 @@ public class ViewController {
 
     /**
      * Set difficult to hard.
+     * 
      * @param event The UI element used to call this function.
+     * @author Anne Pier Merkus
      */
     @FXML
     protected void hard(ActionEvent event) {
@@ -133,11 +169,18 @@ public class ViewController {
         gameDifficulty = GameController.Difficulty.HARD;
     }
 
+    /**
+     * Play button is pressed and creating the game view.
+     * 
+     * @param event
+     * @throws Exception
+     * @author Anne Pier Merkus
+     */
     @FXML void start(ActionEvent event) throws Exception {
         Stage stage = (Stage) start.getScene().getWindow();
-
+        Controller.stage = stage;
         if (online) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Online.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Connect.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 500, 500);
             scene.getStylesheets().add(getClass().getResource("../test.css").toExternalForm());
@@ -146,31 +189,8 @@ public class ViewController {
         }
         else
         {
-            Scene scene = new Scene(fillInBoard());
+            Scene scene = new Scene(fillInBoard(gameType, new SingleplayerGameController(gameDifficulty), false));
             stage.setScene(scene);
         }
-    }
-
-    public GridPane fillInBoard() {
-        GridPane root = new GridPane();
-        GameController gameController = new SingleplayerGameController();
-        gameController.createGame(GameController.Difficulty.EASY, gameType);
-        root.setPrefSize(600, 600);
-
-        Iterator it = gameController.getOptions().getBoard().getGameBoard().entrySet().iterator();
-        int row = 0;
-        int column = 0;
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            root.add((Tile)pair.getValue(), column, row);
-            column++;
-
-            if (((int)pair.getKey() + 1) % gameController.getOptions().getBoard().getWidth() == 0)
-            {
-                column = 0;
-                row++;
-            }
-        }
-        return root;
     }
 }

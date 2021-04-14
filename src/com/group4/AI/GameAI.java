@@ -2,8 +2,8 @@ package com.group4.AI;
 
 import com.group4.controller.GameController.GameType;
 import com.group4.model.GameOptions;
-import com.group4.util.GameProperty;
 import com.group4.util.Player;
+import com.group4.util.PlayerList;
 import com.group4.util.Tile;
 
 public class GameAI extends GameOptions {
@@ -11,6 +11,12 @@ public class GameAI extends GameOptions {
 	// Holds the GameOptions value
 	private GameOptions gameOptions;
 	
+	/***
+	 * A mock game that the AI can create to perform the predictions
+	 * 
+	 * @param gameType - The gameType for the game
+	 * @author mobieljoy12
+	 */
 	public GameAI(GameType gameType) {
 		super(gameType);
 	}
@@ -18,12 +24,35 @@ public class GameAI extends GameOptions {
 	/***
 	 * Update this game from the actual game that is going on
 	 * 
+	 * @param threadId - The thread to update the game to
 	 * @author mobieljoy12
 	 */
-	public void updateFromGame() {
-		for(Tile tile : this.gameOptions.getBoard().getGameBoard().values()) {
-			this.board.getTile(tile.getIndex()).setOccupant(tile.getOccupant());
+	public void updateFromGame(int threadId) {
+		// Update the board
+		for(Tile tile : this.gameOptions.getBoard().getGameBoard(0).values()) {
+			this.board.getTile(tile.getIndex(), threadId).setOccupant(tile.getOccupant(), threadId);
 		}
+		
+		// Update the previous board
+		this.board.emptyAllPrevious(threadId);
+		for(int moveCount : this.gameOptions.getBoard().getPreviousBoard(0).keySet()) {
+			for(Tile tile : this.gameOptions.getBoard().getPreviousBoard(0).get(moveCount).values()) {
+				this.board.savePrevious(threadId, moveCount, tile, tile.getOccupant());
+			}
+		}
+		
+		// Update the filled tiles
+		this.board.resetFilledTiles(threadId);
+		for(Player p : PlayerList.players.values()) {
+			for(Tile tile : this.gameOptions.getBoard().getFilledTiles(0).get(p.getId()).values()) {
+				this.board.addFilledTile(threadId, p, tile);
+			}
+		}
+		
+		// Update the moveCounter
+		this.board.setMoveCounter(this.gameOptions.getBoard().getMoveCounter(0), threadId);
+		
+		// Update the playerturn
 		this.playerTurn = this.gameOptions.getPlayerTurn();
 	}
 	
@@ -38,24 +67,27 @@ public class GameAI extends GameOptions {
 	}
 
 	/***
-	 * Get the GameProperty
+	 * Get the current GameOptions
 	 * 
-	 * @return GameProperty
+	 * @return GameOptions
+	 * @author mobieljoy12
 	 */
-	public GameProperty getGame() {
-		return this.gameOptions.getGameProperty();
+	public GameOptions getGame() {
+		return this.gameOptions;
 	}
-	
+
 	/***
 	 * Add a move to the prediction board
 	 * 
 	 * @param tileIndex - The index of the Tile to put the move on
 	 * @param player - The Player to set to the tile
+	 * @param threadId - The thread to make the move on
 	 * @author mobieljoy12
 	 */
-	public void makePredictionMove(int tileIndex, Player player) {
-
-		this.board.getTile(tileIndex).setOccupant(player);
+	public void makePredictionMove(int tileIndex, Player player, int threadId) {
+		//this.board.getTile(tileIndex).setOccupant(player);
+		this.getGameProperty().makeMove(this.board.getTile(tileIndex, threadId), player, threadId);
+		//this.getGame().makeMove(this.board.getTile(tileIndex), player);
 	}
 	
 	@Override

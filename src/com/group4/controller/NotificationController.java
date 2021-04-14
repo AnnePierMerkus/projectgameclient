@@ -29,6 +29,14 @@ public class NotificationController {
 
     Observer declineObserver;
 
+    /**
+     * Show a new notification on the screen
+     *
+     * @param msg
+     * @param acceptObserver
+     * @param declineObserver
+     * @author Gemar Koning
+     */
     public void revealNotification(String msg, Observer acceptObserver, Observer declineObserver){
         this.Notification.setVisible(true);
         this.notification_text.setText(msg);
@@ -40,6 +48,13 @@ public class NotificationController {
         this.notificationDeclineBtn.setVisible(true);
     }
 
+    /**
+     * Show a new notification on the screen
+     *
+     * @param msg
+     * @param acceptObserver
+     * @author Gemar Koning
+     */
     public void revealNotification(String msg, Observer acceptObserver){
         this.Notification.setVisible(true);
         this.notification_text.setText(msg);
@@ -51,6 +66,12 @@ public class NotificationController {
     }
 
 
+    /**
+     * Show a new notification on the screen
+     *
+     * @param msg
+     * @author Gemar Koning
+     */
     public void revealNotification(String msg){
         this.Notification.setVisible(true);
         this.notification_text.setText(msg);
@@ -59,10 +80,20 @@ public class NotificationController {
         this.notificationDeclineBtn.setVisible(false);
     }
 
+    /**
+     * Hide revealed notification
+     *
+     * @author Gemar Koning
+     */
     public void hideNotification(){
         this.Notification.setVisible(false);
     }
 
+    /**
+     * Call observable on accept button press
+     * 
+     * @author Gemar Koning
+     */
     public void notificationAccept(){
         System.out.println("Notification accepted");
 
@@ -74,6 +105,11 @@ public class NotificationController {
         this.notificationAcceptBtn.setSelected(false);
     }
 
+    /**
+     * Call observable on decline button press
+     * 
+     * @author Gemar Koning
+     */
     public void notificationDecline(){
         System.out.println("Notification declined");
 

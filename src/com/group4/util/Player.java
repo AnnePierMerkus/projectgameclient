@@ -1,6 +1,7 @@
 package com.group4.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.group4.util.observers.Observable;
@@ -21,6 +22,8 @@ public class Player implements Observable {
 	
 	// Holding the state the player is currently in
 	protected PlayerState playerState;
+	
+	private HashMap<Integer, ArrayList<Tile>> lastAvailableOptions = new HashMap<Integer, ArrayList<Tile>>();
 	
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
 	
@@ -58,11 +61,22 @@ public class Player implements Observable {
 	/***
 	 * Set the player state
 	 * 
+	 * @param threadId - The thread to make the player move on
 	 * @param state - The state to set the player to
 	 * @author mobieljoy12
 	 */
-	public void setPlayerState(PlayerState state) {
+	public void setPlayerState(PlayerState state, int threadId) {
 		this.playerState = state;
+		if(state.equals(PlayerState.PLAYING_HAS_TURN)) {
+			if(this.gameProperty != null) { // If game is ready
+				if(this.getAvailableOptions(threadId).isEmpty()) { // Check if player has turns left
+					if(!this.gameProperty.gameHasEnded(threadId)) { // If game hasn't ended
+						System.out.println("Giving turn back to other player");
+						this.notifyObservers(); // Give turn back
+					}
+				}
+			}
+		}
 	}
 	
 	/***
@@ -73,31 +87,55 @@ public class Player implements Observable {
 	 * @return boolean - Whether the move was legal
 	 * @author mobieljoy12
 	 */
-	public void makeMove(Tile tile) {
+	public void makeMove(Tile tile, int threadId) {
 		//TODO check matchpoint & end game
 		// Don't allow moves if player does not have the turn
 		if(this.playerState != PlayerState.PLAYING_HAS_TURN) return;
-		if(this.gameProperty.gameHasEnded()) return;
+		if(this.gameProperty.checkGameEnded(threadId)) return;
 		
-		if(this.gameProperty.makeMove(tile, this)){
+		if(this.gameProperty.makeMove(tile, this, threadId)){
 			this.notifyObservers();
 		}
+	}
+	
+	/***
+	 * Check if player has moves left
+	 * 
+	 * @return boolean - Moves left
+	 */
+	public boolean hasMovesLeft() {
+		return !this.lastAvailableOptions.isEmpty();
+	}
+	
+	/***
+	 * Set the last available options so the player is up-to-date
+	 * 
+	 * @param options - Options
+	 * @param threadId - The thread to get the options for
+	 */
+	public void setAvailableOptions(List<Tile> options, int threadId) {
+		
+		if(!this.lastAvailableOptions.containsKey(threadId)) this.lastAvailableOptions.put(threadId, new ArrayList<Tile>());
+		
+		this.lastAvailableOptions.put(threadId, new ArrayList<Tile>(options));
 	}
 	
 	/***
 	 * Get available Tiles to make a move on
 	 * Returns null if player is not in a game
 	 * 
+	 * @param threadId - The thread to get the options for
 	 * @return List<Tile> - List of available Tiles to make a move on
 	 * @author mobieljoy12
 	 */
-	public List<Tile> getAvailableOptions(){
+	public List<Tile> getAvailableOptions(int threadId){
 		if(this.gameProperty == null) {
-			//TODO - Catch exception, player is not in a game so he can not get available options
 			System.out.println("Player tried getting options while gameproperty doesn't exist");
 			return null;
 		}
-		return this.gameProperty.getAvailableOptions(this);
+		List<Tile> options = this.gameProperty.getAvailableOptions(this,threadId);
+		this.setAvailableOptions(options, threadId);
+		return options;
 	}
 	
 	/***
@@ -108,6 +146,7 @@ public class Player implements Observable {
 	 */
 	public void setGameProperty(GameProperty game) {
 		this.gameProperty = game;
+		this.getAvailableOptions(0);
 	}
 
 	@Override

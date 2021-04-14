@@ -2,7 +2,6 @@ package com.group4.model;
 
 import java.util.concurrent.ThreadLocalRandom;
 import com.group4.controller.GameController.Difficulty;
-import com.group4.controller.GameController.GameState;
 import com.group4.controller.GameController.GameType;
 import com.group4.util.GameProperty;
 import com.group4.util.Player.PlayerState;
@@ -24,9 +23,6 @@ public class GameOptions {
 	
 	// Which player has the turn, negative if no game is going on
 	protected String playerTurn = "";
-	
-	// Set the default gameState to preparing
-	private GameState gameState = GameState.PREPARING;
 	
 	/**
      * Instantiate GameProperty class for the GameType
@@ -76,7 +72,7 @@ public class GameOptions {
 		String currentPlayerTurn = this.toggleTurn();
 		
 		// Setup the board if needed - TODO ~ Test the setup
-		this.game.doSetup(currentPlayerTurn);
+		this.game.doSetup(currentPlayerTurn, 0);
 
 	}
 	
@@ -106,7 +102,7 @@ public class GameOptions {
 		this.playerTurn = playerStart;
 		
 		// Setup the board if needed - TODO ~ Test the setup
-		this.game.doSetup(playerStart);
+		this.game.doSetup(playerStart, 0);
 
 	}
 	
@@ -138,8 +134,8 @@ public class GameOptions {
 	 * @author mobieljoy12
 	 */
 	public String toggleTurn() {
-		if(this.gameState.equals(GameState.ENDED)) return "";
-		PlayerList.players.values().forEach((p) -> p.setPlayerState(PlayerState.PLAYING_NO_TURN));
+		// Check if game has ended
+		PlayerList.players.values().forEach((p) -> p.setPlayerState(PlayerState.PLAYING_NO_TURN, 0));
 		if(this.playerTurn.length() == 0) { // No player currently has the turn
 			String gameBasePlayerStart = this.game.playerStart();
 			if(gameBasePlayerStart.length() == 0) { // Game says player start doesn't matter
@@ -150,8 +146,16 @@ public class GameOptions {
 		}else {
 			this.playerTurn = (this.playerTurn.equals("p1")) ? "p2" : "p1"; // Toggle turn to other player
 		}
-		PlayerList.getPlayer(this.playerTurn).setPlayerState(PlayerState.PLAYING_HAS_TURN); // Set player with turn to allow move
+		PlayerList.getPlayer(this.playerTurn).setPlayerState(PlayerState.PLAYING_HAS_TURN, 0); // Set player with turn to allow move
 		return this.playerTurn;
+	}
+	
+	/***
+	 * Set the player turn to a playerid
+	 * Used by the multiplayer toggleTurn
+	 */
+	public void setPlayerTurn(String playerId) {
+		this.playerTurn = playerId;
 	}
 	
 	/***
@@ -163,7 +167,7 @@ public class GameOptions {
 	public String getPlayerTurn() {
 		return this.playerTurn;
 	}
-	
+
 	/***
 	 * Get the game logic for the current game
 	 * 
@@ -195,16 +199,6 @@ public class GameOptions {
 	}
 	
 	/***
-	 * Get the GameState
-	 * 
-	 * @return GameState - The state the game is in
-	 * @author mobieljoy12
-	 */
-	public GameState getGameState() {
-		return this.gameState;
-	}
-	
-	/***
 	 * Get the board for the current game
 	 * 
 	 * @return Board - The board currently in use by the game
@@ -212,16 +206,6 @@ public class GameOptions {
 	 */
 	public Board getBoard() {
 		return this.board;
-	}
-	
-	/***
-	 * Set the GameState
-	 * 
-	 * @param state - The state to set the game to
-	 * @author mobieljoy12
-	 */
-	public void setGameState(GameState state) {
-		this.gameState = state;
 	}
 	
 }

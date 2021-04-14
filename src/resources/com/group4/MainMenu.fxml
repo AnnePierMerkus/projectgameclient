@@ -46,7 +46,7 @@
 			<MyToggleButton
 				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
 				toggleGroup="$ModeGroup"
-				text="Local"
+				text="Lokaal"
 				HBox.hgrow="ALWAYS"
 				maxWidth="300"
 				maxHeight="300"
@@ -158,7 +158,7 @@
 			<MyToggleButton
 				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
 				toggleGroup="$DifficultyGroup"
-				text="Easy"
+				text="Makkelijk"
 				HBox.hgrow="ALWAYS"
 				maxWidth="300"
 				maxHeight="300"
@@ -176,7 +176,7 @@
 			<MyToggleButton
 				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
 				toggleGroup="$DifficultyGroup"
-				text="Medium"
+				text="Normaal"
 				HBox.hgrow="ALWAYS"
 				maxWidth="300"
 				maxHeight="300"
@@ -195,7 +195,7 @@
 			<MyToggleButton
 				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
 				toggleGroup="$DifficultyGroup"
-				text="Hard"
+				text="Moeilijk"
 				HBox.hgrow="ALWAYS"
 				maxWidth="300"
 				maxHeight="300"
@@ -216,7 +216,7 @@
 
 		<MyToggleButton
 			style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-			text="Quit"
+			text="Afsluiten"
 			HBox.hgrow="ALWAYS"
 			maxWidth="300"
 			maxHeight="50"
@@ -231,7 +231,7 @@
 		<MyToggleButton
 			fx:id="start"
 			style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-			text="Play -->"
+			text="Spelen -->"
 			HBox.hgrow="ALWAYS"
 			maxWidth="300"
 			maxHeight="50"

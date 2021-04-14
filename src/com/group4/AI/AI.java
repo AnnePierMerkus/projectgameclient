@@ -11,16 +11,25 @@ public abstract class AI {
 	
 	// The Game the AI can work with
 	GameAI gameai;
+
+	// The depth for the AI, how many moves ahead it will look
+	int depth;
 	
-	public void updateBoardFromGame() {
-		
-	}
-	
-	public void setAIType(GameOptions gameOptions, GameType gameType) {
+	/***
+	 * Set the AI type to the GameType given + a difficulty given in depth
+	 * 
+	 * @param gameOptions - The game currently going on
+	 * @param gameType - The gametype
+	 * @param depth - The difficulty given in depth
+	 * @author AnnePierMerkus & mobieljoy12
+	 */
+	public void setAIType(GameOptions gameOptions, GameType gameType, int depth) {
+		this.depth = depth;
 		this.gameai = new GameAI(gameType);
 		this.gameai.setGameOptions(gameOptions);
-    }
-	
+		this.gameai.updateFromGame(0);
+	}
+
     public abstract Tile makeMove(List<Tile> availableOptions);
-    
+
 }

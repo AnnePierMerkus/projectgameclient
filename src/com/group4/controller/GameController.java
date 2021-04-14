@@ -1,23 +1,23 @@
 package com.group4.controller;
 
+import com.group4.games.REVERSI;
 import com.group4.model.GameOptions;
 import com.group4.util.Player.PlayerState;
 import com.group4.util.PlayerList;
 import com.group4.util.observers.PlayerObserver;
+import javafx.application.Platform;
 
 public abstract class GameController extends Controller {
 	
+	// The GameTypes possible, a new game should also be added here
 	public enum GameType {
 		TICTACTOE, REVERSI
 	};
 	
+	// The possible difficulties to add to a game
 	public enum Difficulty {
 		EASY, MEDIUM, HARD
 	};
-	
-	public enum GameState {
-		PREPARING, PLAYING, ENDED
-	}
 	
 	// Initiate the player observer
 	protected PlayerObserver playerObserver = new PlayerObserver(this);
@@ -25,6 +25,11 @@ public abstract class GameController extends Controller {
 	// The game that is currently going on
 	protected GameOptions game = null;
 	
+	/***
+	 * The GameController is the base class for all GameControllers, multi- and single-player
+	 * 
+	 * @author mobieljoy12
+	 */
 	protected GameController() {
 		super();
 	}
@@ -50,19 +55,49 @@ public abstract class GameController extends Controller {
 	 */
 	public String toggleTurn() {
 		if(this.game != null) { // No player currently has the turn
-			if(this.game.getGameState().equals(GameState.PLAYING)) {
+			
+			if(!this.game.getGameProperty().gameHasEnded(0)) {
 				return this.game.toggleTurn();
-			}else if(this.game.getGameState().equals(GameState.ENDED)) {
-				PlayerList.players.values().forEach((p) -> p.setPlayerState(PlayerState.WAITING));
+			}else {
+
+				Platform.runLater(() -> {
+					//go to GameOverScreen
+					this.swap(stage, "EndGame.fxml");
+					GameOverController gameOverController = (GameOverController) this.getCurrentController();
+					if (this.game.getGameProperty().getPlayerWon(0) == null)
+					{
+						gameOverController.getResultText().setText("Gelijk Spel!");
+					}
+					else if (game.getGameProperty().getPlayerWon(0).getId().equals("p1")){
+						gameOverController.getResultText().setText("Je Hebt Gewonnen!");
+					}else if (game.getGameProperty().getPlayerWon(0).getId().equals("p2")){
+						gameOverController.getResultText().setText("Je Hebt verloren :(");
+					}else {
+						gameOverController.getResultText().setText("Gelijk Spel!");
+					}
+
+					if (this.game.getGameProperty() instanceof REVERSI) {
+						gameOverController.setScoreVisibility(true);
+						gameOverController.getScorePlayer1Text().setText("Score Speler 1: " + game.getBoard().getScore(0, PlayerList.getPlayer("p1")));
+						gameOverController.getScorePlayer2Text().setText("Score Speler 2: " + game.getBoard().getScore(0, PlayerList.getPlayer("p2")));
+					}else {
+						gameOverController.setScoreVisibility(false);
+					}
+
+					gameOverController.getQuitBtn().setOnAction((event) -> {
+						this.swap(stage, "../MainMenu.fxml");
+					});
+				});
+				System.out.println("Game over: " + this.game.getGameProperty().getPlayerWon(0));
+				PlayerList.players.values().forEach((p) -> p.setPlayerState(PlayerState.WAITING, 0));
 			}
-			return "";
 		}
 		return "";
 	}
 	
 	/***
-	 * Create a new game with automatic difficulty or multiplayer in mind
-	 * Abstract so the Singeplayer and Multiplayer can have their own implementation
+	 * Create a new game with automatic difficulty or multi-player in mind
+	 * Abstract so the single-player and multi-player can have their own implementation
 	 * 
 	 * @param gameType
 	 * @author mobieljoy12
@@ -71,7 +106,7 @@ public abstract class GameController extends Controller {
 	
 	/***
 	 * Create a new game
-	 * Abstract so the Singeplayer and Multiplayer can have their own implementation
+	 * Abstract so the single-player and multi-player can have their own implementation
 	 * 
 	 * @param difficulty
 	 * @param gameType
@@ -81,7 +116,7 @@ public abstract class GameController extends Controller {
 	
 	/***
 	 * End the current game
-	 * Abstract so the Singeplayer and Multiplayer can have their own implementation
+	 * Abstract so the single-player and multi-player can have their own implementation
 	 * 
 	 * @author mobieljoy12
 	 */

@@ -64,19 +64,24 @@ public class NetworkPlayer extends Player {
      * @return
      */
     @Override
-    public void makeMove(Tile tile) {
+    public void makeMove(Tile tile, int threadId) {
+        System.out.println("");
         if (this.state instanceof InMatchPlayerTurnState){
-            if (this.gameProperty.makeMove(tile, this)){
+            if (this.gameProperty.makeMove(tile, this, threadId)){
                 this.state.makeMove(this, tile.getIndex());
+            }else{
+                System.out.println("Move is illegal");
             }
+        }else{
+            System.out.println("Network Player has not the turn");
         }
     }
 
     /**
      * Log player into multiplayer server
      */
-    public void login(){
-        this.state.login(this);
+    public boolean login(){
+        return this.state.login(this);
     }
 
     /**

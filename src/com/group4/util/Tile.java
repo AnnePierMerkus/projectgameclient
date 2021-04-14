@@ -4,45 +4,73 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import com.group4.controller.GameController.GameType;
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
+import com.group4.util.observers.TileObserver;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
+/**
+ * @author GRTerpstra & Anne Pier Merkus
+ */
 public class Tile extends StackPane implements Observable {
-	
+	/**
+	 * Index of the tile on the board.
+	 */
 	private int index;
 
+	/**
+	 * Weight of this tile depending on the position on the board.
+	 */
 	private int weight = 0;
 
+	/**
+	 * Player occupying this tile.
+	 */
 	private Player playerOnTile = null;
-	
-	private ArrayList<Observer> observers = new ArrayList<Observer>();
 
+	/**
+	 * List of observers to call when the occupant of the tile changes.
+	 */
+	private ArrayList<TileObserver> observers = new ArrayList<TileObserver>();
+
+	/**
+	 * Circle in black or white on the Reversi board.
+	 */
 	Circle circle;
+
+	/**
+	 * X/O on a tile when playing Tic_tac_toe
+	 */
+	Text text;
 	
 	/***
-	 * Make a new Tile
+	 * Make a new Tile and set the relevant values.
 	 * 
-	 * @param index
-	 * @author GRTerpstra
+	 * @param index index of this tile.
+	 * @param weight weight for this tile
+	 * @author GRTerpstra & Anne Pier Merkus
 	 */
 	public Tile(int index, int weight) {
 		this.index = index;
 		if (this.weight == 0)
 			this.weight = weight;
 
-		Rectangle border = new Rectangle(75, 75);
+		Rectangle border = new Rectangle(60, 60);
 
-		circle = new Circle(0, 0, 30);
+		circle = new Circle(0, 0, 25);
 		circle.setFill(Color.web("#009067"));
 		setStyle("-fx-background-color: #009067");
+		text = new Text();
+		text.setStyle("-fx-font: 50 arial; -fx-font-weight: bold;");
 
-		getChildren().add(circle);
+		getChildren().addAll(circle, text);
 		border.setFill(null);
 		border.setStroke(Color.BLACK);
 		setAlignment(Pos.CENTER);
@@ -55,7 +83,7 @@ public class Tile extends StackPane implements Observable {
 				Entry<String, Player> pair = it.next();
 				if (pair.getValue().getPlayerState() == Player.PlayerState.PLAYING_HAS_TURN)
 				{
-					pair.getValue().makeMove(this);
+					pair.getValue().makeMove(this, 0);
 					break;
 				}
 			}
@@ -99,9 +127,15 @@ public class Tile extends StackPane implements Observable {
 	 * @param occupant - Player to set on this Tile
 	 * @author mobieljoy12
 	 */
-	public void setOccupant(Player occupant) {
+	public void setOccupant(Player occupant, int threadId) {
 		this.playerOnTile = occupant;
-		if(occupant != null) {
+		if(occupant != null && (occupant.gameProperty != null && occupant.gameProperty.getGameType() == GameType.TICTACTOE)) {
+			text.setText(this.playerOnTile.getId().equals("p1") ? "X" : "0");
+			if(this.playerOnTile.getId().equals("p1")) {
+				text.setFill(Color.WHITE);
+			}
+		}
+		else if(occupant != null) {
 			circle.setFill(this.playerOnTile.getId().equals("p1") ? Color.WHITE : Color.BLACK);
 		}
 		this.notifyObservers();
@@ -126,19 +160,40 @@ public class Tile extends StackPane implements Observable {
 		return (this.playerOnTile != null);
 	}
 
+	/**
+	 * Register TileObservers for this Tile.
+	 * @param observer Observer to be added.
+	 */
 	@Override
 	public void registerObserver(Observer observer) {
-		this.observers.add(observer);
+		TileObserver tileObserver = (TileObserver) observer;
+		this.observers.add(tileObserver);
 	}
 
+	/**
+	 * Remove observers from this Tile.
+	 * @param observer Observer to be removed.
+	 */
 	@Override
 	public void removeObserver(Observer observer) {
 		this.observers.remove(observer);
 	}
 
+	/**
+	 * Notifying all the observers when the occupant changes.
+	 */
 	@Override
 	public void notifyObservers() {
 		this.observers.forEach((o) -> o.update(this));
+	}
+	
+	/***
+	 * Update the filled tiles list
+	 * 
+	 * @param threadId - The thread to update the list for
+	 */
+	public void updateFilledTiles(int threadId) {
+		this.observers.forEach((o) -> o.updateFilledTile(this, threadId));
 	}
 	
 }

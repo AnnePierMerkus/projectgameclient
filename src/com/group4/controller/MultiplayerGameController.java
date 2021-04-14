@@ -17,30 +17,45 @@ public class MultiplayerGameController extends GameController{
 
     @Override
     void createGame(GameType gameType) {
-        this.game = new GameOptions(Difficulty.MEDIUM, gameType, (this.startingPlayer != null) ? this.startingPlayer.getId() : PlayerList.getPlayer("p1").getId());
+        this.game = new GameOptions(Difficulty.MEDIUM, gameType, this.startingPlayer.getId());
 
         // Set PlayerState to has turn, turns will be monitored by server instead
         for(Player p : PlayerList.players.values()) {
-            p.setPlayerState(Player.PlayerState.PLAYING_HAS_TURN);
+            p.setPlayerState(Player.PlayerState.PLAYING_HAS_TURN, 0);
             p.setGameProperty(this.game.getGameProperty());
         }
 
-        this.game.setGameState(GameState.PLAYING);
-
-        //set player state
+        // Set player state
         ((NetworkPlayer) PlayerList.getPlayer("p1")).setState(new InMatchNoTurnState());
     }
 
+    /**
+     * Create a new game without difficulty
+     *
+     * (Online doesn't have a difficulty)
+     *
+     * @param difficulty
+     * @param gameType
+     */
     @Override
     void createGame(Difficulty difficulty, GameType gameType) {
         this.createGame(gameType);
     }
 
+    /**
+     * End the current game
+     */
     @Override
     void endGame() {
         PlayerList.cleanUp();
     }
 
+    /**
+     * Set the game starting player
+     * 
+     * @param player
+     * @author Gemar Koning
+     */
     public void setStartingPlayer(Player player){
         this.startingPlayer = player;
     }

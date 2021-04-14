@@ -10,9 +10,12 @@ import com.group4.util.Tile;
 
 public class AIPlayer extends Player {
 
+	// The AI instance
 	private AI ai = null;
-	private GameOptions gameOptions = null;
 	
+	// The game currently going on, used to check the board
+	private GameOptions gameOptions = null;
+
 	/**
      * Instantiate AI property for given GameType
      *
@@ -25,50 +28,65 @@ public class AIPlayer extends Player {
     private void instantiate(final String className, @SuppressWarnings("rawtypes") final Class type, GameType gameType) {
     	try {
     		this.ai = (AI) type.cast(Class.forName(className).newInstance());
-    		this.ai.setAIType(this.gameOptions, gameType);
+    		switch (this.gameOptions.getDifficulty())
+			{
+				case EASY:
+					this.ai.setAIType(this.gameOptions, gameType, 0);
+					break;
+				case MEDIUM:
+				default:
+					this.ai.setAIType(this.gameOptions, gameType, 2);
+					break;
+				case HARD:
+					this.ai.setAIType(this.gameOptions, gameType, 5);
+					break;
+			}
+
         } catch (InstantiationException
                 | IllegalAccessException
                 | ClassNotFoundException e) {
             throw new IllegalStateException(e);
         }
     }
-	
+
     /***
      * AIPlayer instantiates a specific AI class when a GameType is set
-     * 
+     *
      * @param id - Player id
      * @author mobieljoy12
      */
 	public AIPlayer(String id) {
 		super(id);
 	}
-	
+
 	/***
 	 * Set GameOptions pointer
-	 * 
+	 *
 	 * @param gameOptions
 	 * @author mobieljoy12
 	 */
 	public void setGameOptions(GameOptions gameOptions) {
-		System.out.println(gameOptions);
 		this.gameOptions = gameOptions;
 	}
-	
+
 	@Override
-	public void makeMove(Tile tile) {
+	public void makeMove(Tile tile, int threadId) {
 		// Empty
 	}
-	
+
 	@Override
-	public void setPlayerState(PlayerState state) {
+	public void setPlayerState(PlayerState state, int threadId) {
 		this.playerState = state;
 		if(state.equals(PlayerState.PLAYING_HAS_TURN)) {
 			if(this.ai != null) {
-				List<Tile> options = getAvailableOptions();
-				if(!options.isEmpty()) {
-					this.gameProperty.makeMove(this.ai.makeMove(getAvailableOptions()), this);
-				}
-				this.notifyObservers();
+				Thread thread = new Thread(() -> {
+					List<Tile> options = getAvailableOptions(threadId);
+					if(!options.isEmpty()) {
+						this.gameProperty.makeMove(this.ai.makeMove(getAvailableOptions(threadId)), this, threadId);
+					}
+					this.notifyObservers();
+					});
+				thread.start();
 			}
 		}
 	}

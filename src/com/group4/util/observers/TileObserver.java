@@ -13,8 +13,13 @@ public class TileObserver implements Observer {
 	
 	@Override
 	public void update(Object object) {
-		Tile tile = (Tile) object;
-		this.board.addFilledTile(tile.getOccupant(), tile);
+
+	}
+	
+	public void updateFilledTile(Tile tile, int threadId) {
+		if (tile.isOccupied()) {
+			this.board.addFilledTile(threadId, tile.getOccupant(), tile);
+		}
 	}
 
 }
