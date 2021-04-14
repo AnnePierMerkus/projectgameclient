@@ -623,10 +623,12 @@ public class MultiplayerController extends Controller{
                     stage.setScene(this.thisScene);
                 });
             });
-
+            
             System.out.println("SERVER COMMENT: " + client.messageToMap().get("COMMENT"));
             System.out.println("players: " + PlayerList.players.values());
 
+            this.client.clearMessages();
+            
             // Change scene back
             this.networkPlayer.setState(new LoginState());
             this.multiplayerGameController.endGame(); //match has ended so end the game
