@@ -54,7 +54,6 @@ public class REVERSIAI extends AI {
     	List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player);
         options.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
         for (Tile tile : options) {
-            HashMap<Integer, Tile> backup = (HashMap<Integer, Tile>) this.gameai.getBoard().getGameBoard().clone();
            this.gameai.makePredictionMove(tile.getIndex(), player);
 
            double score = minimax(this.gameai.getBoard(), false, this.depth, Double.MIN_VALUE, Double.MAX_VALUE);
@@ -151,12 +150,5 @@ public class REVERSIAI extends AI {
         double sum = playerOneScore + playerTwoScore;
         double result = 0 + (playerTwoScore / sum);
         return result;
-
-        /*
-        int one = countPlayerStones(OthelloGame.PLAYER_ONE);
-        int two = countPlayerStones(OthelloGame.PLAYER_TWO);
-        double sum = one + two;
-        return OthelloGame.PLAYER_ONE + (one / sum);
-        */
     }
 }
