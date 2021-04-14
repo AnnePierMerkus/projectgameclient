@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /***
  * @author AnnePierMerkus
@@ -21,6 +22,7 @@ public class REVERSIAI extends AI {
     double bestScore = Double.MIN_VALUE;
     Tile move = null;
     Tile makeMove = null;
+    int i = 0;
 
     private static final double INITIAL_MODIFIER = 6.0;        // How large is the value modifier initially
     private static final double END_GAME_MODIFIER = 3.7;    // How much value will it have lost at the end of the game
@@ -56,21 +58,33 @@ public class REVERSIAI extends AI {
         options.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
 
         ExecutorService executorService = Executors.newFixedThreadPool(1);
-        int i = 0;
+        i = 0;
         for (Tile tile : options) {
-            //if (i + 1 < options.size()) this.gameai.copyThread(i, i + 1);
-                this.gameai.makePredictionMove(tile.getIndex(), player, 0);
-                double score = minimax(this.gameai.getBoard(), false, this.depth, Double.MIN_VALUE, Double.MAX_VALUE, 0);
+            executorService.execute(() -> {
+                if (i < options.size() && i > 0) this.gameai.copyThread(i - 1, i);
 
-                this.gameai.getBoard().revert(0, 1);
+                //if (i + 1 < options.size()) this.gameai.copyThread(i, i + 1);
+                this.gameai.makePredictionMove(tile.getIndex(), player, i);
+                double score = minimax(this.gameai.getBoard(), false, 6, Double.MIN_VALUE, Double.MAX_VALUE, i);
+
+                this.gameai.getBoard().revert(i, 1);
                 if (score > bestScore) {
                     bestScore = score;
                     move = tile;
                 }
-            i++;
+                i++;
+            });
+
         }
 
         executorService.shutdown();
+        while (true) {
+            try {
+                if (!!executorService.awaitTermination(24L, TimeUnit.HOURS)) break;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         if (move == null && options.size() > 0) {
             move = options.get(0);
         }

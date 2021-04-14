@@ -58,10 +58,10 @@ public class GameAI extends GameOptions {
 	public void copyThread(int threadFrom, int threadTo)
 	{
 		// Update the board
-		/*for(Tile tile : this.getBoard().getGameBoard(threadFrom).values()) {
-			this.getBoard().getTile(threadTo, tile.getIndex()).setOccupant(tile.getOccupant(), threadTo);
-		}
-		 */
+		//for(Tile tile : this.getBoard().getGameBoard(threadFrom).values()) {
+		//	this.getBoard().getTile(threadTo, tile.getIndex()).setOccupant(tile.getOccupant(), threadTo);
+		//}
+
 
 		this.getBoard().createExtra(threadFrom, threadTo);
 

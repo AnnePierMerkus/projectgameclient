@@ -79,14 +79,14 @@ public class AIPlayer extends Player {
 		this.playerState = state;
 		if(state.equals(PlayerState.PLAYING_HAS_TURN)) {
 			if(this.ai != null) {
-				Thread thread = new Thread(() -> {
+				//Thread thread = new Thread(() -> {
 					List<Tile> options = getAvailableOptions(threadId);
 					if(!options.isEmpty()) {
 						this.gameProperty.makeMove(this.ai.makeMove(getAvailableOptions(threadId)), this, threadId);
 					}
 					this.notifyObservers();
-					});
-				thread.start();
+				//	});
+			//	thread.start();
 			}
 		}
 	}

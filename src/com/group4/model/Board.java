@@ -117,7 +117,6 @@ public class Board {
      * @author mobieljoy12
      */
     public void setMoveCounter(int threadId, int newCount) {
-        System.out.println("setcounter" + threadId);
         this.moveCounter.put(threadId, newCount);
     }
 
