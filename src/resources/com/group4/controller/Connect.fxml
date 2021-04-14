@@ -20,7 +20,7 @@
         <ImageView fitWidth="${root.width}" fitHeight="${root.height}" >
             <!--  ^^  bind to size of node with fx:id="root" ^^  -->
             <image>
-                <Image url="@bluble.gif"/>
+                <Image url="@bluefade.png"/>
             </image>
         </ImageView>
 

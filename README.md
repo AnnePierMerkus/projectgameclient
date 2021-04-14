@@ -8,7 +8,6 @@ Members of this group include:
 | Anne pier Merkus | 406945 | Annepiermerkus |
 | Gemar Koning | 405408 | Gemar-k |
 | Eric Low | 360971 | EricHDDN |
-| Steven Woudstra | 375917 | stevenwoudstra |
 | Jasper van der Kooi | 389056 | mobieljoy12 |
 | Gerwin Terpstra | 371437 | GRTerpstra|
 ---
