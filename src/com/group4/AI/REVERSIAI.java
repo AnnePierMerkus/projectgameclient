@@ -68,6 +68,7 @@ public class REVERSIAI extends AI {
         {
             move = options.get(0);
         }
+        System.out.println(f);
         return move;
     }
 
@@ -80,9 +81,11 @@ public class REVERSIAI extends AI {
      * @param beta
      * @return
      */
+    int f;
     public double minimax(Board board, boolean maximizing, int depth, double alpha, double beta)
     {
         if (depth == 0 || gameai.getGameProperty().gameHasEnded()) {
+            f++;
             return evaluateGame(board);
         }
 
