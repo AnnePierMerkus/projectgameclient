@@ -113,7 +113,7 @@ public class TICTACTOE extends GameProperty {
 		if(this.checkGameEnded()) return false;
 		if(this.isLegalMove(tile, player)) {
 			this.game.getBoard().savePrevious(tile, tile.getOccupant());
-			tile.setOccupant(player);
+			this.game.getBoard().getTileUI(tile.getIndex()).setOccupant(player);
 			this.game.getBoard().incMoveCounter();
 			this.gameHasEnded();
 			return true;

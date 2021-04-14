@@ -6,6 +6,7 @@ import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
 import com.group4.util.observers.TileObserver;
+import com.group4.view.TileUI;
 
 /**
  * Class that creates and defines the game board.
@@ -13,6 +14,7 @@ import com.group4.util.observers.TileObserver;
 public class Board {
 
 	private HashMap<Integer, Tile> gameBoard = new HashMap<Integer, Tile>();
+	private HashMap<Integer, TileUI> gameBoardUI = new HashMap<Integer, TileUI>();
 	private HashMap<String, HashMap<Integer, Tile>> filledTiles = new HashMap<String, HashMap<Integer, Tile>>();
 	private HashMap<Integer, HashMap<Integer, Tile>> previousBoard = new HashMap<Integer, HashMap<Integer, Tile>>();
 	private int moveCounter = 0;
@@ -64,9 +66,11 @@ public class Board {
 				else {
 					weight = 5;
 				}
-
+                TileUI tileUI = new TileUI();
 				Tile tile = new Tile((row * this.width) + col, weight);
 				tile.registerObserver(tileObserver);
+				tileUI.setTile(tile);
+				this.gameBoardUI.put(tile.getIndex(), tileUI);
 				this.gameBoard.put(tile.getIndex(), tile);
 			}
 		}
@@ -81,8 +85,12 @@ public class Board {
 	public HashMap<String, HashMap<Integer, Tile>> getFilledTiles(){
 		return this.filledTiles;
 	}
-	
-	/***
+
+    public HashMap<Integer, TileUI> getGameBoardUI() {
+        return gameBoardUI;
+    }
+
+    /***
 	 * Get the current previousBoard HashMap
 	 * 
 	 * @return HashMap<Integer, HashMap<Integer, Tile>> - previousBoard
@@ -298,7 +306,18 @@ public class Board {
 	public Tile getTile(int index) {
 		return (this.gameBoard.containsKey(index)) ? this.gameBoard.get(index) : null;
 	}
-	
+
+	/***
+	 * Get a Tile from the gameboard
+	 * Returns null if index is out of bounds
+	 *
+	 * @param index - The index for the Tile that is requested
+	 * @return Tile or null
+	 * @author mobieljoy12
+	 */
+	public TileUI getTileUI(int index) {
+		return (this.gameBoardUI.containsKey(index)) ? this.gameBoardUI.get(index) : null;
+	}
 	/***
 	 * Get a Tile from the gameboard
 	 * Returns null if index is out of bounds

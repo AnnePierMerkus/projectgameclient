@@ -1,24 +1,14 @@
 package com.group4.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map.Entry;
-
-import com.group4.controller.GameController.GameType;
 import com.group4.util.observers.Observable;
 import com.group4.util.observers.Observer;
 
-import javafx.geometry.Pos;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 
 /**
  * @author GRTerpstra & Anne Pier Merkus
  */
-public class Tile extends StackPane implements Observable {
+public class Tile implements Observable {
 	/**
 	 * Index of the tile on the board.
 	 */
@@ -39,16 +29,6 @@ public class Tile extends StackPane implements Observable {
 	 */
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
 
-	/**
-	 * Circle in black or white on the Reversi board.
-	 */
-	Circle circle;
-
-	/**
-	 * X/O on a tile when playing Tic_tac_toe
-	 */
-	Text text;
-	
 	/***
 	 * Make a new Tile and set the relevant values.
 	 * 
@@ -58,35 +38,7 @@ public class Tile extends StackPane implements Observable {
 	 */
 	public Tile(int index, int weight) {
 		this.index = index;
-		if (this.weight == 0)
-			this.weight = weight;
-
-		Rectangle border = new Rectangle(60, 60);
-
-		circle = new Circle(0, 0, 25);
-		circle.setFill(Color.web("#009067"));
-		setStyle("-fx-background-color: #009067");
-		text = new Text();
-		text.setStyle("-fx-font: 50 arial; -fx-font-weight: bold;");
-
-		getChildren().addAll(circle, text);
-		border.setFill(null);
-		border.setStroke(Color.BLACK);
-		setAlignment(Pos.CENTER);
-		getChildren().addAll(border);
-		setOnMouseClicked(mouseEvent ->
-		{
-			Iterator<Entry<String, Player>> it = PlayerList.players.entrySet().iterator();
-			while (it.hasNext())
-			{
-				Entry<String, Player> pair = it.next();
-				if (pair.getValue().getPlayerState() == Player.PlayerState.PLAYING_HAS_TURN)
-				{
-					pair.getValue().makeMove(this);
-					break;
-				}
-			}
-		});
+		this.weight = weight;
 	}
 	
 	/***
@@ -128,15 +80,6 @@ public class Tile extends StackPane implements Observable {
 	 */
 	public void setOccupant(Player occupant) {
 		this.playerOnTile = occupant;
-		if(occupant != null && (occupant.gameProperty != null && occupant.gameProperty.getGameType() == GameType.TICTACTOE)) {
-			text.setText(this.playerOnTile.getId().equals("p1") ? "X" : "0");
-			if(this.playerOnTile.getId().equals("p1")) {
-				text.setFill(Color.WHITE);
-			}
-		}
-		else if(occupant != null) {
-			circle.setFill(this.playerOnTile.getId().equals("p1") ? Color.WHITE : Color.BLACK);
-		}
 		this.notifyObservers();
 	}
 	
@@ -157,6 +100,10 @@ public class Tile extends StackPane implements Observable {
 	 */
 	public boolean isOccupied() {
 		return (this.playerOnTile != null);
+	}
+
+	public Player getPlayerOnTile() {
+		return playerOnTile;
 	}
 
 	/**

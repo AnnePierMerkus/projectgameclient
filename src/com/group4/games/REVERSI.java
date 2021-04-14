@@ -112,10 +112,10 @@ public class REVERSI extends GameProperty {
 	public void doSetup(String currentPlayerSetup) {
 
 		// Set the default values on the board
-		this.game.getBoard().getTile(28).setOccupant(PlayerList.getPlayer(currentPlayerSetup));
-		this.game.getBoard().getTile(35).setOccupant(PlayerList.getPlayer(currentPlayerSetup));
-		this.game.getBoard().getTile(27).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup));
-		this.game.getBoard().getTile(36).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup));
+		this.game.getBoard().getTileUI(28).setOccupant(PlayerList.getPlayer(currentPlayerSetup));
+		this.game.getBoard().getTileUI(35).setOccupant(PlayerList.getPlayer(currentPlayerSetup));
+		this.game.getBoard().getTileUI(27).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup));
+		this.game.getBoard().getTileUI(36).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup));
 
 		// Add these to the filled Tiles
 		this.game.getBoard().addFilledTile(PlayerList.getPlayer(currentPlayerSetup), this.game.getBoard().getTile(28));
@@ -231,7 +231,7 @@ public class REVERSI extends GameProperty {
 				else if(currentTile.getOccupant() == player && !(candidateTiles.isEmpty())) {
 					for(Tile candidateTile : candidateTiles) {
 						this.game.getBoard().savePrevious(candidateTile, candidateTile.getOccupant());
-						this.game.getBoard().getTile(candidateTile.getIndex()).setOccupant(player);
+						this.game.getBoard().getTileUI(candidateTile.getIndex()).setOccupant(player);
 					}
 					break;
 				}
@@ -252,7 +252,7 @@ public class REVERSI extends GameProperty {
 		if(this.checkGameEnded()) return false;
 		if(this.isLegalMove(tile, player)) {
 			this.game.getBoard().savePrevious(tile, tile.getOccupant());
-			tile.setOccupant(player);
+			this.game.getBoard().getTileUI(tile.getIndex()).setOccupant(player);
 			swapTiles(tile, player);
 			this.game.getBoard().incMoveCounter(); // Increment move counter, this move is done
 			this.gameHasEnded();
