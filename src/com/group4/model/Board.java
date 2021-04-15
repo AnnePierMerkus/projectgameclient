@@ -1,6 +1,8 @@
 package com.group4.model;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
@@ -184,20 +186,18 @@ public class Board {
      */
     public void revert(int moves) {
         //if((this.moveCounter - moves) < 0) moves = this.moveCounter;
-        for (int counter = 0; counter < moves; counter++) {
-            this.decMoveCounter();
-            System.out.println(this.getMoveCounter());
-            for (Tile tile : this.previousBoard.get(this.getMoveCounter()).values()) {
-                if (tile.isOccupied()) {
-                    this.addFilledTile(tile.getOccupant(), this.gameBoard.get(tile.getIndex()));
-                } else {
-                    this.filledTiles.get(this.gameBoard.get(tile.getIndex()).getOccupant().getId()).remove(tile.getIndex());
-                }
-                this.gameBoard.get(tile.getIndex()).setOccupant(tile.getOccupant());
+        this.decMoveCounter();
+        for (Tile tile : this.previousBoard.get(this.getMoveCounter()).values()) {
+            if (tile.isOccupied()) {
+                this.addFilledTile(tile.getOccupant(), this.gameBoard.get(tile.getIndex()));
+            } else {
+                this.filledTiles.get(this.gameBoard.get(tile.getIndex()).getOccupant().getId()).remove(tile.getIndex());
             }
-            this.previousBoard.remove(this.moveCounter);
+            this.gameBoard.get(tile.getIndex()).setOccupant(tile.getOccupant());
         }
+        this.previousBoard.remove(this.moveCounter);
     }
+
 
     /**
      * Method that returns the gameboard which consists of an ArrayList of tiles.
@@ -211,10 +211,82 @@ public class Board {
 
     public Board clone() {
         Board b = new Board();
-        b.gameBoard = (HashMap<Integer, Tile>) this.gameBoard.clone();
+        b.gameBoard = new HashMap<>();
+        Iterator<Map.Entry<Integer, Tile>> gameBoardIterator = this.gameBoard.entrySet().iterator();
+        while (gameBoardIterator.hasNext()) {
+            Map.Entry<Integer, Tile> pair = gameBoardIterator.next();
+            b.gameBoard.put(pair.getKey(), new Tile(pair.getValue(), b));
+        }
+
+        b.filledTiles = new HashMap<>();
+
+        Iterator<Map.Entry<String, HashMap<Integer, Tile>>> filledTilesOuter = this.filledTiles.entrySet().iterator();
+        while (filledTilesOuter.hasNext()) {
+            Map.Entry<String, HashMap<Integer, Tile>> filledTilesOuterPair = filledTilesOuter.next();
+
+            b.filledTiles.put(filledTilesOuterPair.getKey(), new HashMap<>());
+            Iterator<Map.Entry<Integer, Tile>> filledTilesInner = this.filledTiles.get(filledTilesOuterPair.getKey()).entrySet().iterator();
+            while (filledTilesInner.hasNext()) {
+                Map.Entry<Integer, Tile> filledTilesInnerPair = filledTilesInner.next();
+
+                if (b.gameBoard.containsKey(this.filledTiles.get(filledTilesOuterPair.getKey()).get(filledTilesInnerPair.getKey()).getIndex())) {
+                    HashMap<Integer, Tile> value = new HashMap<>();
+                    value.put(filledTilesInnerPair.getKey(), b.gameBoard.get(filledTilesInnerPair.getValue().getIndex()));
+                    b.filledTiles.get(filledTilesOuterPair.getKey()).put(filledTilesInnerPair.getKey(), b.gameBoard.get(filledTilesInnerPair.getValue().getIndex()));
+                }
+            }
+        }
+
+        b.previousBoard = new HashMap<>();
+
+        System.out.println(this.previousBoard);
+        Iterator<Map.Entry<Integer, HashMap<Integer, Tile>>> previousBoardOuter = this.previousBoard.entrySet().iterator();
+        while (previousBoardOuter.hasNext()) {
+            Map.Entry<Integer, HashMap<Integer, Tile>> previousBoardOuterPair = previousBoardOuter.next();
+
+            b.previousBoard.put(previousBoardOuterPair.getKey(), new HashMap<>());
+            System.out.println(b.previousBoard);
+            Iterator<Map.Entry<Integer, Tile>> previousBoardInner = this.previousBoard.get(previousBoardOuterPair.getKey()).entrySet().iterator();
+            while (previousBoardInner.hasNext()) {
+                Map.Entry<Integer, Tile> previousBoardInnerPair = previousBoardInner.next();
+
+                if (b.gameBoard.containsKey(this.previousBoard.get(previousBoardOuterPair.getKey()).get(previousBoardInnerPair.getKey()).getIndex())) {
+                    HashMap<Integer, Tile> value = new HashMap<>();
+                    value.put(previousBoardInnerPair.getKey(), b.gameBoard.get(previousBoardInnerPair.getValue().getIndex()));
+                    b.previousBoard.get(previousBoardOuterPair.getKey()).put(previousBoardInnerPair.getKey(), b.gameBoard.get(previousBoardInnerPair.getValue().getIndex()));
+                }
+            }
+        }
+        b.moveCounter = this.moveCounter;
+        b.height = this.height;
+        b.width = this.width;
+
+        return b;
+    }
+
+    public Board simpleClone() {
+        Board b = new Board();
+
+        b.gameBoard = new HashMap<>();
+        Iterator<Map.Entry<Integer, Tile>> gameBoardIterator = this.gameBoard.entrySet().iterator();
+        while (gameBoardIterator.hasNext()) {
+            Map.Entry<Integer, Tile> pair = gameBoardIterator.next();
+            b.gameBoard.put(pair.getKey(), new Tile(pair.getValue(), b));
+        }
+
+        System.out.println(b.gameBoard);
+        for (Tile tile : b.gameBoard.values())
+        {
+            tile.clearObservers();
+            TileObserver tileObserver = new TileObserver(b);
+            tile.registerObserver(tileObserver);
+        }
+        b.filledTiles = new HashMap<>();
+        Iterator<Map.Entry<String, HashMap<Integer, Tile>>> it = this.filledTiles.entrySet().iterator();
+
         b.previousBoard = (HashMap<Integer, HashMap<Integer, Tile>>) this.previousBoard.clone();
-		b.filledTiles = (HashMap<String, HashMap<Integer, Tile>>) this.filledTiles.clone();
-		b.moveCounter = this.moveCounter;
+        b.filledTiles = (HashMap<String, HashMap<Integer, Tile>>) this.filledTiles.clone();
+        b.moveCounter = this.moveCounter;
         b.height = this.height;
         b.width = this.width;
 

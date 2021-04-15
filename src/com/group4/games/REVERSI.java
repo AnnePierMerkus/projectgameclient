@@ -14,7 +14,7 @@ import com.group4.util.Tile;
 /***
  * The REVERSI class defines the Reversi game.
  * Extends GameProperty.
- * 
+ *
  * @author Mobieljoy12 & GRTerpstra
  * @version 1.0
  * @since   2021-03-25
@@ -62,17 +62,17 @@ public class REVERSI extends GameProperty {
 	/**
 	 * The constructor of the REVERSI class.
 	 * This constructor instantiates the display names for the players.
-	 * 
+	 *
 	 * @author mobieljoy12.
 	 */
 	public REVERSI() {
 		this.displayNames.put("p1", "Wit");
 		this.displayNames.put("p2", "Zwart");
 	}
-	
+
 	/***
 	 * Get the GameType that is currently running
-	 * 
+	 *
 	 * @return GameType - The GameType that is running
 	 * @author mobieljoy12.
 	 */
@@ -83,7 +83,7 @@ public class REVERSI extends GameProperty {
 
 	/***
 	 * The width of the board in number of columns.
-	 * 
+	 *
 	 * @return int - Number of columns.
 	 * @author GRTerpstra & mobieljoy12.
 	 */
@@ -94,7 +94,7 @@ public class REVERSI extends GameProperty {
 
 	/***
 	 * The height of the board in number of columns.
-	 * 
+	 *
 	 * @return int - Number of columns.
 	 * @author GRTerpstra & mobieljoy12.
 	 */
@@ -105,7 +105,7 @@ public class REVERSI extends GameProperty {
 
 	/***
 	 * The doSetup method instantiates the four starting pieces of the game.
-	 * 
+	 *
 	 * @return Number of columns.
 	 * @author GRTerpstra & mobieljoy12.
 	 */
@@ -137,7 +137,7 @@ public class REVERSI extends GameProperty {
 
 	/***
 	 * This method returns the player that should start the game
-	 * 
+	 *
 	 * @return String - P1 (white) is the player that should start the game.
 	 * @author GRTerpstra & mobieljoy12
 	 */
@@ -149,7 +149,7 @@ public class REVERSI extends GameProperty {
 
 	/**
 	 * The getAvailableOptions method calculates all the moves the given player can make.
-	 * 
+	 *
 	 * @param player - The player whose available moves should be calculates.
 	 * @return ArrayList<Tile> - List of available moves.
 	 * @author GRTerpstra.
@@ -245,7 +245,7 @@ public class REVERSI extends GameProperty {
 
 	/**
 	 * The swapTiles method changes the occupant of the tiles that should change after the last move.
-	 * 
+	 *
 	 * @param tile - the tile on which the last move was made.
 	 * @param player - the Player who made the last move.
 	 * @author GRTerpstra.
@@ -324,8 +324,8 @@ public class REVERSI extends GameProperty {
 				}
 				else if(currentTile.getOccupant() == player && !(candidateTiles.isEmpty())) {
 					for(Tile candidateTile : candidateTiles) {
-						this.game.getBoard().savePrevious(candidateTile, candidateTile.getOccupant());
-						this.game.getBoard().getTileUI(candidateTile.getIndex()).setOccupant(player);
+						boardinstance.savePrevious(candidateTile, candidateTile.getOccupant());
+						boardinstance.getTile(candidateTile.getIndex()).setOccupant(player);
 					}
 					break;
 				}
@@ -334,7 +334,7 @@ public class REVERSI extends GameProperty {
 	}
 	/**
 	 * The makeMove method implements all the changes made to the board after checking if the move is legal.
-	 * 
+	 *
 	 * @param tile - The tile on which the move should be made.
 	 * @param player - the player who makes the move.
 	 * @return boolean - true if the move has been made, false otherwise.
@@ -366,10 +366,9 @@ public class REVERSI extends GameProperty {
 	@Override
 	public boolean makeMove(Tile tile, Player player, Board board) {
 		if(this.checkGameEnded()) return false;
-		System.out.println("MOVE " + tile.getIndex());
 		if(this.isLegalMove(tile, player, board)) {
 			board.savePrevious(tile, tile.getOccupant());
-			this.game.getBoard().getTile(tile.getIndex()).setOccupant(player);
+			board.getTile(tile.getIndex()).setOccupant(player);
 			swapTiles(tile, player, board);
 			board.incMoveCounter(); // Increment move counter, this move is done
 			this.gameHasEnded();
@@ -377,6 +376,7 @@ public class REVERSI extends GameProperty {
 		}
 		else
 		{
+			System.out.println(board.hashCode());
 			System.out.println("Move illegal");
 		}
 		return false;
@@ -384,7 +384,7 @@ public class REVERSI extends GameProperty {
 
 	/**
 	 * The isLegalMove method checks if the move that is about to happen is legal.
-	 * 
+	 *
 	 * @param tile - The tile on which the move should be made.
 	 * @param player - the player who makes the move.
 	 * @return boolean - true if the move is legal, false otherwise.
@@ -413,7 +413,8 @@ public class REVERSI extends GameProperty {
 	 */
 	@Override
 	public boolean isLegalMove(Tile tile, Player player, Board board) {
-		List<Tile> availableOptions = this.getAvailableOptions(player);
+		List<Tile> availableOptions = this.getAvailableOptions(player, board);
+
 		player.setAvailableOptions(availableOptions);
 		if(availableOptions.isEmpty()) {
 			return false;

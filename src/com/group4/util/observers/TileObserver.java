@@ -5,7 +5,7 @@ import com.group4.util.Tile;
 
 public class TileObserver implements Observer {
 
-	private Board board;
+	public Board board;
 	
 	public TileObserver(Board board) {
 		this.board = board;

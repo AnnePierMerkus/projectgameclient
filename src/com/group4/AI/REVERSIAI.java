@@ -8,6 +8,9 @@ import com.group4.util.Tile;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /***
  * @author AnnePierMerkus
@@ -52,24 +55,39 @@ public class REVERSIAI extends AI {
     public Tile bestMove() {
         List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player);
         options.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
+
+        ExecutorService executorService = Executors.newFixedThreadPool(options.size());
+
         for (Tile tile : options) {
-            Board board = this.gameai.getBoard().clone();
+            executorService.execute(() -> {
 
-            this.gameai.makePredictionMove(tile.getIndex(), player, board);
+                Board board = this.gameai.getBoard().clone();
+                System.out.println(board.getGameBoard());
+                System.out.println(board.getPreviousBoard());
+                System.out.println(board.getFilledTiles());
+                this.gameai.makePredictionMove(tile.getIndex(), player, board);
 
-            double score = minimax(board, false, this.depth, Double.MIN_VALUE, Double.MAX_VALUE);
-            //this.gameai.getBoard().revert(1);
-            board.revert(1);
-            if (score > bestScore) {
-                bestScore = score;
-                move = tile;
-            }
+                double score = minimax(board, false, this.depth, Double.MIN_VALUE, Double.MAX_VALUE);
+                //this.gameai.getBoard().revert(1);
+                board.revert(1);
+                if (score > bestScore) {
+                    bestScore = score;
+                    move = tile;
+                }
+            });
         }
 
+        executorService.shutdown();
+        while (true) {
+            try {
+                if (!!executorService.awaitTermination(24L, TimeUnit.HOURS)) break;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         if (move == null && options.size() > 0) {
             move = options.get(0);
         }
-        System.out.println(f);
         return move;
     }
 
@@ -98,14 +116,14 @@ public class REVERSIAI extends AI {
 
     public double minimax(Board board, boolean maximizing, int depth, double alpha, double beta) {
         if (depth == 0 || gameai.getGameProperty().gameHasEnded()) {
-            f++;
+
             return evaluateGame(board);
         }
 
         if (maximizing) {
             double score = Double.MIN_VALUE;
 
-            for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(player)) {
+            for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(player, board)) {
                 gameai.makePredictionMove(tile.getIndex(), player, board);
                 score = Math.max(score, minimax(board, false, depth - 1, alpha, beta));
                 board.revert(1);
@@ -116,7 +134,7 @@ public class REVERSIAI extends AI {
             return score;
         } else {
             Double score = Double.MAX_VALUE;
-            for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(otherPlayer)) {
+            for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(otherPlayer, board)) {
                 gameai.makePredictionMove(tile.getIndex(), otherPlayer, board);
                 score = Math.min(score, minimax(board, true, depth - 1, alpha, beta));
                 board.revert(1);
