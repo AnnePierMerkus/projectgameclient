@@ -62,9 +62,6 @@ public class REVERSIAI extends AI {
             executorService.execute(() -> {
 
                 Board board = this.gameai.getBoard().clone();
-                System.out.println(board.getGameBoard());
-                System.out.println(board.getPreviousBoard());
-                System.out.println(board.getFilledTiles());
                 this.gameai.makePredictionMove(tile.getIndex(), player, board);
 
                 double score = minimax(board, false, this.depth, Double.MIN_VALUE, Double.MAX_VALUE);

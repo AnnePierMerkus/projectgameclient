@@ -374,11 +374,6 @@ public class REVERSI extends GameProperty {
 			this.gameHasEnded();
 			return true;
 		}
-		else
-		{
-			System.out.println(board.hashCode());
-			System.out.println("Move illegal");
-		}
 		return false;
 	}
 

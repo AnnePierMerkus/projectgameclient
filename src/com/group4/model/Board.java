@@ -239,13 +239,11 @@ public class Board {
 
         b.previousBoard = new HashMap<>();
 
-        System.out.println(this.previousBoard);
         Iterator<Map.Entry<Integer, HashMap<Integer, Tile>>> previousBoardOuter = this.previousBoard.entrySet().iterator();
         while (previousBoardOuter.hasNext()) {
             Map.Entry<Integer, HashMap<Integer, Tile>> previousBoardOuterPair = previousBoardOuter.next();
 
             b.previousBoard.put(previousBoardOuterPair.getKey(), new HashMap<>());
-            System.out.println(b.previousBoard);
             Iterator<Map.Entry<Integer, Tile>> previousBoardInner = this.previousBoard.get(previousBoardOuterPair.getKey()).entrySet().iterator();
             while (previousBoardInner.hasNext()) {
                 Map.Entry<Integer, Tile> previousBoardInnerPair = previousBoardInner.next();
@@ -257,35 +255,6 @@ public class Board {
                 }
             }
         }
-        b.moveCounter = this.moveCounter;
-        b.height = this.height;
-        b.width = this.width;
-
-        return b;
-    }
-
-    public Board simpleClone() {
-        Board b = new Board();
-
-        b.gameBoard = new HashMap<>();
-        Iterator<Map.Entry<Integer, Tile>> gameBoardIterator = this.gameBoard.entrySet().iterator();
-        while (gameBoardIterator.hasNext()) {
-            Map.Entry<Integer, Tile> pair = gameBoardIterator.next();
-            b.gameBoard.put(pair.getKey(), new Tile(pair.getValue(), b));
-        }
-
-        System.out.println(b.gameBoard);
-        for (Tile tile : b.gameBoard.values())
-        {
-            tile.clearObservers();
-            TileObserver tileObserver = new TileObserver(b);
-            tile.registerObserver(tileObserver);
-        }
-        b.filledTiles = new HashMap<>();
-        Iterator<Map.Entry<String, HashMap<Integer, Tile>>> it = this.filledTiles.entrySet().iterator();
-
-        b.previousBoard = (HashMap<Integer, HashMap<Integer, Tile>>) this.previousBoard.clone();
-        b.filledTiles = (HashMap<String, HashMap<Integer, Tile>>) this.filledTiles.clone();
         b.moveCounter = this.moveCounter;
         b.height = this.height;
         b.width = this.width;
