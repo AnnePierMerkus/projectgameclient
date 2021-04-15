@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.group4.controller.GameController.GameType;
+import com.group4.model.Board;
 import com.group4.util.GameProperty;
 import com.group4.util.Player;
 import com.group4.util.PlayerList;
@@ -99,6 +100,11 @@ public class TICTACTOE extends GameProperty {
 		return availableOptions;
 	}
 
+	@Override
+	public List<Tile> getAvailableOptions(Player player, Board board) {
+		return null;
+	}
+
 	/**
 	 * The makeMove method implements all the changes made to the board after checking if the move is legal.
 	 * 
@@ -118,6 +124,11 @@ public class TICTACTOE extends GameProperty {
 			this.gameHasEnded();
 			return true;
 		}
+		return false;
+	}
+
+	@Override
+	public boolean makeMove(Tile tile, Player player, Board board) {
 		return false;
 	}
 
@@ -141,7 +152,12 @@ public class TICTACTOE extends GameProperty {
 		}
 		return false;
 	}
-	
+
+	@Override
+	public boolean isLegalMove(Tile tile, Player player, Board board) {
+		return false;
+	}
+
 	/**
 	 * The gameHasEnded method checks if the current game should terminate.
 	 * This method also changes the playerWon variable accordingly.

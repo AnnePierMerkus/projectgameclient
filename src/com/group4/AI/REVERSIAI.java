@@ -53,11 +53,13 @@ public class REVERSIAI extends AI {
         List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player);
         options.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
         for (Tile tile : options) {
-            
-            this.gameai.makePredictionMove(tile.getIndex(), player);
+            Board board = this.gameai.getBoard().clone();
 
-            double score = minimax(this.gameai.getBoard(), false, this.depth, Double.MIN_VALUE, Double.MAX_VALUE);
-            this.gameai.getBoard().revert(1);
+            this.gameai.makePredictionMove(tile.getIndex(), player, board);
+
+            double score = minimax(board, false, this.depth, Double.MIN_VALUE, Double.MAX_VALUE);
+            //this.gameai.getBoard().revert(1);
+            board.revert(1);
             if (score > bestScore) {
                 bestScore = score;
                 move = tile;
@@ -81,6 +83,19 @@ public class REVERSIAI extends AI {
      */
     int f;
 
+    public void revert(Board board) {
+        for (Tile tile : board.getPreviousBoard().get(board.getMoveCounter()).values()) {
+            if (tile.isOccupied()) {
+                board.addFilledTile(tile.getOccupant(), board.getGameBoard().get(tile.getIndex()));
+            } else {
+                board.getFilledTiles().get(board.getGameBoard().get(tile.getIndex()).getOccupant().getId()).remove(tile.getIndex());
+            }
+            board.getGameBoard().get(tile.getIndex()).setOccupant(tile.getOccupant());
+        }
+        board.getPreviousBoard().remove(board.getMoveCounter());
+
+    }
+
     public double minimax(Board board, boolean maximizing, int depth, double alpha, double beta) {
         if (depth == 0 || gameai.getGameProperty().gameHasEnded()) {
             f++;
@@ -89,10 +104,11 @@ public class REVERSIAI extends AI {
 
         if (maximizing) {
             double score = Double.MIN_VALUE;
+
             for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(player)) {
-                gameai.makePredictionMove(tile.getIndex(), player);
+                gameai.makePredictionMove(tile.getIndex(), player, board);
                 score = Math.max(score, minimax(board, false, depth - 1, alpha, beta));
-                this.gameai.getBoard().revert(1);
+                board.revert(1);
                 alpha = Math.max(score, alpha);
                 if (alpha >= beta)
                     break;
@@ -100,11 +116,10 @@ public class REVERSIAI extends AI {
             return score;
         } else {
             Double score = Double.MAX_VALUE;
-            ;
             for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(otherPlayer)) {
-                gameai.makePredictionMove(tile.getIndex(), otherPlayer);
+                gameai.makePredictionMove(tile.getIndex(), otherPlayer, board);
                 score = Math.min(score, minimax(board, true, depth - 1, alpha, beta));
-                this.gameai.getBoard().revert(1);
+                board.revert(1);
                 beta = Math.min(score, beta);
 
                 if (beta <= alpha)

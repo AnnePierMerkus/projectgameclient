@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.group4.controller.GameController.GameType;
+import com.group4.model.Board;
 import com.group4.model.GameOptions;
 
 /***
@@ -134,7 +135,8 @@ public abstract class GameProperty {
 	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract List<Tile> getAvailableOptions(Player player);
-	
+	public abstract List<Tile> getAvailableOptions(Player player, Board board);
+
 	/***
 	 * Make a move on a given Tile for a given Player
 	 * 
@@ -144,7 +146,8 @@ public abstract class GameProperty {
 	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract boolean makeMove(Tile tile, Player player);
-	
+	public abstract boolean makeMove(Tile tile, Player player, Board board);
+
 	/***
 	 * Check if a move on a Tile is legal for a given Player
 	 * 
@@ -154,5 +157,6 @@ public abstract class GameProperty {
 	 * @author GRTerpstra & mobieljoy12
 	 */
 	public abstract boolean isLegalMove(Tile tile, Player player);
-		
+	public abstract boolean isLegalMove(Tile tile, Player player, Board board);
+
 }
