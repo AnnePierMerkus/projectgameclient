@@ -1,6 +1,7 @@
 package com.group4.controller;
 
 import com.group4.util.Tile;
+import com.group4.view.TileUI;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -146,11 +147,11 @@ public class Controller {
 			}
 		}
 
-		Iterator<Map.Entry<Integer, Tile>> it = gameController.getOptions().getBoard().getGameBoard(0).entrySet().iterator();
+		Iterator<Map.Entry<Integer, TileUI>> it = gameController.getOptions().getBoard().getGameBoardUI().entrySet().iterator();
 		int row = 0;
 		int column = 0;
 		while (it.hasNext()) {
-			Map.Entry<Integer, Tile> pair = it.next();
+			Map.Entry<Integer, TileUI> pair = it.next();
 			gameView.add(pair.getValue(), column, row);
 			column++;
 

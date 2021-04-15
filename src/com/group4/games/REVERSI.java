@@ -95,7 +95,7 @@ public class REVERSI extends GameProperty {
 				else if(currentTile.getOccupant() == player && !(candidateTiles.isEmpty())) {
 					for(Tile candidateTile : candidateTiles) {
 						this.game.getBoard().savePrevious(threadId, candidateTile, candidateTile.getOccupant());
-						this.game.getBoard().getTile(threadId, candidateTile.getIndex()).setOccupant(player, threadId);
+						this.game.getBoard().getTileUI(candidateTile.getIndex()).setOccupant(player, threadId);
 					}
 					break;
 				}
@@ -157,10 +157,10 @@ public class REVERSI extends GameProperty {
 	public void doSetup(String currentPlayerSetup, int threadId) {
 
 		// Set the default values on the board
-		this.game.getBoard().getTile(threadId, 28).setOccupant(PlayerList.getPlayer(currentPlayerSetup), threadId);
-		this.game.getBoard().getTile(threadId, 35).setOccupant(PlayerList.getPlayer(currentPlayerSetup), threadId);
-		this.game.getBoard().getTile(threadId, 27).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup), threadId);
-		this.game.getBoard().getTile(threadId, 36).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup), threadId);
+		this.game.getBoard().getTileUI(28).setOccupant(PlayerList.getPlayer(currentPlayerSetup), threadId);
+		this.game.getBoard().getTileUI(35).setOccupant(PlayerList.getPlayer(currentPlayerSetup), threadId);
+		this.game.getBoard().getTileUI(27).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup), threadId);
+		this.game.getBoard().getTileUI(36).setOccupant(PlayerList.getOtherPlayer(currentPlayerSetup), threadId);
 
 		// Add these to the filled Tiles
 		this.game.getBoard().addFilledTile(threadId, PlayerList.getPlayer(currentPlayerSetup), this.game.getBoard().getTile(threadId, 28));
@@ -202,6 +202,9 @@ public class REVERSI extends GameProperty {
 	@Override
 	public List<Tile> getAvailableOptions(Player player, int threadId) {
 		HashMap<Integer, Tile> availableOptions = new HashMap<Integer, Tile>();
+		System.out.println("GAMEBOARD HASHCODE" + this.game.getBoard().getGameBoard(threadId).hashCode()  + "  THREAD: " + threadId);
+		if (this.game.getBoard().getGameBoard(threadId) == null )
+			System.out.println("thread" + threadId);
 		for(Tile tile : this.game.getBoard().getGameBoard(threadId).values()) {
 			if(tile.getOccupant() == player) {
 				for(int i = 0; i < 8; i++) {
@@ -242,7 +245,7 @@ public class REVERSI extends GameProperty {
 
 	/**
 	 * The makeMove method implements all the changes made to the board after checking if the move is legal.
-	 * 
+	 *
 	 * @param tile - The tile on which the move should be made.
 	 * @param player - the player who makes the move.
 	 * @return boolean - true if the move has been made, false otherwise.
@@ -253,7 +256,7 @@ public class REVERSI extends GameProperty {
 		if(this.checkGameEnded(threadId)) return false;
 		if(this.isLegalMove(tile, player, threadId)) {
 			this.game.getBoard().savePrevious(threadId, tile, tile.getOccupant());
-			tile.setOccupant(player, threadId);
+			this.game.getBoard().getTileUI(tile.getIndex()).setOccupant(player, threadId);
 			swapTiles(tile, player, threadId);
 			this.game.getBoard().incMoveCounter(threadId); // Increment move counter, this move is done
 			this.gameHasEnded(threadId);

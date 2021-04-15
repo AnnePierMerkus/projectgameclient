@@ -57,24 +57,25 @@ public class REVERSIAI extends AI {
         List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player, 0);
         options.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
 
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
-        i = 0;
+        ExecutorService executorService = Executors.newFixedThreadPool(options.size());
+        i = 1;
         for (Tile tile : options) {
+            final int index = i;
+            if (index - 1 < options.size()) this.gameai.copyThread(0, index);
             executorService.execute(() -> {
-                if (i < options.size() && i > 0) this.gameai.copyThread(i - 1, i);
 
-                //if (i + 1 < options.size()) this.gameai.copyThread(i, i + 1);
-                this.gameai.makePredictionMove(tile.getIndex(), player, i);
-                double score = minimax(this.gameai.getBoard(), false, 6, Double.MIN_VALUE, Double.MAX_VALUE, i);
+                System.out.println("INDEX   " + index);
+                this.gameai.makePredictionMove(tile.getIndex(), player, index);
+                double score = minimax(this.gameai.getBoard(), false, 1, Double.MIN_VALUE, Double.MAX_VALUE, index);
 
-                this.gameai.getBoard().revert(i, 1);
+                this.gameai.getBoard().revert(index, 1);
                 if (score > bestScore) {
                     bestScore = score;
                     move = tile;
                 }
-                i++;
             });
 
+            i++;
         }
 
         executorService.shutdown();
@@ -88,7 +89,6 @@ public class REVERSIAI extends AI {
         if (move == null && options.size() > 0) {
             move = options.get(0);
         }
-        System.out.println(f);
         return move;
     }
 
@@ -112,6 +112,7 @@ public class REVERSIAI extends AI {
             double score = Double.MIN_VALUE;
             for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(player, threadId)) {
                 gameai.makePredictionMove(tile.getIndex(), player, threadId);
+                System.out.println("AI GAMEBOARD HASHCODE" + board.hashCode() + "  THREAD: " + threadId);
                 score = Math.max(score, minimax(board, false, depth - 1, alpha, beta, threadId));
                 this.gameai.getBoard().revert(threadId, 1);
                 alpha = Math.max(score, alpha);
@@ -124,6 +125,8 @@ public class REVERSIAI extends AI {
             ;
             for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(otherPlayer, threadId)) {
                 gameai.makePredictionMove(tile.getIndex(), otherPlayer, threadId);
+                System.out.println("AI GAMEBOARD HASHCODE" + board.hashCode() + "  THREAD: " + threadId);
+
                 score = Math.min(score, minimax(board, true, depth - 1, alpha, beta, threadId));
                 this.gameai.getBoard().revert(threadId, 1);
                 beta = Math.min(score, beta);

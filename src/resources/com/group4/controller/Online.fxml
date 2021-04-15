@@ -122,7 +122,7 @@
                         maxHeight="300"
                         onAction="#tic_tac_toe">
 
-                    <toggleGroup>
+                        <toggleGroup>
                             <ToggleGroup fx:id="GameGroup"/>
                         </toggleGroup>
                     </MyToggleButton>
@@ -169,21 +169,21 @@
                 </GridPane.margin>
 
                 <ToggleButton
-                        fx:id="AIBtn"
-                        visible="false"
-                        text="Enable AI"
-                        HBox.hgrow="ALWAYS"
-                        maxWidth="100"
-                        maxHeight="300"
-                        style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-                        onAction="#setAI"
+                    fx:id="AIBtn"
+                    visible="false"
+                    text="Enable AI"
+                    HBox.hgrow="ALWAYS"
+                    maxWidth="100"
+                    maxHeight="300"
+                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                    onAction="#setAI"
                 />
 
                 <TextField
-                        fx:id="AIDepth"
-                        promptText="AI Depth"
-                        visible="false"
-                        maxWidth="100"
+                    fx:id="AIDepth"
+                    promptText="AI Depth"
+                    visible="false"
+                    maxWidth="100"
 
                 />
 
@@ -222,16 +222,16 @@
             </Text>
 
             <ScrollPane
-                    GridPane.columnIndex="0"
-                    GridPane.rowIndex="4"
-                    style="-fx-background-color: #FBFAF5; -fx-border-color: black"
-                    fitToWidth="true">
+                GridPane.columnIndex="0"
+                GridPane.rowIndex="4"
+                style="-fx-background-color: #FBFAF5; -fx-border-color: black"
+                fitToWidth="true">
                 <GridPane
-                        fx:id="playersGrid"
-                        visible="false"
-                        alignment="TOP_CENTER"
-                        hgap="0"
-                        vgap="2" >
+                    fx:id="playersGrid"
+                    visible="false"
+                    alignment="TOP_CENTER"
+                    hgap="0"
+                    vgap="2" >
 
                     <!-- players are dynamically added here-->
 
@@ -242,21 +242,15 @@
                 </GridPane>
             </ScrollPane>
 
-            <MyToggleButton
-                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-                    text="Afsluiten"
-                    maxWidth="100"
-                    maxHeight="300"
-                    onAction="#close"
-                    GridPane.columnIndex="0"
-                    GridPane.rowIndex="5"/>
+
+
             <HBox
-                fx:id="challenge"
-                visible="false"
+                fx:id="holder"
+                visible="true"
                 spacing="10"
                 maxWidth="500"
                 maxHeight="500"
-                alignment="TOP_RIGHT"
+                alignment="TOP_LEFT"
                 GridPane.columnIndex="0"
                 GridPane.rowIndex="5">
 
@@ -264,22 +258,54 @@
                     <Insets
                         top="10"/>
                 </GridPane.margin>
-                <MyToggleButton
-                    style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
-                    text="Challenge"
+
+                <HBox
+                    fx:id="afsluiten"
+                    visible="true"
                     HBox.hgrow="ALWAYS"
-                    maxWidth="100"
-                    maxHeight="300"
-                    onAction="#challenge"/>
+                    spacing="10"
+                    maxWidth="500"
+                    maxHeight="500"
+                    alignment="TOP_LEFT"
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="5">
+
+                    <MyToggleButton
+                        style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                        text="Afsluiten"
+                        HBox.hgrow="ALWAYS"
+                        maxWidth="100"
+                        maxHeight="300"
+                        onAction="#close"/>
+                </HBox>
+
+                <HBox
+                    fx:id="challenge"
+                    visible="false"
+                    HBox.hgrow="ALWAYS"
+                    spacing="10"
+                    maxWidth="500"
+                    maxHeight="500"
+                    alignment="TOP_RIGHT"
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="5">
+
+                    <MyToggleButton
+                        style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+                        text="Challenge"
+                        HBox.hgrow="ALWAYS"
+                        maxWidth="100"
+                        maxHeight="300"
+                        onAction="#challenge"/>
+                </HBox>
             </HBox>
 
             <!-- notificationBox -->
             <fx:include
-                    GridPane.columnIndex="0"
-                    GridPane.rowIndex="7"
-                    source="Notification.fxml"
-                    fx:id="notification"
-            />
+                GridPane.columnIndex="0"
+                GridPane.rowIndex="7"
+                source="Notification.fxml"
+                fx:id="notification" />
 
             <rowConstraints>
                 <RowConstraints minHeight="40" maxHeight="40" />

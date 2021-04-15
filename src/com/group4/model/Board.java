@@ -6,6 +6,7 @@ import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
 import com.group4.util.observers.TileObserver;
+import com.group4.view.TileUI;
 
 /**
  * Class that creates and defines the game board.
@@ -17,6 +18,7 @@ public class Board {
     // threadId -> (tileId, Tile) ~ GameBoard
     private HashMap<Integer, HashMap<Integer, Tile>> gameBoard = new HashMap<Integer, HashMap<Integer, Tile>>();
 
+    private HashMap<Integer, TileUI> gameBoardUI = new HashMap<Integer, TileUI>();
     // threadId -> (playerId -> (tileId, Tile)) ~ FilledTiles
     private HashMap<Integer, HashMap<String, HashMap<Integer, Tile>>> filledTiles = new HashMap<Integer, HashMap<String, HashMap<Integer, Tile>>>();
 
@@ -36,7 +38,10 @@ public class Board {
      */
     private void decMoveCounter(int threadId) {
         if (!this.moveCounter.containsKey(threadId)) this.moveCounter.put(threadId, 0);
-        if (this.moveCounter.get(threadId) > 0) this.moveCounter.put(threadId, this.moveCounter.get(threadId) - 1);
+        if (this.moveCounter.get(threadId) > 0) {
+            this.moveCounter.put(threadId, this.moveCounter.get(threadId) - 1);
+            System.out.println("DEC");
+        }
     }
 
     /**
@@ -49,6 +54,8 @@ public class Board {
     public Board(int height, int width) {
         this.height = height;
         this.width = width;
+
+        this.moveCounter.put(0, 0);
 
         // New filledTiles list for thread 0
         this.filledTiles.put(0, new HashMap<String, HashMap<Integer, Tile>>());
@@ -79,9 +86,11 @@ public class Board {
                     weight = 5;
                 }
 
+                TileUI tileUI = new TileUI();
                 Tile tile = new Tile((row * this.width) + col, weight);
                 tile.registerObserver(tileObserver);
-                // Add the tiles to thread 0
+                tileUI.setTile(tile);
+                this.gameBoardUI.put(tile.getIndex(), tileUI);
                 this.gameBoard.get(0).put(tile.getIndex(), tile);
             }
         }
@@ -140,6 +149,7 @@ public class Board {
      */
     public int getMoveCounter(int threadId) {
         if (!this.moveCounter.containsKey(threadId)) {
+            System.out.println("MOVECOUNTER NULLLLLLLLLLLLLLLLL");
             this.moveCounter.put(threadId, 0);
             return 0;
         }
@@ -153,8 +163,12 @@ public class Board {
      * @author mobieljoy12
      */
     public void incMoveCounter(int threadId) {
-        if (!this.moveCounter.containsKey(threadId)) this.moveCounter.put(threadId, 1);
-        else this.moveCounter.put(threadId, this.moveCounter.get(threadId) + 1);
+        if (!this.moveCounter.containsKey(threadId)) {
+            this.moveCounter.put(threadId, 1);
+        } else {
+            System.out.println("ELSE");
+            this.moveCounter.put(threadId, this.moveCounter.get(threadId) + 1);
+        }
     }
 
     /***
@@ -178,10 +192,9 @@ public class Board {
      * @author mobieljoy12
      */
     public void savePrevious(int threadId, int moveCount, Tile tile, Player player) {
-        if (!this.previousBoard.containsKey(threadId))
-            this.previousBoard.put(threadId, new HashMap<Integer, HashMap<Integer, Tile>>());
-        if (!this.previousBoard.get(threadId).containsKey(moveCount))
+        if (!this.previousBoard.get(threadId).containsKey(moveCount)) {
             this.previousBoard.get(threadId).put(moveCount, new HashMap<Integer, Tile>());
+        }
         Tile prevTile = new Tile(tile.getIndex(), tile.getWeight());
         prevTile.setOccupant(player, threadId);
 
@@ -205,6 +218,7 @@ public class Board {
         prevTile.setOccupant(player, threadId);
 
         this.previousBoard.get(threadId).get(this.getMoveCounter(threadId)).put(tile.getIndex(), prevTile);
+
     }
 
     /***
@@ -215,18 +229,26 @@ public class Board {
      * @author mobieljoy12
      */
     public void revert(int threadId, int moves) {
-        for (int counter = 0; counter < moves; counter++) {
-            this.decMoveCounter(threadId);
-            for (Tile tile : this.previousBoard.get(threadId).get(this.getMoveCounter(threadId)).values()) {
+        this.decMoveCounter(threadId);
+        System.out.println("thread id " + threadId);
+        try {
+            for (Tile tile : this.getPreviousBoard(threadId).get(this.getMoveCounter(threadId)).values()) {
                 if (tile.isOccupied()) {
-                    this.addFilledTile(threadId, tile.getOccupant(), this.gameBoard.get(threadId).get(tile.getIndex()));
+                    this.addFilledTile(threadId, tile.getOccupant(), this.getGameBoard(threadId).get(tile.getIndex()));
                 } else {
-                    this.filledTiles.get(threadId).get(this.gameBoard.get(threadId).get(tile.getIndex()).getOccupant().getId()).remove(tile.getIndex());
+
+                    this.getFilledTiles(threadId).get(this.getGameBoard(threadId).get(tile.getIndex()).getOccupant().getId()).remove(tile.getIndex());
+
                 }
-                this.gameBoard.get(threadId).get(tile.getIndex()).setOccupant(tile.getOccupant(), threadId);
+                this.getGameBoard(threadId).get(tile.getIndex()).setOccupant(tile.getOccupant(), threadId);
             }
-            this.previousBoard.get(threadId).remove(this.getMoveCounter(threadId));
+            this.getPreviousBoard(threadId).remove(this.getMoveCounter(threadId));
+        } catch (Exception e) {
+            System.out.println("getmove counter" + this.getPreviousBoard(threadId).get(this.getMoveCounter(threadId)));
+            System.out.println("Previous board" + this.getPreviousBoard(threadId));
+            System.out.println("move counter" + this.getMoveCounter(threadId));
         }
+
     }
 
     /**
@@ -238,6 +260,10 @@ public class Board {
      */
     public HashMap<Integer, Tile> getGameBoard(int threadId) {
         return this.gameBoard.get(threadId);
+    }
+
+    public HashMap<Integer, TileUI> getGameBoardUI() {
+        return gameBoardUI;
     }
 
     /**
@@ -358,11 +384,20 @@ public class Board {
         return (this.gameBoard.get(threadId).containsKey(index)) ? this.gameBoard.get(threadId).get(index) : null;
     }
 
+    /***
+     * Get a Tile from the gameboard
+     * Returns null if index is out of bounds
+     *
+     * @param index - The index for the Tile that is requested
+     * @return Tile or null
+     * @author mobieljoy12
+     */
+    public TileUI getTileUI(int index) {
+        return (this.gameBoardUI.containsKey(index)) ? this.gameBoardUI.get(index) : null;
+    }
+
     public void createExtra(int threadFrom, int threadTo) {
         this.gameBoard.put(threadTo, (HashMap<Integer, Tile>) this.gameBoard.get(threadFrom).clone());
-	}
-	public void createExtraPrevious(int threadFrom, int threadTo) {
-        this.previousBoard.put(threadTo, (HashMap<Integer, HashMap<Integer, Tile>> ) this.previousBoard.get(threadFrom).clone());
     }
 
     /***

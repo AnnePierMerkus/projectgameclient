@@ -18,7 +18,7 @@ public class Player implements Observable {
 	private String id;
 	
 	// Gameproperty instance so player can reach the game object
-	protected GameProperty gameProperty = null;
+	public GameProperty gameProperty = null;
 	
 	// Holding the state the player is currently in
 	protected PlayerState playerState;
