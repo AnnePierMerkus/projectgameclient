@@ -5,7 +5,6 @@ import com.group4.util.Player;
 import com.group4.util.PlayerList;
 import com.group4.util.Tile;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -17,14 +16,13 @@ import java.util.concurrent.TimeUnit;
  */
 public class REVERSIAI extends AI {
 
-    Player player;
-    Player otherPlayer;
+    Player AI;
+    Player opponent;
     double bestScore = Double.MIN_VALUE;
     Tile move = null;
-    Tile makeMove = null;
 
-    private static final double INITIAL_MODIFIER = 6.0;        // How large is the value modifier initially
-    private static final double END_GAME_MODIFIER = 3.7;    // How much value will it have lost at the end of the game
+    private static final double EARLY_GAME_MODIFIER = 6.0;
+    private static final double LATE_GAME_MODIFIER = 3.7;
 
     @Override
     public Tile makeMove(List<Tile> availableOptions) {
@@ -32,9 +30,10 @@ public class REVERSIAI extends AI {
 
         this.bestScore = Double.MIN_VALUE;
         this.move = null;
-        player = PlayerList.getPlayer(gameai.getGame().getPlayerTurn());
-        otherPlayer = PlayerList.getOtherPlayer(gameai.getGame().getPlayerTurn());
+        AI = PlayerList.getPlayer(gameai.getGame().getPlayerTurn());
+        opponent = PlayerList.getOtherPlayer(gameai.getGame().getPlayerTurn());
         //return availableOptions.get(0);
+
         if (this.depth == 0) {
             Random random = new Random();
             int rand = random.nextInt(availableOptions.size());
@@ -53,7 +52,7 @@ public class REVERSIAI extends AI {
      * @return the best move for the Ai.
      */
     public Tile bestMove() {
-        List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(player);
+        List<Tile> options = this.gameai.getGame().getGameProperty().getAvailableOptions(AI);
         options.sort((t1, t2) -> Integer.compare(t2.getWeight(), t1.getWeight()));
 
         ExecutorService executorService = Executors.newFixedThreadPool(options.size());
@@ -62,7 +61,7 @@ public class REVERSIAI extends AI {
             executorService.execute(() -> {
 
                 Board board = this.gameai.getBoard().clone();
-                this.gameai.makePredictionMove(tile.getIndex(), player, board);
+                this.gameai.makePredictionMove(tile.getIndex(), AI, board);
 
                 double score = minimax(board, false, this.depth, Double.MIN_VALUE, Double.MAX_VALUE);
                 //this.gameai.getBoard().revert(1);
@@ -120,8 +119,8 @@ public class REVERSIAI extends AI {
         if (maximizing) {
             double score = Double.MIN_VALUE;
 
-            for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(player, board)) {
-                gameai.makePredictionMove(tile.getIndex(), player, board);
+            for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(AI, board)) {
+                gameai.makePredictionMove(tile.getIndex(), AI, board);
                 score = Math.max(score, minimax(board, false, depth - 1, alpha, beta));
                 board.revert(1);
                 alpha = Math.max(score, alpha);
@@ -131,8 +130,8 @@ public class REVERSIAI extends AI {
             return score;
         } else {
             Double score = Double.MAX_VALUE;
-            for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(otherPlayer, board)) {
-                gameai.makePredictionMove(tile.getIndex(), otherPlayer, board);
+            for (Tile tile : this.gameai.getGameProperty().getAvailableOptions(opponent, board)) {
+                gameai.makePredictionMove(tile.getIndex(), opponent, board);
                 score = Math.min(score, minimax(board, true, depth - 1, alpha, beta));
                 board.revert(1);
                 beta = Math.min(score, beta);
@@ -151,35 +150,35 @@ public class REVERSIAI extends AI {
      */
     public double evaluateGame(Board board) {
 
-        double playerOneScore = 0;
-        double playerTwoScore = 0;
+        double opponentScore = 0;
+        double scoreAI = 0;
 
-        int stones = board.getMoveCounter();
-        if (stones < 1) stones = 1;
+        int moves = board.getMoveCounter();
+        if (moves < 1) moves = 1;
 
-        double modifierRegression = INITIAL_MODIFIER - END_GAME_MODIFIER;    // How much value will it have lost at the end of the game
-        double modifier = INITIAL_MODIFIER - modifierRegression * (stones / 60.0);
+        double regression = EARLY_GAME_MODIFIER - LATE_GAME_MODIFIER;
+        double scoreModifier = EARLY_GAME_MODIFIER - regression * (moves / 60.0);
 
         for (Tile tile : board.getGameBoard().values()) {
             if (tile.getOccupant() == null) continue;
-            double value = 1;
+            double score = 1;
             int pos = tile.getIndex();
-            if (pos % 8 == 0 || pos % 8 == 7) value *= modifier;
-            else if (pos % 8 == 1 || pos % 8 == 6) value /= modifier;
+            if (pos % 8 == 0 || pos % 8 == 7) score *= scoreModifier;
+            else if (pos % 8 == 1 || pos % 8 == 6) score /= scoreModifier;
 
-            if (pos < 8 || pos > 55) value *= modifier;
-            else if (pos < 16 || pos >= 48) value /= modifier;
+            if (pos < 8 || pos > 55) score *= scoreModifier;
+            else if (pos < 16 || pos >= 48) score /= scoreModifier;
 
-            if (tile.getOccupant() == otherPlayer) {
-                playerOneScore += value;
-            } else if (tile.getOccupant() == player) {
-                playerTwoScore += value;
+            if (tile.getOccupant() == opponent) {
+                opponentScore += score;
+            } else if (tile.getOccupant() == AI) {
+                scoreAI += score;
             }
 
         }
 
-        double sum = playerOneScore + playerTwoScore;
-        double result = 0 + (playerTwoScore / sum);
+        double sum = opponentScore + scoreAI;
+        double result = 0 + (scoreAI / sum);
         return result;
     }
 }
