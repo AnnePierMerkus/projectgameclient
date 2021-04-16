@@ -366,15 +366,12 @@ public class REVERSI extends GameProperty {
 	@Override
 	public boolean makeMove(Tile tile, Player player, Board board) {
 		if(this.checkGameEnded()) return false;
-		if(this.isLegalMove(tile, player, board)) {
-			board.savePrevious(tile, tile.getOccupant());
-			board.getTile(tile.getIndex()).setOccupant(player);
-			swapTiles(tile, player, board);
-			board.incMoveCounter(); // Increment move counter, this move is done
-			this.gameHasEnded();
-			return true;
-		}
-		return false;
+		board.savePrevious(tile, tile.getOccupant());
+		board.getTile(tile.getIndex()).setOccupant(player);
+		swapTiles(tile, player, board);
+		board.incMoveCounter(); // Increment move counter, this move is done
+		this.gameHasEnded();
+		return true;
 	}
 
 	/**

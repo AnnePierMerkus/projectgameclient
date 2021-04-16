@@ -66,6 +66,7 @@ public class Board {
                 } else {
                     weight = 5;
                 }
+
                 TileUI tileUI = new TileUI();
                 Tile tile = new Tile((row * this.width) + col, weight);
                 tile.registerObserver(tileObserver);
