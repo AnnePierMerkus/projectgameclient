@@ -242,7 +242,7 @@ public class Controller {
 	 */
 	public void setAvailableMovesPlayer1(String availableMoves){
 		Platform.runLater(() -> {
-			if ((int)availableMoves.charAt(availableMoves.length() - 1) == 0)
+			if (availableMoves.charAt(availableMoves.length() - 1) == 0)
 			{
 				gameInfoPlayerOne.getChildren().get(4).setVisible(true);
 			}else{
@@ -260,7 +260,7 @@ public class Controller {
 	 */
 	public void setAvailableMovesPlayer2(String availableMoves){
 		Platform.runLater(() -> {
-			if ((int)availableMoves.charAt(availableMoves.length() - 1) == 0)
+			if (availableMoves.charAt(availableMoves.length() - 1) == 0)
 			{
 				gameInfoPlayerTwo.getChildren().get(4).setVisible(true);
 			}else{

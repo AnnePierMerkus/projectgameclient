@@ -158,6 +158,25 @@
 			<MyToggleButton
 				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
 				toggleGroup="$DifficultyGroup"
+				text="Co-op"
+				HBox.hgrow="ALWAYS"
+				maxWidth="300"
+				maxHeight="300"
+				onAction="#coop" />
+		</HBox>
+
+		<HBox
+			spacing="10"
+			GridPane.hgrow="ALWAYS"
+			GridPane.vgrow="ALWAYS"
+			maxWidth="500"
+			maxHeight="500"
+			GridPane.columnIndex="0"
+			GridPane.rowIndex="1">
+
+			<MyToggleButton
+				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
+				toggleGroup="$DifficultyGroup"
 				text="Makkelijk"
 				HBox.hgrow="ALWAYS"
 				maxWidth="300"
@@ -171,7 +190,7 @@
 			maxWidth="500"
 			maxHeight="500"
 			GridPane.columnIndex="0"
-			GridPane.rowIndex="1">
+			GridPane.rowIndex="2">
 
 			<MyToggleButton
 				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
@@ -190,7 +209,7 @@
 			maxWidth="500"
 			maxHeight="500"
 			GridPane.columnIndex="0"
-			GridPane.rowIndex="2">
+			GridPane.rowIndex="3">
 
 			<MyToggleButton
 				style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;"
@@ -203,6 +222,7 @@
 		</HBox>
 
 		<rowConstraints>
+			<RowConstraints minHeight="44" maxHeight="44" />
 			<RowConstraints minHeight="44" maxHeight="44" />
 			<RowConstraints minHeight="44" maxHeight="44" />
 			<RowConstraints minHeight="44" maxHeight="44" />
@@ -245,7 +265,7 @@
 		<ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" maxWidth="200" />
 	</columnConstraints>
 	<rowConstraints>
-		<RowConstraints minHeight="190" maxHeight="190" />
+		<RowConstraints minHeight="210" maxHeight="210" />
 		<RowConstraints minHeight="44" maxHeight="44" />
 	</rowConstraints>
 </GridPane>

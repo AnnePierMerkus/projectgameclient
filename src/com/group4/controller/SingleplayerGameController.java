@@ -16,13 +16,14 @@ public class SingleplayerGameController extends GameController {
 	 * @param difficulty - The Difficulty to play at
 	 * @author mobieljoy12
 	 */
-	public SingleplayerGameController(Difficulty difficulty) {
+	public SingleplayerGameController(Difficulty difficulty, boolean co_op) {
 		
 		super();
 		this.difficulty = difficulty;
 		
 		PlayerList.addPlayer(new Player("p1"));
-		PlayerList.addPlayer(new AIPlayer("p2"));
+		if (co_op) PlayerList.addPlayer(new Player("p2"));
+		else PlayerList.addPlayer(new AIPlayer("p2"));
 		PlayerList.players.values().forEach((p) -> p.registerObserver(this.playerObserver));
 		
 	}

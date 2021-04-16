@@ -52,7 +52,7 @@
         GridPane.rowIndex="2">
         <Text
             fx:id="availableMoves"
-            text="Available moves:&#10;&#10;placeholder"
+            text="Available moves:&#10;&#10;2"
             fill="black"
             textAlignment="LEFT"/>
     </HBox>

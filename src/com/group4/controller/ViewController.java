@@ -16,7 +16,7 @@ import javafx.stage.Stage;
  */
 public class ViewController extends Controller {
     boolean online = false;
-    int depth;
+    boolean co_op;
 
     GameController.Difficulty gameDifficulty;
     GameController.GameType gameType;
@@ -134,6 +134,17 @@ public class ViewController extends Controller {
     }
 
     /**
+     * Set the game to co-op mode.
+     *
+     * @param event The UI element used to call this function.
+     * @author Anne Pier Merkus
+     */
+    @FXML
+    protected void coop(ActionEvent event) {
+        start.setDisable(false);
+        co_op = true;
+    }
+    /**
      * Set difficult to easy.
      * 
      * @param event The UI element used to call this function.
@@ -143,6 +154,7 @@ public class ViewController extends Controller {
     protected void easy(ActionEvent event) {
         start.setDisable(false);
         gameDifficulty = GameController.Difficulty.EASY;
+        co_op = false;
     }
 
     /**
@@ -155,6 +167,7 @@ public class ViewController extends Controller {
     protected void medium(ActionEvent event) {
         start.setDisable(false);
         gameDifficulty = GameController.Difficulty.MEDIUM;
+        co_op = false;
     }
 
     /**
@@ -167,6 +180,7 @@ public class ViewController extends Controller {
     protected void hard(ActionEvent event) {
         start.setDisable(false);
         gameDifficulty = GameController.Difficulty.HARD;
+        co_op = false;
     }
 
     /**
@@ -189,7 +203,7 @@ public class ViewController extends Controller {
         }
         else
         {
-            Scene scene = new Scene(fillInBoard(gameType, new SingleplayerGameController(gameDifficulty), false));
+            Scene scene = new Scene(fillInBoard(gameType, new SingleplayerGameController(gameDifficulty, co_op), false));
             stage.setScene(scene);
         }
     }
